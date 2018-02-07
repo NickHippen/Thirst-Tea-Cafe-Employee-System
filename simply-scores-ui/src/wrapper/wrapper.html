@@ -1,0 +1,49 @@
+<!-- <div class="header">
+  <span class="header-icon">SS</span>
+  <span>
+    <a class="header-tab">Home</a>
+    <a class="header-tab">Songs</a>
+    <a class="header-tab login" ui-sref="login">Login</a>
+  </span>
+</div>
+<div class="container">
+  <ng-transclude></ng-transclude>
+</div>
+<div class="footer"></div> -->
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" ng-click="isNavCollapsed = !isNavCollapsed">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" ui-sref="home">SS</a>
+            <!-- <a class="navbar-brand" href="index.html"><img src="assets/images/logo.png" alt="" /></a> -->
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="navbar" uib-collapse="!isNavCollapsed">
+            <ul class="nav navbar-nav">
+                <!-- <li class="active"><a ui-sref="home">Home</a></li> -->
+                <li><a ui-sref="home">Home</a></li>
+                <li><a ui-sref="song-search">Songs</a></li>
+                <li><a ui-sref="user-search">Users</a></li>
+                <!-- <li ng-if="!$ctrl.isLoggedIn()"><a ui-sref="login">Login</a></li>
+                <li ng-if="$ctrl.isLoggedIn()"><a href ng-click="$ctrl.logout()">Logout</a></li> -->
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li ng-if="$ctrl.isLoggedIn()"><a>Hello, <span ng-bind="$ctrl.getUserName()"></span></a></li>
+                <li ng-if="!$ctrl.isLoggedIn()"><a ui-sref="register"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+                <li ng-if="!$ctrl.isLoggedIn()"><a ui-sref="login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                <li ng-if="$ctrl.isLoggedIn()"><a href ng-click="$ctrl.logout()"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div>
+</nav>
+<div ng-if="$ctrl.isLoading()" class="loading">Loading&#8230;</div>
+<div class="transclude-container">
+    <div uib-alert ng-repeat="alert in $ctrl.globalAlerts()" ng-class="'alert-' + (alert.type || 'warning')" close="closeAlert($index)" ng-bind="alert.msg"></div>
+    <ng-transclude></ng-transclude>
+</div>

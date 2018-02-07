@@ -1,0 +1,19 @@
+body {
+  background-color: #444444;
+  color: white;
+  input {
+    color: black;
+  }
+}
+
+.table-hover>tbody>tr:hover {
+  background-color: #717171;
+}
+
+.pointer:hover {
+  cursor: pointer;
+}
+
+.modal-content {
+  background-color: #444444;
+}

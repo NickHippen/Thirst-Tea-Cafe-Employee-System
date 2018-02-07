@@ -1,0 +1,27 @@
+<form class="form-horizontal" novalidate>
+  <div class="col-md-offset-4 col-md-4">
+    <div class="form-group">
+      <label class="col-md-2 control-label" for="user-id-field">User Id: </label>
+      <div class="col-md-10">
+        <input class="form-control" id="user-id-field" type="text" ng-model="$ctrl.loginForm.userName" />
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-md-2 control-label" for="password-field">Password: </label>
+      <div class="col-md-10">
+        <input class="form-control" id="password-field" type="password" ng-model="$ctrl.loginForm.password" />
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-md-offset-2 col-sm-10">
+        <button type="submit" class="btn btn-default" ng-click="$ctrl.submitLoginForm()">Login</button>
+        <a style="padding-left: 1em;" ui-sref="register">New? Click here to register.</a>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12 text-center">
+      </div>
+    </div>
+  </div>
+  <div class="col-md-offset-4"></div>
+</form>

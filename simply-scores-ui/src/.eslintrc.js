@@ -1,0 +1,14 @@
+module.exports = {
+  extends: [
+    'angular'
+  ],
+  rules: {
+    'angular/no-service-method': 0,
+    'linebreak-style': 0,
+    'comma-spacing': 0,
+    'spaced-comment': 0,
+    'angular/log': 0,
+    'quote-props': 0,
+    'no-trailing-spaces': 0
+  }
+}
