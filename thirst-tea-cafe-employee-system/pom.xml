@@ -44,6 +44,14 @@
 			<scope>test</scope>
 		</dependency>
 
+		<!-- JaCoP -->
+		<dependency>
+			<groupId>org.jacop</groupId>
+			<artifactId>jacop</artifactId>
+			<version>4.5.1</version>
+		</dependency>
+
+
 		<!-- Misc. -->
 		<dependency>
 			<groupId>mysql</groupId>
