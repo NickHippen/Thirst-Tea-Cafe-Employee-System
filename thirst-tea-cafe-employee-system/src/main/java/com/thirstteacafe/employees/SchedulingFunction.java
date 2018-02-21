@@ -112,7 +112,7 @@ public class SchedulingFunction
                         (IntVar)store.variablesHashMap.get(String.format("S_%d",j));
             }
         }
-        System.out.println(store);// TODO: remove
+        //System.out.println(store);// TODO: remove
         Search<IntVar> label = new DepthFirstSearch<IntVar>();
         
         // stop search from printing to standard out
@@ -122,7 +122,7 @@ public class SchedulingFunction
         
         // computes the schedule
         label.labeling(store, select);
-        System.out.println(store);// TODO: remove
+        //System.out.println(store);// TODO: remove
         
         
         for (int i = 0; i < numberOfEmployees; i++)
