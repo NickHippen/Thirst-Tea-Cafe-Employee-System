@@ -21,6 +21,11 @@ export default class {
   isLoggedIn() {
     return this.UserService.isLoggedIn();
   }
+    
+  isManager() {
+    // TO-DO
+    return true;
+  }
 
   logout() {
     this.UserService.logout();
