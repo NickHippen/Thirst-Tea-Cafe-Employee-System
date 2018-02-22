@@ -17,8 +17,11 @@ module.exports = function (config) {
     ],
     files: [
       'node_modules/es6-shim/es6-shim.js',
-      conf.path.src('index.spec.js'),
-      conf.path.src('**/*.html')
+      'node_modules/angular/angular.min.js',
+      'node_modules/angular-mocks/angular-mocks.js',
+      'src/**/*.spec.js'
+      // conf.path.src('index.spec.js')
+      // conf.path.src('**/*.html')
     ],
     preprocessors: {
       [conf.path.src('index.spec.js')]: [
