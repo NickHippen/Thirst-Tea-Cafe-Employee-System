@@ -30,8 +30,8 @@
                 <!-- TO-DO: Make these drop down menus for managers only! -->
                 <li><a ui-sref="view">View Schedule</a></li>
                 <li ng-if="$ctrl.isManager()"><a ui-sref="create">Create Schedule</a></li>
-                <li ng-if="$ctrl.isManager()"><a ui-sref="mgmt-employees">Manage Employee Availability</a></li>
-                <li ng-if="$ctrl.isManager()"><a ui-sref="mgmt-shifts">Manage Shifts</a></li>
+                <li ng-if="$ctrl.isManager()"><a ui-sref="empMgmt">Manage Employee Availability</a></li>
+                <li ng-if="$ctrl.isManager()"><a ui-sref="shiftMgmt">Manage Shifts</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li ng-if="$ctrl.isManager()"><a ui-sref="admin">Admin Tools</a></li>
