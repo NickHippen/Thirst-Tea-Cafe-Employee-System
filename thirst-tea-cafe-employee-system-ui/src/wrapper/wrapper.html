@@ -28,14 +28,13 @@
             <ul class="nav navbar-nav">
                 <!-- <li class="active"><a ui-sref="home">Home</a></li> -->
                 <!-- TO-DO: Make these drop down menus for managers only! -->
-                <li><a ui-sref="view-schedule">View Schedule</a></li>
-                <li ng-if="$ctrl.isManager()"><a ui-sref="create-schedule">Create Schedule</a></li>
-                <li ng-if="$ctrl.isManager()"><a ui-sref="manage-employees">Manage Employee Availability</a></li>
-                <li ng-if="$ctrl.isManager()"><a ui-sref="manage-shifts">Manage Shifts</a></li>
-                <!-- <li ng-if="!$ctrl.isLoggedIn()"><a ui-sref="login">Login</a></li>
-                <li ng-if="$ctrl.isLoggedIn()"><a href ng-click="$ctrl.logout()">Logout</a></li> -->
+                <li><a ui-sref="view">View Schedule</a></li>
+                <li ng-if="$ctrl.isManager()"><a ui-sref="create">Create Schedule</a></li>
+                <li ng-if="$ctrl.isManager()"><a ui-sref="mgmt-employees">Manage Employee Availability</a></li>
+                <li ng-if="$ctrl.isManager()"><a ui-sref="mgmt-shifts">Manage Shifts</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
+                <li ng-if="$ctrl.isManager()"><a ui-sref="admin">Admin Tools</a></li>
                 <li ng-if="$ctrl.isLoggedIn()"><a>Hello, <span ng-bind="$ctrl.getUserName()"></span></a></li>
                 <li ng-if="!$ctrl.isLoggedIn()"><a ui-sref="login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
                 <li ng-if="$ctrl.isLoggedIn()"><a href ng-click="$ctrl.logout()"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
