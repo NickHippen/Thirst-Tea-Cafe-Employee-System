@@ -11,6 +11,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
+import org.junit.Assert;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class ThirstTeaRestApplicationTests {
@@ -19,9 +20,10 @@ public class ThirstTeaRestApplicationTests {
 	
 	@Before
 	public void before() {
-		scheduleString = "1 0 1\n" +
-                "0 1 1\n" +
-                "1 0 1\n";
+		scheduleString = 
+                        "1 0 1\n" +
+                        "0 1 1\n" +
+                        "1 0 1\n";
 	}
 	
 	@Test
@@ -31,12 +33,16 @@ public class ThirstTeaRestApplicationTests {
 	
 	@Test
 	public void testSchedule() {
-		ArrayList<ArrayList<Integer>> s = SchedulingFunction.schedule(
+		int[][] s = SchedulingFunction.schedule(
 				scheduleString,
                 "2 1 3",
-                "3 3 3"
+                "3 3 3",
+                "1 1 1",
+                "1 1 1",
+                "1 1 1",
+                "1 1 1",
+                "1 1 1"
         );
-		assertEquals(SchedulingFunction.getMatrix(scheduleString), s);
+                Assert.assertArrayEquals(SchedulingFunction.convertMatrix(scheduleString), s);
 	}
-
 }
