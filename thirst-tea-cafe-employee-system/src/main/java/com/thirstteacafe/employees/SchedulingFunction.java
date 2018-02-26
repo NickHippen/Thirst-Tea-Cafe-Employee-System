@@ -16,9 +16,9 @@ public class SchedulingFunction
         ArrayList<ArrayList<Integer>> s = schedule(
                                                     "1 0 1\n" +
                                                     "0 1 1\n" +
-                                                    "1 0 1\n",
-                                                        "2 1 3",
-                                                        "3 3 3"
+                                                    "1 1 1\n",
+                                                        "1 2 1",
+                                                        "1 2 1"
                                             );
         for (ArrayList<Integer> row : s)
         {
