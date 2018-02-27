@@ -64,5 +64,17 @@ public class Employee {
 	public void setAvailability(Map<DayOfWeek, List<Pair<LocalTime, LocalTime>>> availability) {
 		this.availability = availability;
 	}
+	
+	/**
+	 * Checks whether or not employee has work availability for shift
+	 * @param employee
+	 * @param shift
+	 * @return whether or not employee has work availability for shift
+	 */
+	public boolean checkAvailabilityForShift(Employee employee, Shift shift) {
+		 List<Pair<LocalTime, LocalTime>> dayAvailability = employee.getAvailability().get(shift.getDayOfWeek());
+		 // TODO Convert LocalTime to timeslot
+		 return false;
+	}
 
 }
