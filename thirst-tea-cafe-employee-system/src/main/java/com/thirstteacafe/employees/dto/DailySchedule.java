@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Schedule {
+public class DailySchedule {
 
 	private Map<Integer, List<Employee>> scheduledTimeslots = new HashMap<>(); // 0 = 00:00, 1 = 00:30, 2 = 01:00, ...
 

@@ -6,13 +6,13 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.thirstteacafe.employees.dto.Employee;
-import com.thirstteacafe.employees.dto.Schedule;
+import com.thirstteacafe.employees.dto.DailySchedule;
 
 @Service
 public class ScheduleServiceImpl implements ScheduleService {
 
 	@Override
-	public void scheduleEmployee(Schedule schedule, int timeslot, Employee employee) {
+	public void scheduleEmployee(DailySchedule schedule, int timeslot, Employee employee) {
 		checkTimeslot(timeslot);
 		List<Employee> existing = schedule.getScheduledTimeslots().getOrDefault(timeslot, new ArrayList<Employee>());
 		existing.add(employee);
@@ -20,7 +20,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 	}
 	
 	@Override
-	public void scheduleEmployee(Schedule schedule, int timeslotMin, int timeslotMax, Employee employee) {
+	public void scheduleEmployee(DailySchedule schedule, int timeslotMin, int timeslotMax, Employee employee) {
 		checkTimeslot(timeslotMin);
 		checkTimeslot(timeslotMax);
 		for (int timeslot = timeslotMin; timeslot < timeslotMax; timeslot++) {
@@ -29,12 +29,12 @@ public class ScheduleServiceImpl implements ScheduleService {
 	}
 	
 	@Override
-	public List<Employee> getScheduledEmployees(Schedule schedule, int timeslot) {
+	public List<Employee> getScheduledEmployees(DailySchedule schedule, int timeslot) {
 		return schedule.getScheduledTimeslots().getOrDefault(timeslot, new ArrayList<Employee>());
 	}
 	
 	@Override
-	public void unscheduleAll(Schedule schedule, int timeslot) {
+	public void unscheduleAll(DailySchedule schedule, int timeslot) {
 		checkTimeslot(timeslot);
 		schedule.getScheduledTimeslots().remove(timeslot);
 	}

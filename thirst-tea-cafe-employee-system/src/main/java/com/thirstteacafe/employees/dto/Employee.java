@@ -1,5 +1,12 @@
 package com.thirstteacafe.employees.dto;
 
+import java.time.DayOfWeek;
+import java.time.LocalTime;
+import java.util.Map;
+import java.util.List;
+
+import org.apache.commons.lang3.tuple.Pair;
+
 public class Employee {
 
 	private String name;
@@ -7,6 +14,8 @@ public class Employee {
 	private boolean admin;
 	private boolean food;
 	private boolean drinks;
+	
+	private Map<DayOfWeek, List<Pair<LocalTime, LocalTime>>> availability;
 
 	public String getName() {
 		return name;
@@ -46,6 +55,14 @@ public class Employee {
 
 	public void setDrinks(boolean drinks) {
 		this.drinks = drinks;
+	}
+
+	public Map<DayOfWeek, List<Pair<LocalTime, LocalTime>>> getAvailability() {
+		return availability;
+	}
+
+	public void setAvailability(Map<DayOfWeek, List<Pair<LocalTime, LocalTime>>> availability) {
+		this.availability = availability;
 	}
 
 }
