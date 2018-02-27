@@ -3,6 +3,8 @@ package com.thirstteacafe.employees.dto;
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.util.Map;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.commons.lang3.tuple.Pair;
@@ -65,16 +67,13 @@ public class Employee {
 		this.availability = availability;
 	}
 	
-	/**
-	 * Checks whether or not employee has work availability for shift
-	 * @param employee
-	 * @param shift
-	 * @return whether or not employee has work availability for shift
-	 */
-	public boolean checkAvailabilityForShift(Employee employee, Shift shift) {
-		 List<Pair<LocalTime, LocalTime>> dayAvailability = employee.getAvailability().get(shift.getDayOfWeek());
-		 // TODO Convert LocalTime to timeslot
-		 return false;
+	public void addAvailability(DayOfWeek dayOfWeek, Pair<LocalTime, LocalTime> availabilityRange) {
+		if (availability == null) {
+			availability = new HashMap<>();
+		}
+		List<Pair<LocalTime, LocalTime>> dayAvailability = availability.getOrDefault(dayOfWeek, new ArrayList<Pair<LocalTime, LocalTime>>());
+		dayAvailability.add(availabilityRange);
+		availability.put(dayOfWeek, dayAvailability);
 	}
 
 }

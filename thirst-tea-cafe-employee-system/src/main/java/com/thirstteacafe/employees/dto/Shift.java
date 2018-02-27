@@ -5,9 +5,18 @@ import java.time.DayOfWeek;
 public class Shift {
 
 	private DayOfWeek dayOfWeek;
-	private Integer timeFrom;
-	private Integer timeTo;
+	private Integer startTimeslot;
+	private Integer endTimeslot;
 
+	public Shift() {
+	}
+	
+	public Shift(DayOfWeek dayOfWeek, Integer startTimeslot, Integer endTimeslot) {
+		this.dayOfWeek = dayOfWeek;
+		this.startTimeslot = startTimeslot;
+		this.endTimeslot = endTimeslot;
+	}
+	
 	public DayOfWeek getDayOfWeek() {
 		return dayOfWeek;
 	}
@@ -16,20 +25,20 @@ public class Shift {
 		this.dayOfWeek = dayOfWeek;
 	}
 
-	public Integer getTimeFrom() {
-		return timeFrom;
+	public Integer getStartTimeslot() {
+		return startTimeslot;
 	}
 
-	public void setTimeFrom(Integer timeFrom) {
-		this.timeFrom = timeFrom;
+	public void setStartTimeslot(Integer startTimeslot) {
+		this.startTimeslot = startTimeslot;
 	}
 
-	public Integer getTimeTo() {
-		return timeTo;
+	public Integer getEndTimeslot() {
+		return endTimeslot;
 	}
 
-	public void setTimeTo(Integer timeTo) {
-		this.timeTo = timeTo;
+	public void setEndTimeslot(Integer endTimeslot) {
+		this.endTimeslot = endTimeslot;
 	}
 
 }
