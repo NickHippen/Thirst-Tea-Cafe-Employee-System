@@ -22,7 +22,7 @@ export default class {
     return this.UserService.isLoggedIn();
   }
     
-  isManager() {
+  isAdmin() {
     // TO-DO
     return true;
   }
