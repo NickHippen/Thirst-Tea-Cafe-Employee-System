@@ -19,11 +19,13 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Override
 	public boolean checkAvailabilityForShift(Employee employee, Shift shift) {
 		 List<Pair<LocalTime, LocalTime>> dayAvailability = employee.getAvailability().get(shift.getDayOfWeek());
-		 for (Pair<LocalTime, LocalTime> availabilityRange : dayAvailability) {
-			 int availableSlotFrom = timeslotService.convertLocalTime(availabilityRange.getLeft());
-			 int availableSlotTo = timeslotService.convertLocalTime(availabilityRange.getRight());
-			 if (shift.getStartTimeslot() >= availableSlotFrom && shift.getEndTimeslot() <= availableSlotTo) {
-				 return true;
+		 if (dayAvailability != null) {
+			 for (Pair<LocalTime, LocalTime> availabilityRange : dayAvailability) {
+				 int availableSlotFrom = timeslotService.convertLocalTime(availabilityRange.getLeft());
+				 int availableSlotTo = timeslotService.convertLocalTime(availabilityRange.getRight());
+				 if (shift.getStartTimeslot() >= availableSlotFrom && shift.getEndTimeslot() <= availableSlotTo) {
+					 return true;
+				 }
 			 }
 		 }
 		 return false;

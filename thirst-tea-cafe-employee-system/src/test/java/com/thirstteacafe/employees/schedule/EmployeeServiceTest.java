@@ -52,6 +52,7 @@ public class EmployeeServiceTest {
 		assertFalse(employeeService.checkAvailabilityForShift(employee, new Shift(DayOfWeek.MONDAY, 6, 24)));  // 03:00-12:00
 		assertFalse(employeeService.checkAvailabilityForShift(employee, new Shift(DayOfWeek.MONDAY, 24, 35))); // 12:00-17:30
 		assertFalse(employeeService.checkAvailabilityForShift(employee, new Shift(DayOfWeek.MONDAY, 1, 17)));  // 00:30-08:30
+		assertFalse(employeeService.checkAvailabilityForShift(employee, new Shift(DayOfWeek.SATURDAY, 12, 13)));  // 12:00-13:00
 	}
 	
 }
