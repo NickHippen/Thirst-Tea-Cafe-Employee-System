@@ -1,29 +1,23 @@
 package com.thirstteacafe.employees;
 
-import org.junit.Before;
-import org.junit.Test;
+import static org.junit.Assert.assertTrue;
 
+import java.util.Arrays;
+
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Ignore;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.scheduling.SchedulingException;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import static org.junit.Assert.*;
-
-import java.util.ArrayList;
-import org.junit.Assert;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class ThirstTeaRestApplicationTests {
 
-	public String scheduleString;
-	
 	@Before
 	public void before() {
-		scheduleString = 
-                        "1 0 1\n" +
-                        "0 1 1\n" +
-                        "1 0 1\n";
 	}
 	
 	@Test
@@ -32,9 +26,13 @@ public class ThirstTeaRestApplicationTests {
 	}
 	
 	@Test
-	public void testSchedule() {
+	public void testSchedule1() {
+		String scheduleMatrix =
+				"1 0 1\n" +
+                "0 1 1\n" +
+                "1 0 1\n";
 		int[][] s = SchedulingFunction.schedule(
-				scheduleString,
+				scheduleMatrix,
                 "2 1 3",
                 "3 3 3",
                 "1 1 1",
@@ -43,6 +41,30 @@ public class ThirstTeaRestApplicationTests {
                 "1 1 1",
                 "1 1 1"
         );
-                Assert.assertArrayEquals(SchedulingFunction.convertMatrix(scheduleString), s);
+        Assert.assertArrayEquals(SchedulingFunction.convertMatrix(scheduleMatrix), s);
 	}
+	
+	@Test
+	public void testSchedule2() {
+		String scheduleMatrix =
+			   //M M T T W W T T F F F S S S|S S
+				"1 0 1 0 1 0 1 0 1 0 0 1 1 0 1 1\n" +
+                "0 0 0 0 0 1 0 0 0 0 0 1 1 0 1 1\n" +
+                "0 1 0 1 0 0 0 1 0 1 1 0 0 0 0 0\n" +
+                "0 0 0 0 0 0 0 0 0 0 1 0 0 1 0 0\n";
+		Arrays.asList(SchedulingFunction.convertMatrix(scheduleMatrix)).forEach(arr -> System.out.println(Arrays.toString(arr)));
+		int[][] s = SchedulingFunction.schedule(
+				scheduleMatrix,
+                "1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1",
+                "1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1",
+                "1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1",
+                "1 1 1 1",
+                "1 1 1 1",
+                "1 1 1 1",
+                "1 1 1 1"
+        );
+		System.out.println(s);
+//        Assert.assertArrayEquals(SchedulingFunction.convertMatrix(scheduleMatrix), s);
+	}
+	
 }
