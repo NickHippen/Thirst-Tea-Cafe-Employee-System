@@ -1,6 +1,7 @@
 package com.thirstteacafe.employees;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import org.jacop.core.*; 
 import org.jacop.constraints.*;
 import org.jacop.search.*;
@@ -13,16 +14,19 @@ public class SchedulingFunction
     public static void main(String[] args)
     {
         int[][] s = schedule(
-                    "1 0 1\n" +
-                    "0 1 1\n" +
-                    "1 0 1\n",
-                "2 1 3",
-                "3 3 3",
+                    "1 0 1 1 0 1\n" +
+                    "0 1 1 0 1 1\n" +
+                    "1 0 0 1 0 1\n",
+                
                 "1 1 1",
                 "1 1 1",
                 "1 1 1",
                 "1 1 1",
-                "1 1 1"
+                
+                "2 1 2 1 1 2",
+                "3 3 3 3 3 3",
+                "1 1 1 1 1 1"
+                
                 );
         for (int[] e : s)
         {
@@ -31,59 +35,64 @@ public class SchedulingFunction
             System.out.println();
         }
     }
-    public static int[][] schedule(
-                                String available,
-                                String min      ,
-                                String max      ,
-                                String time     ,
+    public static int[][] schedule(String available,
+            
                                 String admin    ,
                                 String canLift  ,
                                 String food     ,
-                                String drink    )
+                                String drink    ,
+            
+                                String min      ,
+                                String max      ,
+                                String time     )
+            
     {
         return schedule(convertMatrix(available),
         
-        convert(min      ),        
-        convert(max      ),        
-        convert(time     ),        
-        convert(admin    ),        
-        convert(canLift  ),        
-        convert(food     ),        
-        convert(drink    )        
-                
+        
+        convert(admin    ), 
+        convert(canLift  ), 
+        convert(food     ), 
+        convert(drink    ),
+        
+        convert(min      ), 
+        convert(max      ), 
+        convert(time     )
                 
         );
     }
     
     public static int[][] schedule(int[][] available,
-                                    int[]   min,
-                                    int[]   max,
-                                    int[]   time,
+                                     
                                     int[]   admin,
                                     int[]   canLift,
                                     int[]   food,
-                                    int[]   drink)
+                                    int[]   drink,
+                                    
+                                    int[]   min,
+                                    int[]   max,
+                                    int[]   time)
     {
+        int[] hoursMin;
+        int[] adminOnly = min;
+        
         // assumes the input is rectangular
         final int numberOfEmployees = available.length;
         final int numberOfTimeSlots = available[0].length;
-        final int C = 128; // sufficiently large constants for hour constraint
+        final int C = 128; // sufficiently large constant for hour constraint
         
         Store store = new Store();
         
      
         // work matrix
-        IntVar[][] work = new IntVar[numberOfEmployees][numberOfTimeSlots];
+        IntVar[][] work  = new IntVar[numberOfEmployees][numberOfTimeSlots];
         
         // transposed version of the work matrix
         IntVar[][] workT = new IntVar[numberOfTimeSlots][numberOfEmployees];
         
         for (int i = 0; i < numberOfEmployees; i++)
-            for (int j = 0; j < numberOfEmployees; j++)
-            {
-                work[i][j] = workT[j][i]= new IntVar(store, String.format("work_%d,%d",i,j),0,1);
-                 
-            }
+            for (int j = 0; j < numberOfTimeSlots; j++)
+                work[i][j] = workT[j][i] = new IntVar(store, String.format("work_%d,%d",i,j),0,1);
         
         
         // define problem constraints
@@ -96,8 +105,8 @@ public class SchedulingFunction
                     store.impose(new XeqC(work[i][j],0));
         
         // Must have no less than minimum number of employees and no more than
-        // maximum number of employees' for slot.
-        for (int j = 0; j < numberOfEmployees; j++)
+        // maximum number of employees for slot.
+        for (int j = 0; j < numberOfTimeSlots; j++)
         {
             // is there a way to use constants here instead of constant intVars?
             store.impose(new SumBool(store,workT[j],">=",
@@ -124,10 +133,18 @@ public class SchedulingFunction
         for (int i = 0; i < numberOfEmployees; i++)
             store.impose(new LinearInt(store,work[i],time,"<=", 40 + admin[i] * C));
         
-        
+        // for admin only shifts if employee is not an admin then they are
+        // not available
+        for (int j = 0; j < numberOfTimeSlots; j++)
+            if (adminOnly[j] == 1)
+                for (int i = 0; i < numberOfEmployees; i++)
+                    if (admin[i] == 0)
+                        store.impose(new XeqC(work[i][j],0));
+                    
         // compute oldSchedule
         Search<IntVar> label = new DepthFirstSearch<IntVar>();
         label.setPrintInfo(false);
+        
         
         SelectChoicePoint<IntVar> select = 
                     new InputOrderSelect<>(store,flatten(work), new IndomainMin<IntVar>());
@@ -141,27 +158,28 @@ public class SchedulingFunction
         return result;
     }
     
+    // puts all the elements in a 2d array into a 1d array
     public static IntVar[] flatten(IntVar[][] variables)
     {
         // assume input is a rectangular matrix of variables
         IntVar[] flatList = new IntVar[variables.length * variables[0].length];
         for (int i = 0; i < variables.length; i++)
-            for (int j = 0; j < variables.length; j++)
+            for (int j = 0; j < variables[i].length; j++)
                 flatList[i * variables[0].length + j] = variables[i][j];
         return flatList;
     }
+    
+    // convert strings that represent 1d arrays into a 1d array of integers
     public static int[] convert(String input)
     {
         return convert(getRow(input));
     }
     public static int[] convert(ArrayList<Integer> list)
     {
-        // since java is weird we:
-        // convert the list to a Stream
-        // the stream to a IntStream with a lambda to unbox the Integer Objects
-        // IntStream has a toArray function that converts it to a int[]
         return list.stream().mapToInt(i -> i).toArray();
     }
+    
+    // convert strings that represent 2d arrays into a 2d array of integers
     public static int[][] convertMatrix(String input)
     {
         return convertMatrix(getMatrix(input));
