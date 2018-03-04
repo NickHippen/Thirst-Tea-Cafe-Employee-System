@@ -28,9 +28,9 @@ public class ThirstTeaRestApplicationTests {
 	@Test
 	public void testSchedule1() {
 		String scheduleMatrix =
-				"1 0 1\n" +
-                "0 1 1\n" +
-                "1 0 1\n";
+                    "1 1 1\n" +
+                    "1 1 1\n" +
+                    "1 1 1\n";
 		int[][] s = SchedulingFunction.schedule(
 				scheduleMatrix,
                 
@@ -39,7 +39,7 @@ public class ThirstTeaRestApplicationTests {
                 "1 1 1",
                 "1 1 1",
                         
-                "2 1 3",
+                "3 3 3",
                 "3 3 3",
                 "1 1 1"
         );
@@ -50,10 +50,10 @@ public class ThirstTeaRestApplicationTests {
 	public void testSchedule2() {
 		String scheduleMatrix =
                //M M T T W W T T F F F S S S|S S
-                "1 0 1 0 1 0 1 0 1 0 0 1 1 0 1 1\n" +
-                "0 0 0 0 0 1 0 0 0 0 0 1 1 0 1 1\n" +
-                "0 1 0 1 0 0 0 1 0 1 1 0 0 0 0 0\n" +
-                "0 0 0 0 0 0 0 0 0 0 1 0 0 1 0 0\n";
+                "1 0 1 1 1 0 1 0 1 1 0 1 1 0 1 1\n" +
+                "1 1 0 0 0 1 0 1 0 0 0 1 1 1 1 1\n" +
+                "0 1 0 1 0 1 0 1 1 1 1 0 0 0 0 0\n" +
+                "0 0 1 0 1 0 1 0 0 0 1 0 0 1 0 0\n";
 		//Arrays.asList(SchedulingFunction.convertMatrix(scheduleMatrix)).forEach(arr -> System.out.println(Arrays.toString(arr)));
 		int[][] s = SchedulingFunction.schedule(
 				scheduleMatrix,
@@ -65,10 +65,10 @@ public class ThirstTeaRestApplicationTests {
                 
                //M M T T W W T T F F F S S S|S S 
                 "1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1",
-                "1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1",
+                "2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2",
                 "1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1"
         );
-                // every column should sum to 1
+                // every column should sum to 2
                 boolean result = true;
                 for (int j = 0; j < s[0].length; j++)
                 {
@@ -77,7 +77,7 @@ public class ThirstTeaRestApplicationTests {
                     {
                         sum += s[i][j];
                     }
-                    result &= sum == 1;
+                    result &= sum == 2;
                 }
 		
                 assertTrue(result);
