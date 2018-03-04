@@ -5,20 +5,24 @@ import static org.junit.Assert.assertTrue;
 import java.util.Arrays;
 
 import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import com.thirstteacafe.employees.dto.ScheduleResult;
+import com.thirstteacafe.employees.schedule.ScheduleService;
+import com.thirstteacafe.employees.util.MatrixUtil;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class ThirstTeaRestApplicationTests {
 
-	@Before
-	public void before() {
-	}
+	@Autowired
+	private ScheduleService scheduleService;
+	@Autowired
+	private MatrixUtil matrixUtil;
 	
 	@Test
 	public void contextLoads() {
@@ -31,7 +35,7 @@ public class ThirstTeaRestApplicationTests {
 				"1 0 1\n" +
                 "0 1 1\n" +
                 "1 0 1\n";
-		int[][] s = SchedulingFunction.schedule(
+		ScheduleResult s = scheduleService.schedule(
 				scheduleMatrix,
                 
                 "1 1 1",
@@ -43,7 +47,7 @@ public class ThirstTeaRestApplicationTests {
                 "3 3 3",
                 "1 1 1"
         );
-        Assert.assertArrayEquals(SchedulingFunction.convertMatrix(scheduleMatrix), s);
+        Assert.assertArrayEquals(matrixUtil.convertMatrix(scheduleMatrix), s.getSchedule());
 	}
 	
 	@Test
@@ -55,7 +59,7 @@ public class ThirstTeaRestApplicationTests {
                 "0 1 0 1 0 0 0 1 0 1 1 0 0 0 0 0\n" +
                 "0 0 0 0 0 0 0 0 0 0 1 0 0 1 0 0\n";
 		//Arrays.asList(SchedulingFunction.convertMatrix(scheduleMatrix)).forEach(arr -> System.out.println(Arrays.toString(arr)));
-		int[][] s = SchedulingFunction.schedule(
+		ScheduleResult s = scheduleService.schedule(
 				scheduleMatrix,
       //employee 0 1 2 3
                 "1 1 1 1",
@@ -68,19 +72,20 @@ public class ThirstTeaRestApplicationTests {
                 "1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1",
                 "1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1"
         );
-                // every column should sum to 1
-                boolean result = true;
-                for (int j = 0; j < s[0].length; j++)
-                {
-                    int sum = 0;
-                    for (int i = 0; i < s.length; i++)
-                    {
-                        sum += s[i][j];
-                    }
-                    result &= sum == 1;
-                }
-		
-                assertTrue(result);
-                //Assert.assertArrayEquals(SchedulingFunction.convertMatrix(scheduleMatrix), s);
+		Arrays.asList(s.getSchedule()).forEach(arr -> System.out.println(Arrays.toString(arr)));
+	    // every column should sum to 1
+	    boolean result = true;
+	    for (int j = 0; j < s.getSchedule()[0].length; j++)
+	    {
+	        int sum = 0;
+	        for (int i = 0; i < s.getSchedule().length; i++)
+	        {
+	            sum += s.getSchedule()[i][j];
+	        }
+	        result &= sum == 1;
+	    }
+	
+	    assertTrue(result);
+	    //Assert.assertArrayEquals(SchedulingFunction.convertMatrix(scheduleMatrix), s);
 	}
 }

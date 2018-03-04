@@ -19,6 +19,17 @@ public class Employee {
 	
 	private Map<DayOfWeek, List<Pair<LocalTime, LocalTime>>> availability;
 
+	public Employee() {
+	}
+	
+	public Employee(String name, boolean canLift, boolean admin, boolean food, boolean drinks) {
+		this.name = name;
+		this.canLift = canLift;
+		this.admin = admin;
+		this.food = food;
+		this.drinks = drinks;
+	}
+	
 	public String getName() {
 		return name;
 	}
