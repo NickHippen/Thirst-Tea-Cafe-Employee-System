@@ -32,9 +32,9 @@ public class ThirstTeaRestApplicationTests {
 	@Test
 	public void testSchedule1() {
 		String scheduleMatrix =
-				"1 0 1\n" +
-                "0 1 1\n" +
-                "1 0 1\n";
+                "1 1 1\n" +
+                "1 1 1\n" +
+                "1 1 1\n";
 		ScheduleResult s = scheduleService.schedule(
 				scheduleMatrix,
                 
@@ -43,7 +43,7 @@ public class ThirstTeaRestApplicationTests {
                 "1 1 1",
                 "1 1 1",
                         
-                "2 1 3",
+                "3 3 3",
                 "3 3 3",
                 "1 1 1"
         );
@@ -54,10 +54,10 @@ public class ThirstTeaRestApplicationTests {
 	public void testSchedule2() {
 		String scheduleMatrix =
                //M M T T W W T T F F F S S S|S S
-                "1 0 1 0 1 0 1 0 1 0 0 1 1 0 1 1\n" +
-                "0 0 0 0 0 1 0 0 0 0 0 1 1 0 1 1\n" +
-                "0 1 0 1 0 0 0 1 0 1 1 0 0 0 0 0\n" +
-                "0 0 0 0 0 0 0 0 0 0 1 0 0 1 0 0\n";
+                "1 0 1 1 1 0 1 0 1 1 0 1 1 0 1 1\n" +
+                "1 1 0 0 0 1 0 1 0 0 0 1 1 1 1 1\n" +
+                "0 1 0 1 0 1 0 1 1 1 1 0 0 0 0 0\n" +
+                "0 0 1 0 1 0 1 0 0 0 1 0 0 1 0 0\n";
 		//Arrays.asList(SchedulingFunction.convertMatrix(scheduleMatrix)).forEach(arr -> System.out.println(Arrays.toString(arr)));
 		ScheduleResult s = scheduleService.schedule(
 				scheduleMatrix,
@@ -69,23 +69,23 @@ public class ThirstTeaRestApplicationTests {
                 
                //M M T T W W T T F F F S S S|S S 
                 "1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1",
-                "1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1",
+                "2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2",
                 "1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1"
         );
 		Arrays.asList(s.getSchedule()).forEach(arr -> System.out.println(Arrays.toString(arr)));
-	    // every column should sum to 1
-	    boolean result = true;
-	    for (int j = 0; j < s.getSchedule()[0].length; j++)
-	    {
-	        int sum = 0;
-	        for (int i = 0; i < s.getSchedule().length; i++)
-	        {
-	            sum += s.getSchedule()[i][j];
-	        }
-	        result &= sum == 1;
-	    }
-	
-	    assertTrue(result);
-	    //Assert.assertArrayEquals(SchedulingFunction.convertMatrix(scheduleMatrix), s);
+        // every column should sum to 2
+        boolean result = true;
+        for (int j = 0; j < s.getSchedule()[0].length; j++)
+        {
+            int sum = 0;
+            for (int i = 0; i < s.getSchedule().length; i++)
+            {
+                sum += s.getSchedule()[i][j];
+            }
+            result &= sum == 2;
+        }
+
+        assertTrue(result);
+        //Assert.assertArrayEquals(SchedulingFunction.convertMatrix(scheduleMatrix), s);
 	}
 }
