@@ -3,26 +3,27 @@ package com.thirstteacafe.employees.dto;
 import java.time.DayOfWeek;
 
 public class Shift {
-
 	private DayOfWeek dayOfWeek;
 	private Integer startTimeslot;
 	private Integer endTimeslot;
 	private Integer minEmployees;
 	private Integer maxEmployees;
+        private boolean adminOnly;
 
 	public Shift() {
 	}
 	
 	public Shift(DayOfWeek dayOfWeek, Integer startTimeslot, Integer endTimeslot) {
-		this(dayOfWeek, startTimeslot, endTimeslot, 1, 1);
+		this(dayOfWeek, startTimeslot, endTimeslot, 1, 1,true);
 	}
 	
-	public Shift(DayOfWeek dayOfWeek, Integer startTimeslot, Integer endTimeslot, Integer minEmployees, Integer maxEmployees) {
+	public Shift(DayOfWeek dayOfWeek, Integer startTimeslot, Integer endTimeslot, Integer minEmployees, Integer maxEmployees, boolean adminOnly) {
 		this.dayOfWeek = dayOfWeek;
 		this.startTimeslot = startTimeslot;
 		this.endTimeslot = endTimeslot;
 		this.minEmployees = minEmployees;
 		this.maxEmployees = maxEmployees;
+                setAdminOnly(adminOnly);
 	}
 	
 	public DayOfWeek getDayOfWeek() {
@@ -60,13 +61,24 @@ public class Shift {
 	public Integer getMaxEmployees() {
 		return maxEmployees;
 	}
+        
 
 	public void setMaxEmployees(Integer maxEmployees) {
 		this.maxEmployees = maxEmployees;
 	}
 
+    public boolean isAdminOnly()
+    {
+        return adminOnly;
+    }
+
+    public void setAdminOnly(boolean adminOnly)
+    {
+        this.adminOnly = adminOnly;
+    }
+
 	public int getTimeLength() {
 		return getEndTimeslot() - getStartTimeslot();
 	}
-
+        
 }
