@@ -10,7 +10,7 @@ public interface ScheduleService {
 
 	ScheduleResult scheduleEmployees(List<Employee> employees, List<Shift> shifts);
 	
-	ScheduleResult schedule(String available, String admin, String canLift, String food, String drink, String min, String max,
-			String time);
+	ScheduleResult schedule(String available, String admin, String canLift, String food, String drink, String minHours, String maxHours,
+                String min, String max, String time, String adminOnly);
 
 }
