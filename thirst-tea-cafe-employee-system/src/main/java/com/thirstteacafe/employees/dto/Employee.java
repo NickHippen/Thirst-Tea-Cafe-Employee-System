@@ -16,6 +16,8 @@ public class Employee {
 	private boolean admin;
 	private boolean food;
 	private boolean drinks;
+        private Integer maxHours;
+        private Integer minHours;
 	
 	private Map<DayOfWeek, List<Pair<LocalTime, LocalTime>>> availability;
 
@@ -69,6 +71,26 @@ public class Employee {
 	public void setDrinks(boolean drinks) {
 		this.drinks = drinks;
 	}
+
+    public Integer getMaxHours()
+    {
+        return maxHours;
+    }
+
+    public void setMaxHours(Integer maxHours)
+    {
+        this.maxHours = maxHours;
+    }
+
+    public Integer getMinHours()
+    {
+        return minHours;
+    }
+
+    public void setMinHours(Integer minHours)
+    {
+        this.minHours = minHours;
+    }
 
 	public Map<DayOfWeek, List<Pair<LocalTime, LocalTime>>> getAvailability() {
 		return availability;
