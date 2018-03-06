@@ -36,12 +36,16 @@ public class ScheduleServiceImpl implements ScheduleService {
 		int[] canLift = new int[employees.size()];
 		int[] food = new int[employees.size()];
 		int[] drink = new int[employees.size()];
+                int[] minHours = new int[employees.size()];
+                int[] maxHours = new int[employees.size()];
 		for (int employeeNum = 0; employeeNum < employees.size(); employeeNum++) {
 			Employee employee = employees.get(employeeNum);
 			admin[employeeNum] = employee.isAdmin() ? 1 : 0;
 			canLift[employeeNum] = employee.isCanLift() ? 1 : 0;
 			food[employeeNum] = employee.isFood() ? 1 : 0;
 			drink[employeeNum] = employee.isDrinks() ? 1 : 0;
+                        minHours[employeeNum] = employee.getMinHours();
+                        maxHours[employeeNum] = employee.getMinHours();
 			
 			int[] shiftArr = new int[shifts.size()];
 			for (int shiftNum = 0; shiftNum < shifts.size(); shiftNum++) {
@@ -54,33 +58,35 @@ public class ScheduleServiceImpl implements ScheduleService {
 		int[] min = new int[shifts.size()];
 		int[] max = new int[shifts.size()];
 		int[] time = new int[shifts.size()];
+                int[] adminOnly = new int[shifts.size()];
 		for (int shiftNum = 0; shiftNum < shifts.size(); shiftNum++) {
 			Shift shift = shifts.get(shiftNum);
 			min[shiftNum] = shift.getMinEmployees();
 			max[shiftNum] = shift.getMaxEmployees();
 			time[shiftNum] = shift.getTimeLength();
+                        time[shiftNum] = shift.isAdminOnly() ? 1 : 0;
 		}
 		
-		return schedule(available, admin, canLift, food, drink, min, max, time);
+		return schedule(available, 
+                                admin, canLift, food, drink, minHours, maxHours,
+                                min, max, time, adminOnly);
 	}
 	
 	@Override
 	public ScheduleResult schedule(String available,
-			String admin, String canLift, String food, String drink,
-			String min, String max, String time)
+			String admin, String canLift, String food, String drink, String minHours, String maxHours,
+			String min, String max, String time, String adminOnly)
 
 	{
 		return schedule(matrixUtil.convertMatrix(available),
-				matrixUtil.convert(admin), matrixUtil.convert(canLift), matrixUtil.convert(food), matrixUtil.convert(drink),
-				matrixUtil.convert(min), matrixUtil.convert(max), matrixUtil.convert(time)
+				matrixUtil.convert(admin), matrixUtil.convert(canLift), matrixUtil.convert(food), matrixUtil.convert(drink), matrixUtil.convert(minHours), matrixUtil.convert(maxHours),
+				matrixUtil.convert(min), matrixUtil.convert(max), matrixUtil.convert(time), matrixUtil.convert(adminOnly)
 		);
 	}
 
 	private ScheduleResult schedule(int[][] available,
-			int[] admin, int[] canLift, int[] food, int[] drink,
-			int[] min, int[] max, int[] time) {
-		int[] hoursMin;
-        int[] adminOnly = min;
+			int[] admin, int[] canLift, int[] food, int[] drink, int[] adminOnly,
+			int[] min, int[] max, int[] time, int[] minHours, int[] maxHours) {
         
         // assumes the input is rectangular
         final int numberOfEmployees = available.length;
@@ -110,27 +116,10 @@ public class ScheduleServiceImpl implements ScheduleService {
                 drinkDuty[i][j] = drinkDutyT[j][i] = new IntVar(store,String.format("drink_%d,%d", i,j),0,drink[i]);
             }
         }
-        // for each employee on each shift they can make food xor make drinks
-        
-        
         
         for (int i = 0; i < numberOfEmployees; i++)
             for (int j = 0; j < numberOfTimeSlots; j++)
                 work[i][j] = workT[j][i] = new IntVar(store, String.format("work_%d,%d",i,j),0,1);
-        
-        for (int i = 0; i < numberOfEmployees; i++)
-        {
-            for (int j = 0; j < numberOfTimeSlots; j++)
-            {
-                // if the employee doesn't work then wether they make food/drink is irrelevant
-                store.impose(new XplusYlteqZ(foodDuty[i][j],drinkDuty[i][j],work[i][j]));
-            }
-        }
-        for (int j = 0; j < numberOfTimeSlots; j++)
-        {
-            store.impose(new SumBool(store,foodDutyT[j],">=",ONE));
-            store.impose(new SumBool(store,drinkDutyT[j],">=",ONE));
-        }
         
         // define problem constraints
         
@@ -158,19 +147,25 @@ public class ScheduleServiceImpl implements ScheduleService {
         //for each time slot must have 1 lifter
         for (int j = 0; j < numberOfTimeSlots; j++)
             store.impose(new LinearInt(store,workT[j],canLift,">=", 1));
-        // for each time slot must have 1 food maker
+        //for each time slot must have 1 food maker
+        for (int j = 0; j < numberOfTimeSlots; j++)
+            store.impose(new SumBool(store,foodDutyT[j],">=",ONE));
+        //for each time slot must have 1 drink maker
+        for (int j = 0; j < numberOfTimeSlots; j++)
+            store.impose(new SumBool(store,drinkDutyT[j],">=",ONE));    
         
-        // not neccessary if the other constraints handle this
-//        for (int j = 0; j < numberOfTimeSlots; j++)
-//            store.impose(new LinearInt(store,workT[j],food,">=", 1));
-//        // for each time slot must have 1 drink maker
-//        for (int j = 0; j < numberOfTimeSlots; j++)
-//            store.impose(new LinearInt(store,workT[j],drink,">=", 1));
+        // for each employee on each shift if they are working they can make 
+        // food xor make drinks
+        for (int i = 0; i < numberOfEmployees; i++)
+            for (int j = 0; j < numberOfTimeSlots; j++)
+                store.impose(new XplusYlteqZ(foodDuty[i][j],drinkDuty[i][j],work[i][j]));
+         
         
         // for each employee they can work no more than 40 hours unless they
         // are an admin
         for (int i = 0; i < numberOfEmployees; i++)
             store.impose(new LinearInt(store,work[i],time,"<=", 40 + admin[i] * C));
+        
         
         // for admin only shifts if employee is not an admin then they are
         // not available
