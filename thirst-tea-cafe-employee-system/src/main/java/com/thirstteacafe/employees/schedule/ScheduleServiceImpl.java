@@ -42,8 +42,8 @@ public class ScheduleServiceImpl implements ScheduleService {
 			Employee employee = employees.get(employeeNum);
 			admin[employeeNum] = employee.isAdmin() ? 1 : 0;
 			canLift[employeeNum] = employee.isCanLift() ? 1 : 0;
-			food[employeeNum] = employee.isFood() ? 1 : 0;
-			drink[employeeNum] = employee.isDrinks() ? 1 : 0;
+			food[employeeNum] = employee.isFoodMaker() ? 1 : 0;
+			drink[employeeNum] = employee.isDrinkMaker() ? 1 : 0;
 			minHours[employeeNum] = employee.getMinHours();
 			maxHours[employeeNum] = employee.getMinHours();
 
@@ -55,38 +55,38 @@ public class ScheduleServiceImpl implements ScheduleService {
 			available[employeeNum] = shiftArr;
 		}
 		
-		int[] min = new int[shifts.size()];
-		int[] max = new int[shifts.size()];
+		int[] minEmployees = new int[shifts.size()];
+		int[] maxEmployees = new int[shifts.size()];
 		int[] time = new int[shifts.size()];
 		int[] adminOnly = new int[shifts.size()];
 		for (int shiftNum = 0; shiftNum < shifts.size(); shiftNum++) {
 			Shift shift = shifts.get(shiftNum);
-			min[shiftNum] = shift.getMinEmployees();
-			max[shiftNum] = shift.getMaxEmployees();
+			minEmployees[shiftNum] = shift.getMinEmployees();
+			maxEmployees[shiftNum] = shift.getMaxEmployees();
 			time[shiftNum] = shift.getTimeLength();
 			time[shiftNum] = shift.isAdminOnly() ? 1 : 0;
 		}
 	
 		return schedule(available,
 				admin, canLift, food, drink, minHours, maxHours,
-				min, max, time, adminOnly);
+				minEmployees, maxEmployees, time, adminOnly);
 	}
 	
 	@Override
 	public ScheduleResult schedule(String available,
 			String admin, String canLift, String food, String drink, String minHours, String maxHours,
-			String min, String max, String time, String adminOnly)
+			String minEmployees, String maxEmployees, String time, String adminOnly)
 
 	{
 		return schedule(matrixUtil.convertMatrix(available),
 				matrixUtil.convert(admin), matrixUtil.convert(canLift), matrixUtil.convert(food), matrixUtil.convert(drink), matrixUtil.convert(minHours), matrixUtil.convert(maxHours),
-				matrixUtil.convert(min), matrixUtil.convert(max), matrixUtil.convert(time), matrixUtil.convert(adminOnly)
+				matrixUtil.convert(minEmployees), matrixUtil.convert(maxEmployees), matrixUtil.convert(time), matrixUtil.convert(adminOnly)
 		);
 	}
 
 	private ScheduleResult schedule(int[][] available,
 			int[] admin, int[] canLift, int[] food, int[] drink, int[] minHours, int[] maxHours,
-			int[] min, int[] max, int[] time, int[] adminOnly) {
+			int[] minEmployees, int[] maxEmployees, int[] time, int[] adminOnly) {
         
         // assumes the input is rectangular
         final int numberOfEmployees = available.length;
@@ -136,9 +136,9 @@ public class ScheduleServiceImpl implements ScheduleService {
         {
             // is there a way to use constants here instead of constant IntVars?
             store.impose(new SumBool(store,workT[j],">=",
-                    new IntVar(store,String.format("min_%d",j),min[j],min[j])));
+                    new IntVar(store,String.format("min_%d",j),minEmployees[j],minEmployees[j])));
             store.impose(new SumBool(store,workT[j],"<=",
-                    new IntVar(store,String.format("max_%d",j),max[j],max[j])));
+                    new IntVar(store,String.format("max_%d",j),maxEmployees[j],maxEmployees[j])));
         }
         
         // for each time slot must have 1 admin

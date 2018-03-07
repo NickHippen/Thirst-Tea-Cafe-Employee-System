@@ -14,8 +14,8 @@ public class Employee {
 	private String name;
 	private boolean canLift;
 	private boolean admin;
-	private boolean food;
-	private boolean drinks;
+	private boolean foodMaker;
+	private boolean drinkMaker;
 	private Integer maxHours;
 	private Integer minHours;
 
@@ -24,13 +24,13 @@ public class Employee {
 	public Employee() {
 	}
 
-	public Employee(String name, boolean canLift, boolean admin, boolean food, boolean drinks, Integer minHours,
+	public Employee(String name, boolean canLift, boolean admin, boolean foodMaker, boolean drinkMaker, Integer minHours,
 			Integer maxHours) {
 		this.name = name;
 		this.canLift = canLift;
 		this.admin = admin;
-		this.food = food;
-		this.drinks = drinks;
+		this.foodMaker = foodMaker;
+		this.drinkMaker = drinkMaker;
 		this.minHours = minHours;
 		this.maxHours = maxHours;
 	}
@@ -59,20 +59,20 @@ public class Employee {
 		this.admin = admin;
 	}
 
-	public boolean isFood() {
-		return food;
+	public boolean isFoodMaker() {
+		return foodMaker;
 	}
 
-	public void setFood(boolean food) {
-		this.food = food;
+	public void setFoodMaker(boolean foodMaker) {
+		this.foodMaker = foodMaker;
 	}
 
-	public boolean isDrinks() {
-		return drinks;
+	public boolean isDrinkMaker() {
+		return drinkMaker;
 	}
 
-	public void setDrinks(boolean drinks) {
-		this.drinks = drinks;
+	public void setDrinkMaker(boolean drinkMaker) {
+		this.drinkMaker = drinkMaker;
 	}
 
 	public Integer getMaxHours() {
