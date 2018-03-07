@@ -2,10 +2,10 @@ package com.thirstteacafe.employees.dto;
 
 import java.time.DayOfWeek;
 import java.time.LocalTime;
-import java.util.Map;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -16,22 +16,25 @@ public class Employee {
 	private boolean admin;
 	private boolean food;
 	private boolean drinks;
-        private Integer maxHours;
-        private Integer minHours;
-	
+	private Integer maxHours;
+	private Integer minHours;
+
 	private Map<DayOfWeek, List<Pair<LocalTime, LocalTime>>> availability;
 
 	public Employee() {
 	}
-	
-	public Employee(String name, boolean canLift, boolean admin, boolean food, boolean drinks) {
+
+	public Employee(String name, boolean canLift, boolean admin, boolean food, boolean drinks, Integer minHours,
+			Integer maxHours) {
 		this.name = name;
 		this.canLift = canLift;
 		this.admin = admin;
 		this.food = food;
 		this.drinks = drinks;
+		this.minHours = minHours;
+		this.maxHours = maxHours;
 	}
-	
+
 	public String getName() {
 		return name;
 	}
@@ -72,25 +75,21 @@ public class Employee {
 		this.drinks = drinks;
 	}
 
-    public Integer getMaxHours()
-    {
-        return maxHours;
-    }
+	public Integer getMaxHours() {
+		return maxHours;
+	}
 
-    public void setMaxHours(Integer maxHours)
-    {
-        this.maxHours = maxHours;
-    }
+	public void setMaxHours(Integer maxHours) {
+		this.maxHours = maxHours;
+	}
 
-    public Integer getMinHours()
-    {
-        return minHours;
-    }
+	public Integer getMinHours() {
+		return minHours;
+	}
 
-    public void setMinHours(Integer minHours)
-    {
-        this.minHours = minHours;
-    }
+	public void setMinHours(Integer minHours) {
+		this.minHours = minHours;
+	}
 
 	public Map<DayOfWeek, List<Pair<LocalTime, LocalTime>>> getAvailability() {
 		return availability;
@@ -99,12 +98,13 @@ public class Employee {
 	public void setAvailability(Map<DayOfWeek, List<Pair<LocalTime, LocalTime>>> availability) {
 		this.availability = availability;
 	}
-	
+
 	public void addAvailability(DayOfWeek dayOfWeek, Pair<LocalTime, LocalTime> availabilityRange) {
 		if (availability == null) {
 			availability = new HashMap<>();
 		}
-		List<Pair<LocalTime, LocalTime>> dayAvailability = availability.getOrDefault(dayOfWeek, new ArrayList<Pair<LocalTime, LocalTime>>());
+		List<Pair<LocalTime, LocalTime>> dayAvailability = availability.getOrDefault(dayOfWeek,
+				new ArrayList<Pair<LocalTime, LocalTime>>());
 		dayAvailability.add(availabilityRange);
 		availability.put(dayOfWeek, dayAvailability);
 	}

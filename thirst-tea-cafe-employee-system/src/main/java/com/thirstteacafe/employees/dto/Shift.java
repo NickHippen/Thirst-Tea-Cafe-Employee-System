@@ -8,24 +8,25 @@ public class Shift {
 	private Integer endTimeslot;
 	private Integer minEmployees;
 	private Integer maxEmployees;
-        private boolean adminOnly;
+	private boolean adminOnly;
 
 	public Shift() {
 	}
-	
+
 	public Shift(DayOfWeek dayOfWeek, Integer startTimeslot, Integer endTimeslot) {
-		this(dayOfWeek, startTimeslot, endTimeslot, 1, 1,true);
+		this(dayOfWeek, startTimeslot, endTimeslot, 2, 2, false);
 	}
-	
-	public Shift(DayOfWeek dayOfWeek, Integer startTimeslot, Integer endTimeslot, Integer minEmployees, Integer maxEmployees, boolean adminOnly) {
+
+	public Shift(DayOfWeek dayOfWeek, Integer startTimeslot, Integer endTimeslot, Integer minEmployees,
+			Integer maxEmployees, boolean adminOnly) {
 		this.dayOfWeek = dayOfWeek;
 		this.startTimeslot = startTimeslot;
 		this.endTimeslot = endTimeslot;
 		this.minEmployees = minEmployees;
 		this.maxEmployees = maxEmployees;
-                setAdminOnly(adminOnly);
+		this.adminOnly = adminOnly;
 	}
-	
+
 	public DayOfWeek getDayOfWeek() {
 		return dayOfWeek;
 	}
@@ -49,7 +50,7 @@ public class Shift {
 	public void setEndTimeslot(Integer endTimeslot) {
 		this.endTimeslot = endTimeslot;
 	}
-	
+
 	public Integer getMinEmployees() {
 		return minEmployees;
 	}
@@ -61,24 +62,21 @@ public class Shift {
 	public Integer getMaxEmployees() {
 		return maxEmployees;
 	}
-        
 
 	public void setMaxEmployees(Integer maxEmployees) {
 		this.maxEmployees = maxEmployees;
 	}
 
-    public boolean isAdminOnly()
-    {
-        return adminOnly;
-    }
+	public boolean isAdminOnly() {
+		return adminOnly;
+	}
 
-    public void setAdminOnly(boolean adminOnly)
-    {
-        this.adminOnly = adminOnly;
-    }
+	public void setAdminOnly(boolean adminOnly) {
+		this.adminOnly = adminOnly;
+	}
 
 	public int getTimeLength() {
 		return getEndTimeslot() - getStartTimeslot();
 	}
-        
+
 }

@@ -36,17 +36,17 @@ public class ScheduleServiceImpl implements ScheduleService {
 		int[] canLift = new int[employees.size()];
 		int[] food = new int[employees.size()];
 		int[] drink = new int[employees.size()];
-                int[] minHours = new int[employees.size()];
-                int[] maxHours = new int[employees.size()];
+		int[] minHours = new int[employees.size()];
+		int[] maxHours = new int[employees.size()];
 		for (int employeeNum = 0; employeeNum < employees.size(); employeeNum++) {
 			Employee employee = employees.get(employeeNum);
 			admin[employeeNum] = employee.isAdmin() ? 1 : 0;
 			canLift[employeeNum] = employee.isCanLift() ? 1 : 0;
 			food[employeeNum] = employee.isFood() ? 1 : 0;
 			drink[employeeNum] = employee.isDrinks() ? 1 : 0;
-                        minHours[employeeNum] = employee.getMinHours();
-                        maxHours[employeeNum] = employee.getMinHours();
-			
+			minHours[employeeNum] = employee.getMinHours();
+			maxHours[employeeNum] = employee.getMinHours();
+
 			int[] shiftArr = new int[shifts.size()];
 			for (int shiftNum = 0; shiftNum < shifts.size(); shiftNum++) {
 				Shift shift = shifts.get(shiftNum);
@@ -58,18 +58,18 @@ public class ScheduleServiceImpl implements ScheduleService {
 		int[] min = new int[shifts.size()];
 		int[] max = new int[shifts.size()];
 		int[] time = new int[shifts.size()];
-                int[] adminOnly = new int[shifts.size()];
+		int[] adminOnly = new int[shifts.size()];
 		for (int shiftNum = 0; shiftNum < shifts.size(); shiftNum++) {
 			Shift shift = shifts.get(shiftNum);
 			min[shiftNum] = shift.getMinEmployees();
 			max[shiftNum] = shift.getMaxEmployees();
 			time[shiftNum] = shift.getTimeLength();
-                        time[shiftNum] = shift.isAdminOnly() ? 1 : 0;
+			time[shiftNum] = shift.isAdminOnly() ? 1 : 0;
 		}
-		
-		return schedule(available, 
-                                admin, canLift, food, drink, minHours, maxHours,
-                                min, max, time, adminOnly);
+	
+		return schedule(available,
+				admin, canLift, food, drink, minHours, maxHours,
+				min, max, time, adminOnly);
 	}
 	
 	@Override
@@ -85,8 +85,8 @@ public class ScheduleServiceImpl implements ScheduleService {
 	}
 
 	private ScheduleResult schedule(int[][] available,
-			int[] admin, int[] canLift, int[] food, int[] drink, int[] adminOnly,
-			int[] min, int[] max, int[] time, int[] minHours, int[] maxHours) {
+			int[] admin, int[] canLift, int[] food, int[] drink, int[] minHours, int[] maxHours,
+			int[] min, int[] max, int[] time, int[] adminOnly) {
         
         // assumes the input is rectangular
         final int numberOfEmployees = available.length;

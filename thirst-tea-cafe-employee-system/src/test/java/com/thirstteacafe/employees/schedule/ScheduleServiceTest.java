@@ -32,13 +32,19 @@ public class ScheduleServiceTest {
 	
 	@Before
 	public void before() {
-		Employee emp1 = new Employee("Nick", true, true, true, true);
+		Employee emp1 = new Employee("Nick", true, true, true, true, 0, 40);
 		Arrays.asList(DayOfWeek.values())
 			.forEach((dow) -> emp1.addAvailability(dow, new ImmutablePair<LocalTime, LocalTime>(LocalTime.of(0, 0), LocalTime.of(12, 0))));
-		Employee emp2 = new Employee("Hayden", true, true, true, true);
+		Employee emp2 = new Employee("Mitch", true, true, true, true, 0, 40);
 		Arrays.asList(DayOfWeek.values())
-			.forEach((dow) -> emp2.addAvailability(dow, new ImmutablePair<LocalTime, LocalTime>(LocalTime.of(12, 0), LocalTime.of(23, 59, 59))));
-		employees = Arrays.asList(emp1, emp2);
+			.forEach((dow) -> emp2.addAvailability(dow, new ImmutablePair<LocalTime, LocalTime>(LocalTime.of(0, 0), LocalTime.of(12, 0))));
+		Employee emp3 = new Employee("Hayden", true, true, true, true, 0, 40);
+		Arrays.asList(DayOfWeek.values())
+			.forEach((dow) -> emp3.addAvailability(dow, new ImmutablePair<LocalTime, LocalTime>(LocalTime.of(12, 0), LocalTime.of(23, 59, 59))));
+		Employee emp4 = new Employee("Vincent", true, true, true, true, 0, 40);
+		Arrays.asList(DayOfWeek.values())
+			.forEach((dow) -> emp4.addAvailability(dow, new ImmutablePair<LocalTime, LocalTime>(LocalTime.of(12, 0), LocalTime.of(23, 59, 59))));
+		employees = Arrays.asList(emp1, emp2, emp3, emp4);
 		
 		shifts = new ArrayList<Shift>();
 		Arrays.asList(DayOfWeek.values()).forEach((dow) -> {
