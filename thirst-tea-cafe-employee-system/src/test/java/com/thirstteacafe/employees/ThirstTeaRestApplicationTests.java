@@ -94,4 +94,37 @@ public class ThirstTeaRestApplicationTests {
         assertTrue(result);
         //Assert.assertArrayEquals(SchedulingFunction.convertMatrix(scheduleMatrix), s);
 	}
+	
+	@Test
+	public void testSchedule3() {
+		String scheduleMatrix =
+               //M M T T W W T T F F F S S S|S S
+                "1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1\n" +
+                "1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1\n" +
+                "1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1\n" +
+                "1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1\n" +
+                "1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1\n" +
+                "1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1\n" +
+                "0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1\n";
+		//Arrays.asList(SchedulingFunction.convertMatrix(scheduleMatrix)).forEach(arr -> System.out.println(Arrays.toString(arr)));
+		ScheduleResult s = scheduleService.schedule(
+				scheduleMatrix,
+      //employee 0 1 2 3 4 5 6
+                "0 0 0 0 0 0 0", // Admin
+                "1 1 1 1 1 1 1", // Lift
+                "1 1 1 1 1 1 1", // Food
+                "1 1 1 1 1 1 1", // Drinks
+                "20 20 20 20 20 20 20", // Min Hours
+                "40 40 40 40 40 40 40", // Max Hours
+                
+               //M M T T W W T T F F F S S S|S S 
+                "2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2", // Min Employees
+                "2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2", // Max Employees
+                "8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8", // Time
+                "0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0" // Admin Only
+        );
+		Arrays.asList(s.getSchedule()).forEach(arr -> System.out.println(Arrays.toString(arr)));
+		assertTrue(s.isFeasible());
+	}
+	
 }
