@@ -20,6 +20,9 @@ import com.thirstteacafe.employees.dto.Employee;
 import com.thirstteacafe.employees.dto.ScheduleResult;
 import com.thirstteacafe.employees.dto.Shift;
 import com.thirstteacafe.employees.util.MatrixUtil;
+import org.jacop.constraints.Constraint;
+import org.jacop.constraints.Or;
+import org.jacop.constraints.PrimitiveConstraint;
 
 @Service
 public class ScheduleServiceImpl implements ScheduleService {
@@ -102,20 +105,20 @@ public class ScheduleServiceImpl implements ScheduleService {
         // transposed version of the work matrix
         IntVar[][] workT = new IntVar[numberOfTimeSlots][numberOfEmployees];
         
-        // foodDuty_i,j is 1 if employee i is assigned to food duty on time slot j
-        IntVar[][] foodDuty = new IntVar[numberOfEmployees][numberOfTimeSlots];
-        IntVar[][] foodDutyT = new IntVar[numberOfTimeSlots][numberOfEmployees];
-        // drinkDuty_i,j is 1 if employee i is assigned to drink duty on time slot j
-        IntVar[][] drinkDuty = new IntVar[numberOfEmployees][numberOfTimeSlots];
-        IntVar[][] drinkDutyT = new IntVar[numberOfTimeSlots][numberOfEmployees];
-        for (int i = 0; i < numberOfEmployees; i++)
-        {
-            for (int j = 0; j < numberOfTimeSlots; j++)
-            {
-                foodDuty[i][j] = foodDutyT[j][i] = new IntVar(store,String.format("food_%d,%d", i,j),0,food[i]);
-                drinkDuty[i][j] = drinkDutyT[j][i] = new IntVar(store,String.format("drink_%d,%d", i,j),0,drink[i]);
-            }
-        }
+//        // foodDuty_i,j is 1 if employee i is assigned to food duty on time slot j
+//        IntVar[][] foodDuty = new IntVar[numberOfEmployees][numberOfTimeSlots];
+//        IntVar[][] foodDutyT = new IntVar[numberOfTimeSlots][numberOfEmployees];
+//        // drinkDuty_i,j is 1 if employee i is assigned to drink duty on time slot j
+//        IntVar[][] drinkDuty = new IntVar[numberOfEmployees][numberOfTimeSlots];
+//        IntVar[][] drinkDutyT = new IntVar[numberOfTimeSlots][numberOfEmployees];
+//        for (int i = 0; i < numberOfEmployees; i++)
+//        {
+//            for (int j = 0; j < numberOfTimeSlots; j++)
+//            {
+//                foodDuty[i][j] = foodDutyT[j][i] = new IntVar(store,String.format("food_%d,%d", i,j),0,food[i]);
+//                drinkDuty[i][j] = drinkDutyT[j][i] = new IntVar(store,String.format("drink_%d,%d", i,j),0,drink[i]);
+//            }
+//        }
         
         for (int i = 0; i < numberOfEmployees; i++)
             for (int j = 0; j < numberOfTimeSlots; j++)
@@ -147,26 +150,66 @@ public class ScheduleServiceImpl implements ScheduleService {
         //for each time slot must have 1 lifter
         for (int j = 0; j < numberOfTimeSlots; j++)
             store.impose(new LinearInt(store,workT[j],canLift,">=", 1));
-        //for each time slot must have 1 food maker
+        // for each time slot must have 1 food maker (possibly redundant)
         for (int j = 0; j < numberOfTimeSlots; j++)
-            store.impose(new SumBool(store,foodDutyT[j],">=",ONE));
-        //for each time slot must have 1 drink maker
+            store.impose(new LinearInt(store,workT[j],food,">=", 1));
+        //for each time slot must have 1 drink maker (possibly redundant)
         for (int j = 0; j < numberOfTimeSlots; j++)
-            store.impose(new SumBool(store,drinkDutyT[j],">=",ONE));    
+            store.impose(new LinearInt(store,workT[j],drink,">=", 1));
         
-        // for each employee on each shift if they are working they can make 
-        // food xor make drinks
+        
+        
+//        //for each time slot must have 1 food maker
+//        for (int j = 0; j < numberOfTimeSlots; j++)
+//            store.impose(new SumBool(store,foodDutyT[j],">=",ONE));
+//        //for each time slot must have 1 drink maker
+//        for (int j = 0; j < numberOfTimeSlots; j++)
+//            store.impose(new SumBool(store,drinkDutyT[j],">=",ONE));    
+        
+//        // for each employee on each shift if they are working they can make 
+//        // food xor make drinks
+//        for (int i = 0; i < numberOfEmployees; i++)
+//            for (int j = 0; j < numberOfTimeSlots; j++)
+//                store.impose(new XplusYlteqZ(foodDuty[i][j],drinkDuty[i][j],work[i][j]));
+//  
+        
+        for (int j = 0; j < numberOfTimeSlots; j++)
+        {
+            PrimitiveConstraint[] pairs = new PrimitiveConstraint[numberOfEmployees * (numberOfEmployees - 1) / 2];
+            int c = 0;
+            for (int i1 = 0; i1 < numberOfEmployees; i1++)
+            {
+                for (int i2 = i1 + 1; i2 < numberOfEmployees; i2++)
+                {
+                    pairs[c++] = new LinearInt(store,
+                            new IntVar[]{work[i1][j],work[i2][j]},new int[]{1,1},
+                            ">=", 
+                            4 - food[i1] - food[i2]);
+                }
+            }
+            store.impose(new Or(pairs));
+        }
+        for (int j = 0; j < numberOfTimeSlots; j++)
+        {
+            PrimitiveConstraint[] pairs = new PrimitiveConstraint[numberOfEmployees * (numberOfEmployees - 1) / 2];
+            int c = 0;
+            for (int i1 = 0; i1 < numberOfEmployees; i1++)
+            {
+                for (int i2 = i1 + 1; i2 < numberOfEmployees; i2++)
+                {
+                    pairs[c++] = new LinearInt(store,
+                            new IntVar[]{work[i1][j],work[i2][j]},new int[]{1,1},
+                            ">=", 
+                            4 - drink[i1] - drink[i2]);
+                }
+            }
+            store.impose(new Or(pairs));
+        }
+        // Each employee must work between their minimum and maximum hours
         for (int i = 0; i < numberOfEmployees; i++)
-            for (int j = 0; j < numberOfTimeSlots; j++)
-                store.impose(new XplusYlteqZ(foodDuty[i][j],drinkDuty[i][j],work[i][j]));
-         
-        
-        // for each employee they can work no more than 40 hours unless they
-        // are an admin
+            store.impose(new LinearInt(store,work[i],time,">=", minHours[i]));
         for (int i = 0; i < numberOfEmployees; i++)
-            store.impose(new LinearInt(store,work[i],time,"<=", 40 + admin[i] * C));
-        
-        
+            store.impose(new LinearInt(store,work[i],time,"<=", maxHours[i]));    
         // for admin only shifts if employee is not an admin then they are
         // not available
         for (int j = 0; j < numberOfTimeSlots; j++)
