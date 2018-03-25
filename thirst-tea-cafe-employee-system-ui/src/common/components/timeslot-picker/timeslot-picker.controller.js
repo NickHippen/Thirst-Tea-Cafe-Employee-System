@@ -16,6 +16,7 @@ export default class {
       return;
     }
     this.timeslot = this.TimeslotService.convertDateToTimeslot(this.date);
+    this.date = this.TimeslotService.convertTimeslotToDate(this.timeslot); // Make the date get corrected if typed a date that isn't on the hour or half-hour
   }
 
 }
