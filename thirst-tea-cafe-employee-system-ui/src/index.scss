@@ -23,3 +23,16 @@ div[mwl-dynamic-directive-template] {
   color: black;
   // border-radius: 10px 10px 0px 0px;
 }
+
+.panel {
+  background-color: transparent;
+  .panel-heading {
+    background-color: #717171;
+    color: white;
+    font-weight: bold;
+    font-size: large;
+  }
+  thead {
+    background-color: #ffffff1f
+  }
+}

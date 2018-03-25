@@ -10,6 +10,7 @@ import AppService from './app.service';
 
 export default angular.module('tt-employee.app', [
   'ui.bootstrap.modal',
+  'ui.bootstrap.accordion',
   Login,
   View,
   Create,

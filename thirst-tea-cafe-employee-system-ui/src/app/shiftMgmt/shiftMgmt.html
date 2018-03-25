@@ -1,1 +1,34 @@
-<h3>This is shift management</h3>
+<uib-accordion close-others="false">
+  <div uib-accordion-group ng-repeat="(dow, dowName) in $ctrl.DAY_OF_WEEK" class="panel-default" heading="{{dowName}} ({{$ctrl.groupedShifts[dow].length || 0}})">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>Start Time</th>
+          <th>End Time</th>
+          <th>Min. Employees</th>
+          <th>Max Employees</th>
+          <th>Admin Only</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="shift in $ctrl.groupedShifts[dow]">
+          <td><timeslot-picker timeslot="shift.startTimeslot"></timeslot-picker></td>
+          <td><timeslot-picker timeslot="shift.endTimeslot"></timeslot-picker></td>
+          <td><input type="text" class="form-control" ng-model="shift.minEmployees" /></td>
+          <td><input type="text" class="form-control" ng-model="shift.maxEmployees" /></td>
+          <td><input type="checkbox" class="form-control" ng-model="shift.adminOnly" /></td>
+          <td><button class="btn btn-danger" ng-click="$ctrl.deleteShift(dow, $index)">Delete</button></td>
+        </tr>
+        <tr>
+          <td><timeslot-picker timeslot="$ctrl.newShift[dow].startTimeslot"></timeslot-picker></td>
+          <td><timeslot-picker timeslot="$ctrl.newShift[dow].endTimeslot"></timeslot-picker></td>
+          <td><input type="text" class="form-control" ng-model="$ctrl.newShift[dow].minEmployees" /></td>
+          <td><input type="text" class="form-control" ng-model="$ctrl.newShift[dow].maxEmployees" /></td>
+          <td><input type="checkbox" class="form-control" ng-model="$ctrl.newShift[dow].adminOnly" /></td>
+          <td><button class="btn btn-primary" ng-click="$ctrl.addShift(dow)">Add</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</uib-accordion>
