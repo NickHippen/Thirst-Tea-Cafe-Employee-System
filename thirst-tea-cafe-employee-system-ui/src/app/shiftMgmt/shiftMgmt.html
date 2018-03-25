@@ -20,7 +20,7 @@
           <td><input type="checkbox" class="form-control" ng-model="shift.adminOnly" /></td>
           <td><button class="btn btn-danger" ng-click="$ctrl.deleteShift(dow, $index)">Delete</button></td>
         </tr>
-        <tr>
+        <tr class="new-shift">
           <td><timeslot-picker timeslot="$ctrl.newShift[dow].startTimeslot"></timeslot-picker></td>
           <td><timeslot-picker timeslot="$ctrl.newShift[dow].endTimeslot"></timeslot-picker></td>
           <td><input type="text" class="form-control" ng-model="$ctrl.newShift[dow].minEmployees" /></td>
