@@ -16,5 +16,8 @@ export default class {
     });
     // TEST CASES END
   }
-
+    
+  removeUser(userId) {
+    this.AdminService.removeUser(userId);
+  }
 }
