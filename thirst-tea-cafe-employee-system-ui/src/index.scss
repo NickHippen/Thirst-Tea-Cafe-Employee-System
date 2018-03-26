@@ -36,3 +36,15 @@ div[mwl-dynamic-directive-template] {
     background-color: #ffffff1f
   }
 }
+
+button.list-group-item {
+  background-color: #717171;
+  color: white;
+  border-color: #afafaf;
+  &:hover {
+    background-color: #9a9a9a;
+  }
+  &.active {
+    border-color: #afafaf;
+  }
+}

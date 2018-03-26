@@ -1,1 +1,48 @@
-<h3>This is employee management</h3>
+<div class="row">
+  <div class="col-md-6">
+    <h4>Employee List</h4>
+    <div class="list-group">
+      <button
+        ng-repeat="employee in $ctrl.employees"
+        class="list-group-item"
+        ng-class="{active: $ctrl.selectedEmployeeId === employee.employeeId}"
+        ng-bind="employee.name"
+        ng-click="$ctrl.selectEmployee(employee)">
+      </button>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div ng-hide="$ctrl.selectedEmployee">
+      <h4>Select an employee</h4>
+    </div>
+    <div ng-show="$ctrl.selectedEmployee">
+      <h4>Availability for <span ng-bind="$ctrl.selectedEmployee.name" class="employee-name"></span></h4>
+      <uib-accordion close-others="false">
+        <div uib-accordion-group ng-repeat="(dow, dowName) in $ctrl.DAY_OF_WEEK" class="panel-default" heading="{{dowName}}">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>Start Time</th>
+                <th>End Time</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- TODO -->
+              <!-- <tr ng-repeat="availability in $ctrl.groupedShifts[dow]">
+                <td><timeslot-picker timeslot="shift.startTimeslot"></timeslot-picker></td>
+                <td><timeslot-picker timeslot="shift.endTimeslot"></timeslot-picker></td>
+                <td><button class="btn btn-danger" ng-click="$ctrl.deleteShift(dow, $index)">Delete</button></td>
+              </tr> -->
+              <tr class="new-availability">
+                <td><timeslot-picker timeslot="$ctrl.newShift[dow].startTimeslot"></timeslot-picker></td>
+                <td><timeslot-picker timeslot="$ctrl.newShift[dow].endTimeslot"></timeslot-picker></td>
+                <td><button class="btn btn-primary" ng-click="$ctrl.addShift(dow)">Add</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </uib-accordion>
+    </div>
+  </div>
+</div>
