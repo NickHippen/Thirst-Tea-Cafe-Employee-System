@@ -12,7 +12,7 @@
     <tr ng-repeat="user in $ctrl.users">
       <td ng-bind="user.name"></td>
       <td ng-bind="user.id"></td>
-      <td><button class="btn">Set Color</button></td>
+      <td><button class="btn btn-default">Set Color</button></td>
       <td><button class="btn-xs btn-danger" ng-click="$ctrl.removeUser(user.id)">Delete</button></td>
     </tr>
   </tbody>
