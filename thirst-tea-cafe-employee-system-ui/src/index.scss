@@ -17,3 +17,34 @@ body {
 .modal-content {
   background-color: #444444;
 }
+
+div[mwl-dynamic-directive-template] {
+  background-color: white;
+  color: black;
+  // border-radius: 10px 10px 0px 0px;
+}
+
+.panel {
+  background-color: transparent;
+  .panel-heading {
+    background-color: #717171;
+    color: white;
+    font-weight: bold;
+    font-size: large;
+  }
+  thead {
+    background-color: #ffffff1f
+  }
+}
+
+button.list-group-item {
+  background-color: #717171;
+  color: white;
+  border-color: #afafaf;
+  &:hover {
+    background-color: #9a9a9a;
+  }
+  &.active {
+    border-color: #afafaf;
+  }
+}

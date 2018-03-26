@@ -1,1 +1,9 @@
-<p>This is tt-schedule</p>
+<mwl-calendar
+    view="$ctrl.calendar.calendarView"
+    view-date="$ctrl.calendar.viewDate"
+    events="$ctrl.calendar.events"
+    view-title="calendarTitle"
+    on-event-click="eventClicked(calendarEvent)"
+    on-event-times-changed="calendarEvent.startsAt = calendarNewEventStart; calendarEvent.endsAt = calendarNewEventEnd"
+    cell-is-open="true">
+</mwl-calendar>
