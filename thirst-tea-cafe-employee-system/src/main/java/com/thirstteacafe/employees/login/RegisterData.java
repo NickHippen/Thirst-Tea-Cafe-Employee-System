@@ -2,15 +2,17 @@ package com.thirstteacafe.employees.login;
 
 public class RegisterData {
 
-	private String userName;
+	private String username;
 	private String password;
+	private String firstname;
+	private String lastname;
 	
-	public String getUserName() {
-		return userName;
+	public String getUsername() {
+		return username;
 	}
 	
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 	
 	public String getPassword() {
@@ -21,9 +23,28 @@ public class RegisterData {
 		this.password = password;
 	}
 
+	public String getFirstname() {
+		return firstname;
+	}
+
+	public void setFirstname(String firstname) {
+		this.firstname = firstname;
+	}
+
+	public String getLastname() {
+		return lastname;
+	}
+
+	public void setLastname(String lastname) {
+		this.lastname = lastname;
+	}
+
+
 	@Override
 	public String toString() {
-		return "LoginRequest [userName=" + userName + ", password=" + password + "]";
+		return String.format(
+			"LoginRequest [username=%s, password=%s, firstname=%s, lastname=%s]",
+			username, password, firstname, lastname);
 	}
 
 }
