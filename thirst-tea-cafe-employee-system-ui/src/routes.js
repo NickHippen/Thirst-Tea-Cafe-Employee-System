@@ -1,7 +1,7 @@
 export default routesConfig;
 
-/** @ngInject */
 function routesConfig($stateProvider, $urlRouterProvider, $locationProvider) {
+  'ngInject';
   $locationProvider.html5Mode(false).hashPrefix('!');
   $urlRouterProvider.otherwise('/');
 
