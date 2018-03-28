@@ -17,7 +17,7 @@ public class LoginService {
 	}
 	
 	public void register(RegisterData register) throws ValidationException {
-		if (loginDao.isExistingUserName(register.getUserName())) {
+		if (loginDao.isExistingUserName(register.getUsername())) {
 			throw new ValidationException("Username already exists");
 		}
 		loginDao.register(register);
