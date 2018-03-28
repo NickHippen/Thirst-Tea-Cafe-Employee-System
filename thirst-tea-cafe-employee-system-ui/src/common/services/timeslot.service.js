@@ -2,7 +2,7 @@
  * A service for handling timeslot numbers
  * @module TimeslotService
  */
-export default class TimeslotService {
+export default class {
 
   constructor() {
     'ngInject';

@@ -1,3 +1,7 @@
+/**
+ * A service for handling page loading
+ * @module LoadingService
+ */
 export default class {
 
   constructor() {
@@ -5,6 +9,9 @@ export default class {
     angular.extend(this, {});
   }
 
+  /**
+   * Used to determine whether or not the page is currently loading
+   */
   get loading() {
     return this._loading;
   }
