@@ -6,23 +6,66 @@ export default class {
     'ngInject';
     angular.extend(this, {TimeslotService, DAY_OF_WEEK});
 
-    this.shifts = [];
-    
-    this.shifts.push({
+    // BUILD EXAMPLE OBJ
+    this.employeesTueNoon = [];
+    this.employeesTueNoon.push({
       empName: 'Vincent Nguyen',
-      startDate: new Date(2018, 2, 26, 12),
-      endDate: new Date(2018, 2, 26, 14),
       empColor: '#00428'
     });
-    
+    this.employeesTueNoon.push({
+      empName: 'Nick Hippen',
+      empColor: '#11252'
+    });
+
+    this.employeesWed3 = [];
+    this.employeesWed3.push({
+      empName: 'Nick Hippen',
+      empColor: '#11252'
+    });
+    this.employeesWed3.push({
+      empName: 'Mitchell Huston',
+      empColor: '#11452'
+    });
+
+    this.dailySchedule = [];
+    this.dailySchedule2 = [];
+    this.weeklySchedule = [];
+
+    this.dailySchedule.push({time: 25, employees: this.employeesTueNoon});
+    this.dailySchedule2.push({time: 30, employees: this.employeesWed3});
+
+    this.weeklySchedule.push({day: 1, dailySchedule: this.dailySchedule});
+    this.weeklySchedule.push({day: 2, dailySchedule: this.dailySchedule2});
+    // BUILD EXAMPLE OBJ DONE
+
+    this.scheduledEmployees = [];
+    for (let i = 0; i < this.weeklySchedule.length; i++) {
+      for (let j = 0; j < this.weeklySchedule[i].dailySchedule.length; j++) {
+        for (let k = 0; k < this.weeklySchedule[i].dailySchedule[j].employees.length; k++) {
+          this.scheduledEmployees.push({
+            empName: this.weeklySchedule[i].dailySchedule[j].employees[k].empName,
+            startDate: moment().startOf('isoWeek')
+              .add(this.weeklySchedule[i].day, 'day')
+              .add(this.weeklySchedule[i].dailySchedule[j].time / 2, 'hour')
+              .toDate(),
+            endDate: moment().startOf('isoWeek')
+            .add(this.weeklySchedule[i].day, 'day')
+            .add((this.weeklySchedule[i].dailySchedule[j].time / 2) + 0.5, 'hour')
+            .toDate(),
+            empColor: this.weeklySchedule[i].dailySchedule[j].employees[k].empColor
+          });
+        }
+      }
+    }
+
     this.events = [];  
-    for (let i = 0; i < this.shifts.length; i++) {
+    for (let i = 0; i < this.scheduledEmployees.length; i++) {
       this.events.push({
-        title: this.shifts[i].empName, // Set to employee's name
-        startsAt: this.shifts[i].startDate, // Set to start/end time of shift
-        endsAt: this.shifts[i].endDate,
+        title: this.scheduledEmployees[i].empName, // Set to employee's name
+        startsAt: this.scheduledEmployees[i].startDate, // Set to start/end time of shift
+        endsAt: this.scheduledEmployees[i].endDate,
         color: { // Set this color to employee's saved color
-          primary: this.shifts[i].empColor, 
+          primary: this.scheduledEmployees[i].empColor, 
           secondary: '#fffff' 
         },
         actions: [{ // an array of actions that will be displayed next to the event title
@@ -48,5 +91,9 @@ export default class {
     
   resetView() {
     this.calendar.calendarView = 'week';
+  }
+
+  translateObject() {
+    // weekStart = moment().startOf('isoWeek').toDate();
   }
 }
