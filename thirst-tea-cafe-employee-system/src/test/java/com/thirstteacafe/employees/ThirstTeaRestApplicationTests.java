@@ -48,7 +48,9 @@ public class ThirstTeaRestApplicationTests {
                 "3 3 3",
                 "3 3 3",
                 "1 1 1",
-                "0 0 0"
+                "0 0 0",
+                
+                "1 2 3"
         );
 //        Assert.assertArrayEquals(matrixUtil.convertMatrix(scheduleMatrix), s.getSchedule());
 	}
@@ -57,10 +59,10 @@ public class ThirstTeaRestApplicationTests {
 	public void testSchedule2() {
 		String scheduleMatrix =
                //M M T T W W T T F F F S S S|S S
-                "1 0 1 1 1 0 1 0 1 1 0 1 1 0 1 1\n" +
-                "1 1 0 0 0 1 0 1 0 0 0 1 1 1 1 1\n" +
-                "0 1 0 1 0 1 0 1 1 1 1 0 0 0 0 0\n" +
-                "0 0 1 0 1 0 1 0 0 0 1 0 0 1 0 0\n";
+                "1 0 1 0 0 1 1 0 1 0 0 1 1 0 0 1\n" +
+                "1 0 1 0 0 1 1 0 1 0 1 0 1 0 1 0\n" +
+                "0 1 0 1 1 0 0 1 0 1 0 1 0 1 1 0\n" +
+                "0 1 0 1 1 0 0 1 0 1 1 1 0 1 0 1\n";
 		//Arrays.asList(SchedulingFunction.convertMatrix(scheduleMatrix)).forEach(arr -> System.out.println(Arrays.toString(arr)));
 		ScheduleResult s = scheduleService.schedule(
 				scheduleMatrix,
@@ -76,7 +78,9 @@ public class ThirstTeaRestApplicationTests {
                 "1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1",
                 "2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2",
                 "1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1",
-                "0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0"
+                "0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0",
+                
+                "2 4 6 8 10 12 14"
         );
 		Arrays.asList(s.getSchedule()).forEach(arr -> System.out.println(Arrays.toString(arr)));
         // every column should sum to 2
@@ -121,10 +125,16 @@ public class ThirstTeaRestApplicationTests {
                 "2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2", // Min Employees
                 "2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2", // Max Employees
                 "8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8", // Time
-                "0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0" // Admin Only
+                "0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0", // Admin Only
+                        
+                "2 4 6 8 10 12 14" // Days of week
         );
 		Arrays.asList(s.getSchedule()).forEach(arr -> System.out.println(Arrays.toString(arr)));
 		assertTrue(s.isFeasible());
 	}
-	
+        @Test
+	public void realDataSchedule() 
+        {
+            
+        }
 }
