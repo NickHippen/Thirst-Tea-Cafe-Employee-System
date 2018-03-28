@@ -11,47 +11,67 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class JdbcUserDao implements UserDao{
-
+	
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 	
+	private final String QUERY_SELECT = 
+			"SELECT"
+			+ "M.emp_id, "
+			+ "M.emp_username, "
+			+ "M.emp_firstname, "
+			+ "M.emp_lastname, "
+			+ "M.emp_minhours "
+			+ "M.emp_maxhours "
+			+ "M.emp_canlift "
+			+ "M.emp_food "
+			+ "M.emp_drinks "
+			+ "M.emp_admin";
+		
 	@Override
 	public List<UserData> getUserSearchResult(UserRequestData request){
-		List<UserData> Users = jdbcTemplate.query("SELECT M.USER_ID, M.USER_NAME, M.REGION, M.USER_CREATE_TIME FROM members M WHERE LOWER(M.USER_NAME) LIKE LOWER(?)",
-			new Object[] { "%"+request.getUserName()+"%"},
+		List<UserData> Users = jdbcTemplate.query(
+			QUERY_SELECT + " FROM employees M WHERE LOWER(M.emp_username) LIKE LOWER(?)",
+			new Object[] { "%"+request.getUsername()+"%"},
 			new RowMapper<UserData>() {
 				@Override
 				public UserData mapRow(ResultSet rs, int rowNum) throws SQLException {
-					UserData results = new UserData();
-					results.setUserId(rs.getInt("USER_ID"));
-					results.setUserName(rs.getString("USER_NAME"));
-					results.setRegion(rs.getString("REGION"));
-					results.setCreateDate(rs.getString("USER_CREATE_TIME"));
-					
+					UserData results = createUserDataFromResultSet(rs);
 					return results;
 				}
 			}
 		);
 		return Users;
 	}
-	
+
 	@Override
 	public UserData getUserByID(int request){
-		List<UserData> Users = jdbcTemplate.query("SELECT M.USER_ID, M.USER_NAME, M.REGION, M.USER_CREATE_TIME FROM members M WHERE M.USER_ID=?",
+		List<UserData> Users = jdbcTemplate.query(
+			QUERY_SELECT + " FROM employees M WHERE M.emp_id=?",
 			new Object[] {request},
 			new RowMapper<UserData>() {
 				@Override
 				public UserData mapRow(ResultSet rs, int rowNum) throws SQLException {
-					UserData results = new UserData();
-					results.setUserId(rs.getInt("USER_ID"));
-					results.setUserName(rs.getString("USER_NAME"));
-					results.setRegion(rs.getString("REGION"));
-					results.setCreateDate(rs.getString("USER_CREATE_TIME"));
-					
+					UserData results = createUserDataFromResultSet(rs);
 					return results;
 				}
 			}
 		);
 		return Users.get(0);
+	}
+	
+	private UserData createUserDataFromResultSet (ResultSet rs) throws SQLException {
+		UserData results = new UserData();
+		results.setId(rs.getInt("emp_id"));
+		results.setUsername(rs.getString("emp_username"));
+		results.setFirstname(rs.getString("emp_firstname"));
+		results.setLastname(rs.getString("emp_lastname"));
+		results.setMinHours(rs.getFloat("emp_minhours"));
+		results.setMaxHours(rs.getFloat("emp_maxhours"));
+		results.setCanLift(rs.getBoolean("emp_canlift"));
+		results.setFood(rs.getBoolean("emp_food"));
+		results.setDrinks(rs.getBoolean("emp_drinks"));
+		results.setAdmin(rs.getBoolean("emp_admin"));
+		return results;
 	}
 }
