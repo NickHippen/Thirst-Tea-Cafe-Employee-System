@@ -20,12 +20,13 @@ public class JdbcLoginDao implements LoginDao {
 	
 	@Override
 	public void login(LoginData login) throws AuthenticationException {
-		List<Integer> userIds = jdbcTemplate.query("SELECT M.USER_ID FROM members M WHERE M.USER_NAME=? AND M.PASSWORD=?",
-			new Object[] { login.getUserName(), login.getPassword() },
+		List<Integer> userIds = jdbcTemplate.query(
+			"SELECT M.emp_id FROM employees M WHERE M.emp_username=? AND M.emp_password=?",
+			new Object[] { login.getUsername(), login.getPassword() },
 			new RowMapper<Integer>() {
 				@Override
 				public Integer mapRow(ResultSet rs, int rowNum) throws SQLException {
-					return rs.getInt("USER_ID");
+					return rs.getInt("emp_id");
 				}
 			});
 		if (userIds.isEmpty()) {
@@ -34,19 +35,21 @@ public class JdbcLoginDao implements LoginDao {
 	}
 
 	@Override
-	public void register(RegisterData register) {
-		jdbcTemplate.update("INSERT INTO members (USER_NAME,PASSWORD,REGION,USER_CREATE_TIME) VALUES (?, ?, ?, SYSDATE())",
-				new Object[] { register.getUserName(), register.getPassword(), "Midwest" },
-				new int[] { Types.VARCHAR, Types.VARCHAR, Types.VARCHAR });
+	public void register(RegisterData register) {		
+		jdbcTemplate.update(
+			"INSERT INTO employees (emp_username, emp_password, emp_firstname, emp_lastname) VALUES (?, ?, ?, ?)",
+			new Object[] {register.getUsername(), register.getPassword(), register.getFirstname(), register.getLastname()},
+			new int[] { Types.VARCHAR, Types.VARCHAR, Types.VARCHAR, Types.VARCHAR});
 	}
 	
-	public boolean isExistingUserName(String userName) {
-		List<Integer> userIds = jdbcTemplate.query("SELECT M.USER_ID FROM members M WHERE M.USER_NAME=?",
-				new Object[] { userName },
+	public boolean isExistingUserName(String username) {
+		List<Integer> userIds = jdbcTemplate.query(
+				"SELECT M.emp_id FROM employees M WHERE M.emp_username=?",
+				new Object[] { username },
 				new RowMapper<Integer>() {
 					@Override
 					public Integer mapRow(ResultSet rs, int rowNum) throws SQLException {
-						return rs.getInt("USER_ID");
+						return rs.getInt("emp_id");
 					}
 				});
 		return !userIds.isEmpty();

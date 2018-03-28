@@ -2,13 +2,13 @@ package com.thirstteacafe.employees.users;
 
 public class UserRequestData {
 
-	private String userName;
+	private String username;
 
-	public String getUserName() {
-		return userName;
+	public String getUsername() {
+		return username;
 	}
 
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setUserName(String username) {
+		this.username = username;
 	}
 }
