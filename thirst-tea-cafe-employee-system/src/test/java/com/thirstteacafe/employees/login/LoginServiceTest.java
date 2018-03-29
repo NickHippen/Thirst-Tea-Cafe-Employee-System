@@ -4,6 +4,7 @@ import org.junit.Test;
 import org.junit.Before;
 
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 import static org.junit.Assert.assertFalse;
 
 
@@ -52,9 +53,6 @@ public class LoginServiceTest {
 	/*
 	 * Attempt to register a new user. 
 	 */
-	@Before
-	public void registerUserBefore() {
-	}
 	@Test
 	public void registerUser() {
 		boolean registerSuccess = true;
@@ -66,10 +64,8 @@ public class LoginServiceTest {
 		{
 			registerSuccess = false;
 		}
+		
 		assertTrue(registerSuccess);
-	}
-	@After
-	public void registerUserAfter() {
 		deleteTestUserFromDatabase();
 	}
 	
@@ -78,9 +74,6 @@ public class LoginServiceTest {
 	 * It should not be possible to create multiple
 	 * users with the same username.
 	 */
-	@Before
-	public void registerDuplicateUserBefore() {
-	}
 	@Test
 	public void registerDuplicateUser() {
 		boolean registerSuccess = true;
@@ -93,20 +86,14 @@ public class LoginServiceTest {
 		{
 			registerSuccess = false;
 		}
+		
 		assertFalse(registerSuccess);
-	}
-	@After
-	public void registerDuplicateUserAfter() {
-		jdbcTemplate.update(
-			"DELETE FROM employees WHERE emp_username = 'vlnguyen'");
+		deleteTestUserFromDatabase();
 	}
 	
 	/*
 	 * Create a user and attempt to login.
 	 */
-	@Before
-	public void registerAndLoginBefore() {
-	}
 	@Test
 	public void registerAndLogin() {
 		boolean loginSuccess = true;
@@ -117,15 +104,13 @@ public class LoginServiceTest {
 			loginService.login(ld);
 		}
 		catch (ValidationException ve) {
-			/* registration should succeed */
+			fail("Failed to register user for login.");
 		}
 		catch (AuthenticationException ae) {
 			loginSuccess = false;
 		}
+		
 		assertTrue(loginSuccess);
-	}
-	@After
-	public void registerAndLoginAfter() {
 		deleteTestUserFromDatabase();
 	}
 	
@@ -149,9 +134,6 @@ public class LoginServiceTest {
 	/*
 	 * Login with a bad username.
 	 */
-	@Before
-	public void loginBadUsernameBefore() {
-	}
 	@Test
 	public void loginBadUsername() {
 		boolean loginSuccess = true;
@@ -163,24 +145,19 @@ public class LoginServiceTest {
 			loginService.login(ld);
 		}
 		catch (ValidationException ve) {
-			/* registration should succeed */
+			fail("Failed to register user for login.");
 		}
 		catch (AuthenticationException ae) {
 			loginSuccess = false;
 		}
+		
 		assertFalse(loginSuccess);
-	}
-	@After
-	public void loginBadUsernameAfter() {
 		deleteTestUserFromDatabase();
 	}
 	
 	/*
 	 * Login with a bad password.
 	 */
-	@Before
-	public void loginBadPasswordBefore() {
-	}
 	@Test
 	public void loginBadPassword() {
 		boolean loginSuccess = true;
@@ -197,11 +174,9 @@ public class LoginServiceTest {
 		catch (AuthenticationException ae) {
 			loginSuccess = false;
 		}
+		
 		assertFalse(loginSuccess);
-	}
-	@After
-	public void loginBadPasswordAfter() {
 		deleteTestUserFromDatabase();
 	}
-
+	
 }
