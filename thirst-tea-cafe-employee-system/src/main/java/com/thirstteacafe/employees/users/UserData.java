@@ -83,4 +83,20 @@ public class UserData {
 		this.admin = admin;
 	}
 	
+	@Override
+	public String toString() {
+		String s = "[UserData]\n";
+		s += String.format("id        : %d\n", id);
+		s += String.format("username  : %s\n", username);
+		s += String.format("firstname : %s\n", firstname);
+		s += String.format("lastname  : %s\n", lastname);
+		s += String.format("minHours  : %.1f\n", minHours);
+		s += String.format("maxHours  : %.1f\n", maxHours);
+		s += String.format("canLift   : %s\n", canLift);
+		s += String.format("food      : %s\n", food);
+		s += String.format("drinks    : %s\n", drinks);
+		s += String.format("admin     : %s", admin);
+		return s;
+	}
+	
 }

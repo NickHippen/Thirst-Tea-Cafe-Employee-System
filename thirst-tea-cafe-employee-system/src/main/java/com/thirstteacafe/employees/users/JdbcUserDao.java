@@ -16,16 +16,16 @@ public class JdbcUserDao implements UserDao{
 	private JdbcTemplate jdbcTemplate;
 	
 	private final String QUERY_SELECT = 
-			"SELECT"
+			"SELECT "
 			+ "M.emp_id, "
 			+ "M.emp_username, "
 			+ "M.emp_firstname, "
 			+ "M.emp_lastname, "
-			+ "M.emp_minhours "
-			+ "M.emp_maxhours "
-			+ "M.emp_canlift "
-			+ "M.emp_food "
-			+ "M.emp_drinks "
+			+ "M.emp_minhours, "
+			+ "M.emp_maxhours, "
+			+ "M.emp_canlift, "
+			+ "M.emp_food, "
+			+ "M.emp_drinks, "
 			+ "M.emp_admin";
 		
 	@Override
