@@ -7,4 +7,7 @@ public interface UserDao {
 	List<UserData> getUserSearchResult(UserRequestData request);
 	
 	UserData getUserByID(int request);
+
+	List<UserData> getAllUsers();
+	
 }

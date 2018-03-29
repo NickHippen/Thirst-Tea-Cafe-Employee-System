@@ -26,4 +26,9 @@ public class UserController {
 	public UserData getUserByID(@PathVariable Integer userID){
 		return userService.getUserByID(userID);
 	}
+
+	@RequestMapping(value="/user/all", method=RequestMethod.GET)
+	public List<UserData> getAllUsers() {
+		return userService.getAllUsers();
+	}
 }

@@ -29,6 +29,11 @@ public class UserServiceTest {
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 
+	private static final int FIRSTNAME = 0;
+	private static final int LASTNAME  = 1;
+	private static final int USERNAME  = 2;
+	private static final int PASSWORD  = 3;
+
 	private String[][] userStrings =  
 	{
 		{"Vincent", "Nguyen", "vlnguyen", "Vietcong"},
@@ -41,12 +46,12 @@ public class UserServiceTest {
 		return createTestRegisterData(userStrings[0]);
 	}
 
-	private RegisterData createTestRegisterData(String[] val) {
+	private RegisterData createTestRegisterData(String[] vals) {
 		RegisterData rd = new RegisterData();
-		rd.setFirstname(val[0]);
-		rd.setLastname(val[1]);
-		rd.setUsername(val[2]);
-		rd.setPassword(val[3]);
+		rd.setFirstname(vals[FIRSTNAME]);
+		rd.setLastname(vals[LASTNAME]);
+		rd.setUsername(vals[USERNAME]);
+		rd.setPassword(vals[PASSWORD]);
 		return rd;
 	}
 
@@ -58,13 +63,13 @@ public class UserServiceTest {
 		loginService.register(rd);		
 	}
 	
-	public void deleteTestUserFromDatabaseByUsername(RegisterData rd) {
+	public void deleteTestUserFromDatabaseByUsername(String username) {
 		jdbcTemplate.update(
-				"DELETE FROM employees WHERE emp_username = '" + rd.getUsername() + "'");
+				"DELETE FROM employees WHERE emp_username = '" + username + "'");
 	}
 	
 	public void deleteTestUserFromDatabaseByUsername() {
-		deleteTestUserFromDatabaseByUsername(createTestRegisterData());
+		deleteTestUserFromDatabaseByUsername(createTestRegisterData().getUsername());
 	}
 	
 	/*
@@ -144,4 +149,26 @@ public class UserServiceTest {
 		assertTrue(employee == null);
 	}
 
+	/*
+	 * Get a list of all employees.
+	 */
+	@Test
+	public void getAllUsers() {
+		try {
+			for (String[] vals : userStrings) {
+				registerTestUser(createTestRegisterData(vals));
+			}
+			List<UserData> users = userService.getAllUsers();
+
+			assertEquals(users.size(), userStrings.length);
+
+			for (String[] vals : userStrings) {
+				deleteTestUserFromDatabaseByUsername(vals[USERNAME]);
+			}
+		}
+		catch (ValidationException ve) {
+			fail("Failed to register user for search.");
+		}
+
+	}
 }
