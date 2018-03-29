@@ -2,12 +2,9 @@ package com.thirstteacafe.employees.users;
 
 import static org.junit.Assert.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Test;
-import org.junit.Before;
-import org.junit.After;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,10 +12,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.thirstteacafe.employees.exceptions.ValidationException;
-import com.thirstteacafe.employees.login.LoginData;
 import com.thirstteacafe.employees.login.LoginService;
 import com.thirstteacafe.employees.login.RegisterData;
-import com.thirstteacafe.employees.exceptions.AuthenticationException;
 
 
 @RunWith(SpringRunner.class)
@@ -33,25 +28,43 @@ public class UserServiceTest {
 	
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
-	
+
+	private String[][] userStrings =  
+	{
+		{"Vincent", "Nguyen", "vlnguyen", "Vietcong"},
+		{"Jon", "Dunham", "jldunham", "CompulsiveSpender"},
+		{"Tommy", "Pang", "tpang", "ThaaaankYou"},
+		{"Kathy", "Alcazar", "kalcazar", "avaibility"}
+	};
+
 	private RegisterData createTestRegisterData() {
+		return createTestRegisterData(userStrings[0]);
+	}
+
+	private RegisterData createTestRegisterData(String[] val) {
 		RegisterData rd = new RegisterData();
-		rd.setFirstname("Vincent");
-		rd.setLastname("Nguyen");
-		rd.setUsername("vlnguyen");
-		rd.setPassword("SimplyBoba");
+		rd.setFirstname(val[0]);
+		rd.setLastname(val[1]);
+		rd.setUsername(val[2]);
+		rd.setPassword(val[3]);
 		return rd;
 	}
-	
-	
+
 	private void registerTestUser() throws ValidationException {
-		RegisterData rd = createTestRegisterData();
+		registerTestUser(createTestRegisterData());
+	}
+	
+	private void registerTestUser(RegisterData rd) throws ValidationException {
 		loginService.register(rd);		
 	}
 	
-	public void deleteTestUserFromDatabase() {
+	public void deleteTestUserFromDatabaseByUsername(RegisterData rd) {
 		jdbcTemplate.update(
-				"DELETE FROM employees WHERE emp_username = 'vlnguyen'");
+				"DELETE FROM employees WHERE emp_username = '" + rd.getUsername() + "'");
+	}
+	
+	public void deleteTestUserFromDatabaseByUsername() {
+		deleteTestUserFromDatabaseByUsername(createTestRegisterData());
 	}
 	
 	/*
@@ -71,7 +84,7 @@ public class UserServiceTest {
 		List<UserData> results = userService.getUserSearchResult(urd);
 		
 		assertFalse(results.isEmpty());
-		deleteTestUserFromDatabase();	
+		deleteTestUserFromDatabaseByUsername();	
 	}
 
 	
@@ -87,6 +100,9 @@ public class UserServiceTest {
 		assertTrue(results.isEmpty());
 	}
 	
+	/*
+	 * Search for a user by their user ID.
+	 */
 	@Test
 	public void searchByValidID() {
 		UserData employee = null;
@@ -109,9 +125,12 @@ public class UserServiceTest {
 		}
 		
 		assertTrue(employee != null);
-		deleteTestUserFromDatabase();
+		deleteTestUserFromDatabaseByUsername();
 	}
 
+	/*
+	 * Search for a user by a user ID that does not exist.
+	 */
 	@Test
 	public void searchByInvalidID() {
 		UserData employee = null;
