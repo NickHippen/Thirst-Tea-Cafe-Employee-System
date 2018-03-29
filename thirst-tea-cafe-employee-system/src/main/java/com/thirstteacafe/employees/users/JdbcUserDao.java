@@ -59,6 +59,21 @@ public class JdbcUserDao implements UserDao{
 		);
 		return Users.get(0);
 	}
+
+	@Override
+	public List<UserData> getAllUsers() {
+		List<UserData> Users = jdbcTemplate.query(
+			QUERY_SELECT + " FROM employees M",
+			new RowMapper<UserData>() {
+				@Override
+				public UserData mapRow(ResultSet rs, int rowNum) throws SQLException {
+					UserData results = createUserDataFromResultSet(rs);
+					return results;
+				}
+			}
+		);
+		return Users;
+	}
 	
 	private UserData createUserDataFromResultSet (ResultSet rs) throws SQLException {
 		UserData results = new UserData();

@@ -18,4 +18,8 @@ public class UserService {
 	public UserData getUserByID(int request) {
 		return userDao.getUserByID(request);
 	}
+
+	public List<UserData> getAllUsers() {
+		return userDao.getAllUsers();
+	}
 }
