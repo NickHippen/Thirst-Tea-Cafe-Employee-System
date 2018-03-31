@@ -1,8 +1,11 @@
+import AddUserCtrl from './add-user/add-user.controller';
+import addUserTemplate from './add-user/add-user.html';
+
 export default class {
 
-  constructor($log, AdminService) {
+  constructor($log, $uibModal, AdminService) {
     'ngInject';
-    angular.extend(this, {$log, AdminService});
+    angular.extend(this, {$log, $uibModal, AdminService});
       
     this.users = [];
     // TEST CASES
@@ -20,4 +23,18 @@ export default class {
   removeUser(userId) {
     this.AdminService.removeUser(userId);
   }
+
+  openAddUserModal() {
+    const someVarToPass = 'This message comes from the admin controller.';
+    this.$uibModal.open({
+      animation: true,
+      template: addUserTemplate,
+      controller: AddUserCtrl,
+      controllerAs: '$ctrl',
+      resolve: {
+        test: () => someVarToPass
+      }
+    });
+  }
+
 }
