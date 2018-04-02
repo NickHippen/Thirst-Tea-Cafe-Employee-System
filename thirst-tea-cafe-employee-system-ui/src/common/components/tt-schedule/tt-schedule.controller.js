@@ -59,7 +59,6 @@ export default class {
           if (event === null) {
             // Start a new event
             event = {
-              title: employee.name,
               startsAt: moment().startOf('isoWeek')
                 .add(dayVal, 'day')
                 .add(parseInt(timeslot) / 2, 'hour')
@@ -70,11 +69,16 @@ export default class {
               }
             };
           }
+          
           event.lastTimeslot = timeslot;
           event.endsAt = moment().startOf('isoWeek')
             .add(dayVal, 'day')
             .add(((parseInt(timeslot) / 2) + 0.5), 'hour')
             .toDate();
+          const startTime = event.startsAt.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
+          const endTime = event.endsAt.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
+
+          event.title = employee.name + ' ' + startTime + '-' + endTime;
           tempEvents[employee.name] = event;
         }
       }
