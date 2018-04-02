@@ -1,7 +1,5 @@
 package com.thirstteacafe.employees.shifts;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +11,10 @@ public class ShiftService {
 
 	public void createShift(ShiftData shift) {
 		shiftDao.createShift(shift);
+	}
+
+	public ShiftData getShiftByID(int shiftID) {
+		return shiftDao.getShiftByID(shiftID);
 	}
 	
 }
