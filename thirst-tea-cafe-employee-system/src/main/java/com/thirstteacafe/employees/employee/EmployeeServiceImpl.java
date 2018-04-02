@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.thirstteacafe.employees.dto.Employee;
 import com.thirstteacafe.employees.dto.Shift;
-import com.thirstteacafe.employees.schedule.TimeslotService;
+import com.thirstteacafe.employees.timeslot.TimeslotService;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
