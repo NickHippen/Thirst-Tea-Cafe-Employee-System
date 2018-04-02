@@ -27,4 +27,13 @@ public class JdbcEmployeeDao implements EmployeeDao {
     	return employees.get(0);
     }
 
+	@Override
+	public List<Employee> getAllEmployees() {
+		List<Employee> employees = jdbcTemplate.query(String.format(
+    			"SELECT * FROM %s E",
+    			TABLE),
+    		new EmployeeMapper());
+    	return employees;
+	}
+
 }
