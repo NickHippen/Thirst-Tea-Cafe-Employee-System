@@ -16,6 +16,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import com.thirstteacafe.employees.dto.Employee;
 import com.thirstteacafe.employees.dto.Shift;
+import com.thirstteacafe.employees.employee.EmployeeService;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest

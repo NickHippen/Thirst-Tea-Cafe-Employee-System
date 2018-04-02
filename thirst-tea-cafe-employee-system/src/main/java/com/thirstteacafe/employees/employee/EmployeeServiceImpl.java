@@ -1,4 +1,4 @@
-package com.thirstteacafe.employees.schedule;
+package com.thirstteacafe.employees.employee;
 
 import java.time.LocalTime;
 import java.util.List;
@@ -9,12 +9,21 @@ import org.springframework.stereotype.Service;
 
 import com.thirstteacafe.employees.dto.Employee;
 import com.thirstteacafe.employees.dto.Shift;
+import com.thirstteacafe.employees.schedule.TimeslotService;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
 
 	@Autowired
+	private EmployeeDao employeeDao;
+
+	@Autowired
 	private TimeslotService timeslotService;
+	
+	@Override
+	public Employee getEmployee(Long employeeId) {
+		return employeeDao.getEmployee(employeeId);
+	}
 	
 	@Override
 	public boolean checkAvailabilityForShift(Employee employee, Shift shift) {
