@@ -25,7 +25,7 @@ public class EmployeeController {
 		return employeeService.getEmployee(employeeId);
 	}
 	
-	@RequestMapping(value="/employee/", method=RequestMethod.POST)
+	@RequestMapping(value="/employee", method=RequestMethod.POST)
 	public void createEmployee(@RequestBody Employee employee) {
 		employeeService.createEmployee(employee);
 	}

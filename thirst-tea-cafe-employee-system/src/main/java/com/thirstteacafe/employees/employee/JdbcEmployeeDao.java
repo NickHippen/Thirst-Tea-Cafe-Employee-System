@@ -34,7 +34,9 @@ public class JdbcEmployeeDao implements EmployeeDao {
     	if (employees.isEmpty()) {
     		return null;
     	}
-    	return employees.get(0);
+    	Employee emp = employees.get(0);
+    	emp.setAvailability(getAvailability(employeeId));
+    	return emp;
     }
 
 	@Override
@@ -43,6 +45,9 @@ public class JdbcEmployeeDao implements EmployeeDao {
     			"SELECT * FROM %s E",
     			TABLE),
     		new EmployeeMapper());
+		for (Employee emp : employees) {
+			emp.setAvailability(getAvailability(emp.getEmployeeId()));
+		}
     	return employees;
 	}
 

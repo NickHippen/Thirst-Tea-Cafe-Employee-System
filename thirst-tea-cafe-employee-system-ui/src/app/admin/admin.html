@@ -3,17 +3,17 @@
 <table class="table table-hover">
   <thead>
     <tr>
-      <th>Name</th>
-      <th>ID</th>
+      <th>First Name</th>
+      <th>Last Name</th>
       <th></th>
     </tr>
   </thead>
   <tbody>
-    <tr ng-repeat="user in $ctrl.users">
-      <td ng-bind="user.name"></td>
-      <td ng-bind="user.id"></td>
-      <td><button class="btn btn-default">Set Color</button></td>
-      <td><button class="btn-xs btn-danger" ng-click="$ctrl.removeUser(user.id)">Delete</button></td>
+    <tr ng-repeat="employee in $ctrl.employees">
+      <td ng-bind="employee.firstName"></td>
+      <td ng-bind="employee.lastName"></td>
+      <!-- <td><button class="btn btn-default">Set Color</button></td> -->
+      <td><button class="btn-xs btn-danger" ng-click="$ctrl.deleteEmployee(employee.employeeId)">Delete</button></td>
     </tr>
   </tbody>
 </table>

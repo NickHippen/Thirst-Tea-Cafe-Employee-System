@@ -3,25 +3,45 @@ import addUserTemplate from './add-user/add-user.html';
 
 export default class {
 
-  constructor($log, $uibModal, AdminService) {
+  constructor($log, $uibModal, $state, AdminService, LoadingService) {
     'ngInject';
-    angular.extend(this, {$log, $uibModal, AdminService});
-      
-    this.users = [];
-    // TEST CASES
-    this.users.push({
-      name: 'Mitch Huston',
-      id: 'mitchellhuston'
-    });
-    this.users.push({
-      name: 'Vincent Nguyen',
-      id: 'vlnguyen'
-    });
-    // TEST CASES END
+    angular.extend(this, {$log, $uibModal, $state, AdminService, LoadingService});
+    
+    this.LoadingService.loading = true;
+    this.AdminService.getAllEmployees()
+      .then(response => {
+        this.LoadingService.loading = false;
+        this.employees = response.data;
+      })
+      .catch(error => {
+        this.LoadingService.loading = false;
+        let message;
+        if (error.data && error.data.message) {
+          message = error.data.message;
+        } else {
+          message = 'An unknown error occurred';
+        }
+        this.AlertHandler.error(message);
+      });
   }
     
-  removeUser(userId) {
-    this.AdminService.removeUser(userId);
+  deleteEmployee(employeeId) {
+    this.LoadingService.loading = true;
+    this.AdminService.deleteEmployee(employeeId)
+      .then(() => {
+        this.LoadingService.loading = false;
+        this.$state.reload();
+      })
+      .catch(error => {
+        this.LoadingService.loading = false;
+        let message;
+        if (error.data && error.data.message) {
+          message = error.data.message;
+        } else {
+          message = 'An unknown error occurred';
+        }
+        this.AlertHandler.error(message);
+      });
   }
 
   openAddUserModal() {
