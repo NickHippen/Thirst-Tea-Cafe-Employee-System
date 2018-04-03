@@ -23,8 +23,14 @@ public class ShiftController {
 
 	/* READ */
 	@RequestMapping(value="/shift/{shiftID}", method=RequestMethod.GET)
-	public void getShift(@PathVariable Integer shiftID) {
-		shiftService.getShiftByID(shiftID);
+	public ShiftData getShift(@PathVariable Integer shiftID) {
+		return shiftService.getShiftByID(shiftID);
+	}
+
+	/* DELETE */
+	@RequestMapping(value="/shift/{shiftID}", method=RequestMethod.DELETE)
+	public void deleteShiftByID(@PathVariable Integer shiftID) {
+		shiftService.deleteShiftByID(shiftID);
 	}
 
 }

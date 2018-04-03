@@ -50,6 +50,13 @@ public class JdbcShiftDao implements ShiftDao {
 		);
 		return Shifts.isEmpty() ? null : Shifts.get(0);
     }
+    
+    @Override
+    public void deleteShiftByID(int shiftID) {
+    	jdbcTemplate.update(
+            "DELETE FROM shifts WHERE shift_id = " + shiftID
+        );
+    }
 
     public static ShiftData createShiftDataFromResultSet(ResultSet rs) throws SQLException {
         ShiftData results = new ShiftData();

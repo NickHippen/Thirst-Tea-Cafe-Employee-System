@@ -17,4 +17,7 @@ public class ShiftService {
 		return shiftDao.getShiftByID(shiftID);
 	}
 	
+	public void deleteShiftByID(int shiftID) {
+		shiftDao.deleteShiftByID(shiftID);
+	}
 }

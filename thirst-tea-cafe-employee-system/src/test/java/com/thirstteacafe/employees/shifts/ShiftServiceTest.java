@@ -56,12 +56,6 @@ public class ShiftServiceTest {
     private ShiftData createTestShiftData() {
     	return createTestShiftData(shiftVals[0]);
     }
-
-    private void deleteShiftByID(int shiftID) {
-        jdbcTemplate.update(
-            "DELETE FROM shifts WHERE shift_id = " + shiftID
-        );
-    }
     
     private ShiftData getShiftWithLargestId() {
         List<ShiftData> Shifts = jdbcTemplate.query(
@@ -77,33 +71,29 @@ public class ShiftServiceTest {
 		);
 		return Shifts.isEmpty() ? null : Shifts.get(0);
     }
-    
+        
     /*
-     * Create a shift and add it to the database.
+     * Add a shift and delete it.
      */
-    @Test 
-    public void addShift() {
-    	ShiftData sd = createTestShiftData();
-    	
-    	shiftService.createShift(sd);
-    	assert(true);
-    	
-    	deleteShiftByID(getShiftWithLargestId().getId());
+    @Test
+    public void addAndDeleteShift() {
+    	int shiftID = getShiftWithLargestId().getId();
+    	shiftService.deleteShiftByID(shiftID);
+    	assert(true);			
     }
 
     /*
-     * Create a shift add it to the database, and retrieve it.
+     * Create a shift add it to the database, and retrieve it, then delete it.
      */
     @Test 
-    public void addShiftAndGetByID() {
+    public void addGetAndDeleteShift() {
         ShiftData testShift = createTestShiftData();
         shiftService.createShift(testShift);
         int shiftID = getShiftWithLargestId().getId();
      
         ShiftData sd = shiftService.getShiftByID(shiftID);
         assertTrue(sd != null);
-        System.out.println(sd);
 
-        deleteShiftByID(sd.getId());
+        shiftService.deleteShiftByID(sd.getId());
     }
 }
