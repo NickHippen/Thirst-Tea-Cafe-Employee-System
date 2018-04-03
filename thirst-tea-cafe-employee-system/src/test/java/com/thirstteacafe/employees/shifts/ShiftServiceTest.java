@@ -2,23 +2,20 @@ package com.thirstteacafe.employees.shifts;
 
 import org.junit.Test;
 
+import java.util.List;
+
+import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Time;
 import java.time.LocalTime;
 
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import com.thirstteacafe.employees.exceptions.ValidationException;
-import com.thirstteacafe.employees.exceptions.AuthenticationException;
-
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -26,6 +23,9 @@ public class ShiftServiceTest {
 
 	@Autowired
 	private ShiftService shiftService;
+	
+	@Autowired
+	private JdbcTemplate jdbcTemplate;
 
     private static final int DAYOFWEEK = 0;
     private static final int START     = 1;
@@ -57,10 +57,43 @@ public class ShiftServiceTest {
     	return createTestShiftData(shiftVals[0]);
     }
     
+    private ShiftData getShiftWithLargestId() {
+        List<ShiftData> Shifts = jdbcTemplate.query(
+			"SELECT * FROM shifts ORDER BY shift_id DESC LIMIT 1",
+			new Object[] { },
+			new RowMapper<ShiftData>() {
+				@Override
+				public ShiftData mapRow(ResultSet rs, int rowNum) throws SQLException {
+					ShiftData results = JdbcShiftDao.createShiftDataFromResultSet(rs);
+					return results;
+				}
+			}
+		);
+		return Shifts.isEmpty() ? null : Shifts.get(0);
+    }
+        
+    /*
+     * Add a shift and delete it.
+     */
+    @Test
+    public void addAndDeleteShift() {
+    	int shiftID = getShiftWithLargestId().getId();
+    	shiftService.deleteShiftByID(shiftID);
+    	assert(true);			
+    }
+
+    /*
+     * Create a shift add it to the database, and retrieve it, then delete it.
+     */
     @Test 
-    public void addShift() {
-    	ShiftData sd = createTestShiftData();
-    	shiftService.createShift(sd);
-    	assert(true);
+    public void addGetAndDeleteShift() {
+        ShiftData testShift = createTestShiftData();
+        shiftService.createShift(testShift);
+        int shiftID = getShiftWithLargestId().getId();
+     
+        ShiftData sd = shiftService.getShiftByID(shiftID);
+        assertTrue(sd != null);
+
+        shiftService.deleteShiftByID(sd.getId());
     }
 }
