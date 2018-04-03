@@ -14,6 +14,16 @@ public interface EmployeeDao {
 
 	List<Employee> getAllEmployees();
 
-	Availability getEmployeeAvailability(Long employeeId);
+	void createEmployee(Employee employee);
+
+	void deleteEmployee(Long employeeId);
+
+	void addAvailability(Long employeeId, Availability availability);
+
+	void deleteAvailability(Long employeeId, Long availabilityId);
+
+	Availability getAvailability(Long employeeId);
+
+	void deleteAllAvailability(Long employeeId);
 	
 }

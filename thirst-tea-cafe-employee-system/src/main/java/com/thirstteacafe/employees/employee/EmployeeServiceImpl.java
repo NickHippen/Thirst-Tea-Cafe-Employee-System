@@ -7,6 +7,7 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.thirstteacafe.employees.dto.Availability;
 import com.thirstteacafe.employees.dto.Employee;
 import com.thirstteacafe.employees.dto.Shift;
 import com.thirstteacafe.employees.timeslot.TimeslotService;
@@ -43,6 +44,37 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Override
 	public List<Employee> getAllEmployees() {
 		return employeeDao.getAllEmployees();
+	}
+
+	@Override
+	public void createEmployee(Employee employee) {
+		employeeDao.createEmployee(employee);
+	}
+
+	@Override
+	public void deleteEmployee(Long employeeId) {
+		deleteAllAvailability(employeeId);
+		employeeDao.deleteEmployee(employeeId);
+	}
+
+	@Override
+	public void addAvailability(Long employeeId, Availability availability) {
+		employeeDao.addAvailability(employeeId, availability);
+	}
+
+	@Override
+	public void deleteAvailability(Long employeeId, Long availabilityId) {
+		employeeDao.deleteAvailability(employeeId, availabilityId);
+	}
+	
+	@Override
+	public void deleteAllAvailability(Long employeeId) {
+		employeeDao.deleteAllAvailability(employeeId);
+	}
+	
+	@Override
+	public Availability getAvailability(Long employeeId) {
+		return employeeDao.getAvailability(employeeId);
 	}
 	
 }
