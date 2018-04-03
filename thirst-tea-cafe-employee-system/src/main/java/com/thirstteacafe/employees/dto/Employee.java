@@ -1,9 +1,7 @@
 package com.thirstteacafe.employees.dto;
 
-import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -19,7 +17,7 @@ public class Employee {
 	private Integer maxHours;
 	private Integer minHours;
 
-	private Map<DayOfWeek, List<Pair<LocalTime, LocalTime>>> availability;
+	private Availability availability;
 
 	public Employee() {
 	}
@@ -95,13 +93,13 @@ public class Employee {
 		return availability;
 	}
 
-	public void setAvailability(Map<DayOfWeek, List<Pair<LocalTime, LocalTime>>> availability) {
+	public void setAvailability(Availability availability) {
 		this.availability = availability;
 	}
 
 	public void addAvailability(DayOfWeek dayOfWeek, Pair<LocalTime, LocalTime> availabilityRange) {
 		if (availability == null) {
-			availability = new HashMap<>();
+			availability = new Availability();
 		}
 		List<Pair<LocalTime, LocalTime>> dayAvailability = availability.getOrDefault(dayOfWeek,
 				new ArrayList<Pair<LocalTime, LocalTime>>());

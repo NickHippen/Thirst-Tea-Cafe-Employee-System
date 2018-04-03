@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
+import com.thirstteacafe.employees.dto.Availability;
 import com.thirstteacafe.employees.dto.Employee;
 
 @Component
@@ -20,6 +21,7 @@ public class JdbcEmployeeDao implements EmployeeDao {
     			"SELECT * FROM %s E"
     			+ " WHERE E.emp_id = ?",
     			TABLE),
+    		new Object[] { employeeId },
     		new EmployeeMapper());
     	if (employees.isEmpty()) {
     		return null;
@@ -36,4 +38,17 @@ public class JdbcEmployeeDao implements EmployeeDao {
     	return employees;
 	}
 
+	@Override
+	public Availability getEmployeeAvailability(Long employeeId) {
+		List<Availability> availabilities = jdbcTemplate.query(String.format(
+				"SELECT * FROM %s A"
+				+ " WHERE A.emp_id = ?",
+				AVAILABILITY_TABLE),
+			new Object[] { employeeId },
+			new AvailabilityMapper());
+//		Availability consolidatedAvailability = AvailabilityUtil.consolidate(availabilities);
+//		return consolidatedAvailability;
+		return null;
+	}
+	
 }

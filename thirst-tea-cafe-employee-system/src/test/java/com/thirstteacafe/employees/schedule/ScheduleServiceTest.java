@@ -2,7 +2,6 @@ package com.thirstteacafe.employees.schedule;
 
 import static org.junit.Assert.assertTrue;
 
-import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.thirstteacafe.employees.dto.DayOfWeek;
 import com.thirstteacafe.employees.dto.Employee;
 import com.thirstteacafe.employees.dto.ScheduleResult;
 import com.thirstteacafe.employees.dto.Shift;

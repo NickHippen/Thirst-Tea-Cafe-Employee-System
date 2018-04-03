@@ -3,7 +3,6 @@ package com.thirstteacafe.employees.schedule;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import java.time.DayOfWeek;
 import java.time.LocalTime;
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
@@ -14,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.thirstteacafe.employees.dto.DayOfWeek;
 import com.thirstteacafe.employees.dto.Employee;
 import com.thirstteacafe.employees.dto.Shift;
 import com.thirstteacafe.employees.employee.EmployeeService;

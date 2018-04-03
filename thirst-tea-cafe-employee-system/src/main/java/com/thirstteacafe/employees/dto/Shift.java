@@ -1,7 +1,5 @@
 package com.thirstteacafe.employees.dto;
 
-import java.time.DayOfWeek;
-
 public class Shift {
 	private DayOfWeek dayOfWeek;
 	private Integer startTimeslot;
