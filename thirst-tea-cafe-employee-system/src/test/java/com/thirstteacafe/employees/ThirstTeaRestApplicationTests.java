@@ -137,16 +137,16 @@ public class ThirstTeaRestApplicationTests {
 	public void realDataSchedule() 
         {
             String scheduleMatrix =     
-               //M M M  T T T  W W W  R R R  F F F  S S S |S S S
-          /*1*/ "0 0 1  0 0 0  0 0 1  0 0 0  0 0 0  0 1 0  0 1 1\n" +
-          /*2*/ "0 0 1  0 1 1  0 1 1  0 1 1  0 1 1  0 1 1  0 1 1\n" +
-          /*3*/ "0 1 1  0 0 1  0 0 0  0 0 0  0 1 1  0 1 1  0 1 1\n" +
-          /*4*/ "0 1 0  0 1 0  0 1 1  0 1 1  0 1 0  0 0 0  0 0 0\n" +
-          /*5*/ "0 0 1  0 1 1  0 0 1  0 1 1  0 0 0  0 1 1  0 0 0\n" +
-          /*6*/ "0 0 0  0 0 0  0 0 0  0 0 0  0 0 0  0 1 0  0 1 0\n" +
-          /*7*/ "1 1 1  1 1 1  1 1 1  1 1 1  1 1 1  1 1 1  1 1 1\n" + /*admins*/
-          /*8*/ "1 1 1  1 1 1  1 1 1  1 1 1  1 1 1  1 1 1  1 1 1\n" + /*admins*/
-          /*9*/ "1 1 1  1 1 1  1 1 1  1 1 1  1 1 1  1 1 1  1 1 1\n";  /*admins*/
+               //M M  T T  W W  R R  F F  S S |S S
+          /*1*/ "0 1  0 0  0 1  0 0  0 0  1 0  1 1\n" +
+          /*2*/ "0 1  1 1  1 1  1 1  1 1  1 1  1 1\n" +
+          /*3*/ "1 1  0 1  0 0  0 0  1 1  1 1  1 1\n" +
+          /*4*/ "1 0  1 0  1 1  1 1  1 0  0 0  0 0\n" +
+          /*5*/ "0 1  1 1  0 1  1 1  0 0  1 1  0 0\n" +
+          /*6*/ "0 0  0 0  0 0  0 0  0 0  1 0  1 0\n" +
+          /*7*/ "1 1  1 1  1 1  1 1  1 1  1 1  1 1\n" + /*admins*/
+          /*8*/ "1 1  1 1  1 1  1 1  1 1  1 1  1 1\n" + /*admins*/
+          /*9*/ "1 1  1 1  1 1  1 1  1 1  1 1  1 1\n";  /*admins*/
 		//Arrays.asList(SchedulingFunction.convertMatrix(scheduleMatrix)).forEach(arr -> System.out.println(Arrays.toString(arr)));
 		ScheduleResult s = scheduleService.schedule(
 				scheduleMatrix,
@@ -155,17 +155,17 @@ public class ThirstTeaRestApplicationTests {
                 " 1  1  1  1  1  1  1  1  1", // Lift
                 " 1  1  1  1  1  1  1  1  1", // Food
                 " 1  1  1  1  0  0  1  1  1", // Drinks
-                " 0  0  0  0  0  0  0  0  0", // Min Hours
-                "40 40 40 40 40 40 99 99 99", // Max Hours
+                "10 10 10 10 10  5  0  0  0", // Min Hours
+                "40 40 40 40 40 40 60 60 60", // Max Hours
                 
-                // M  M  M   T  T  T   W  W  W   R  R  R   F  F  F   S  S  S  |S  S  S 
-/*Min Employees*/" 1  1  1   1  1  2   1  1  2   1  1  2   1  1  2   1  2  2   1  1  1", /* Min Employees */
-/*Max Employees*/" 1  1  1   1  1  2   1  1  2   1  1  2   1  1  2   1  2  2   1  1  1", /* Max Employees */
-/*Time         */"10  6  5  11  6  5  11  6  6  11  6  6  12  6  6  12  6  6  10 10  5", /* Time          */
-/*Admin Only   */" 1  0  0   1  0  0   1  0  0   1  0  0   1  0  0   1  0  0   1  0  0", /* Admin Only    */
+                // M  M   T  T   W  W   R  R   F  F   S  S  |S  S 
+/*Min Employees*/" 2  2   2  3   2  3   2  3   2  3   3  3   2  2", /* Min Employees */
+/*Max Employees*/" 2  2   2  3   2  3   2  3   2  3   3  3   2  2", /* Max Employees */
+/*Time         */" 6  5   6  5   6  6   6  6   6  6   6  6   5  5", /* Time          */
+/*Admin Only   */" 0  0   0  0   0  0   0  0   0  0   0  0   0  0", /* Admin Only    */
                         
-                "3 6 9 12 15 18 21" // Days of week
-                        );
+                "2 4 6 8 10 12 14" // Days of week
+                        );    
                 assertTrue(s.isFeasible());
         }
         

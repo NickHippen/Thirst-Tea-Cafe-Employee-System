@@ -235,9 +235,6 @@ public class ScheduleServiceImpl implements ScheduleService {
         final int numberOfTimeSlots = available[0].length;
         
         
-        // TODO: refactor to another parameter
-        // for each employee they can only work once in a day
-        
         Store store = new Store();
         IntVar ONE = new IntVar(store,"ONE",1,1);
         // work matrix
@@ -273,8 +270,8 @@ public class ScheduleServiceImpl implements ScheduleService {
         
         // disable since the first shift of each day is admin only
 //        // for each time slot must have 1 admin.
-//        for (int j = 0; j < numberOfTimeSlots; j++)
-//            store.impose(new LinearInt(store,workT[j],admin,">=", 1));
+        for (int j = 0; j < numberOfTimeSlots; j++)
+            store.impose(new LinearInt(store,workT[j],admin,">=", 1));
         
         //for each time slot must have 1 lifter.
         for (int j = 0; j < numberOfTimeSlots; j++)
@@ -316,13 +313,15 @@ public class ScheduleServiceImpl implements ScheduleService {
                     if (admin[i] == 0)
                         store.impose(new XeqC(work[i][j],0));
         
+        // not sure if we want this but it distributes the hours more evenly
+        // can maybe replace it with soft constraints later
         // disabled to see if it makes schedule feasible
         // for every employee they can only work once a day.
-//        for (int i = 0; i < numberOfEmployees; i++)
-//            for (int k = 0; k < days.length; k++)
-//                store.impose(new SumBool(store,
-//                        Arrays.copyOfRange(work[i],k==0?0:days[k-1],days[k]),
-//                        "<=",ONE));
+        for (int i = 0; i < numberOfEmployees; i++)
+            for (int k = 0; k < days.length; k++)
+                store.impose(new SumBool(store,
+                        Arrays.copyOfRange(work[i],k==0?0:days[k-1],days[k]),
+                        "<=",ONE));
         
         // compute oldSchedule
         Search<IntVar> label = new DepthFirstSearch<IntVar>();
