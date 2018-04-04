@@ -9,9 +9,9 @@
     </tr>
   </thead>
   <tbody>
-    <tr ng-repeat="employee in $ctrl.employees" ng-click="$ctrl.openAddUserModal(employee)" class="pointer">
-      <td ng-bind="employee.firstName"></td>
-      <td ng-bind="employee.lastName"></td>
+    <tr ng-repeat="employee in $ctrl.employees" class="pointer">
+      <td ng-bind="employee.firstName" ng-click="$ctrl.openAddUserModal(employee)"></td>
+      <td ng-bind="employee.lastName" ng-click="$ctrl.openAddUserModal(employee)"></td>
       <!-- <td><button class="btn btn-default">Set Color</button></td> -->
       <td><button class="btn-xs btn-danger" ng-click="$ctrl.deleteEmployee(employee.employeeId)">Delete</button></td>
     </tr>
