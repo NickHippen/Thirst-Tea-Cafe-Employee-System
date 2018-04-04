@@ -22,7 +22,6 @@ import com.thirstteacafe.employees.dto.Availability;
 import com.thirstteacafe.employees.dto.DayOfWeek;
 import com.thirstteacafe.employees.dto.Employee;
 import com.thirstteacafe.employees.dto.Shift;
-import com.thirstteacafe.employees.employee.EmployeeService;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -107,6 +106,8 @@ public class EmployeeServiceTest {
 		assertEquals(1, createdAvail.get(DayOfWeek.WEDNESDAY).size());
 		
 		employeeService.deleteEmployee(createdEmployee.getEmployeeId());
+		assertEquals(new Availability(), employeeService.getAvailability(createdEmployee.getEmployeeId()));
+		assertNull(employeeService.getEmployee(createdEmployee.getEmployeeId()));
 	}
 	
 	private void createTestEmployee() {
