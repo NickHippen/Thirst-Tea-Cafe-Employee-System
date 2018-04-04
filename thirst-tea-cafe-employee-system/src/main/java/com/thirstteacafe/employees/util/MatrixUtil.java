@@ -20,7 +20,7 @@ public class MatrixUtil {
 
 	// convert strings that represent 1d arrays into a 1d array of integers
 	public int[] convert(String input) {
-		return convert(getRow(input));
+		return convert(getRow(input.trim()));
 	}
 
 	public int[] convert(ArrayList<Integer> list) {

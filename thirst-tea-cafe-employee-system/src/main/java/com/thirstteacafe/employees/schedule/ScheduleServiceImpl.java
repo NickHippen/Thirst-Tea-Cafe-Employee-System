@@ -87,8 +87,11 @@ public class ScheduleServiceImpl implements ScheduleService {
 			maxEmployees[shiftNum] = shift.getMaxEmployees();
 			time[shiftNum] = shift.getTimeLength();
 			time[shiftNum] = shift.isAdminOnly() ? 1 : 0;
+                        // assumes shifts start on a monday
                         days[shift.getDayOfWeek().ordinal()]++;
 		}
+                for (int shiftNum = 1; shiftNum < shifts.size(); shiftNum++)
+                    days[shiftNum] += days[shiftNum - 1];         
 	
 		return schedule(available,
 				admin, canLift, food, drink, minHours, maxHours,
@@ -211,7 +214,7 @@ public class ScheduleServiceImpl implements ScheduleService {
         *    @param available is 1 if employee \(i\) is available on slot \(j\) else 0.
         *    @param admin \\(admin_i\\) is 1 if employee \(i\) is an admin else 0.
         *    @param canLift is 1 if employee \(i\) can lift heavy tea container else 0.
-        *    @param food is 1 if e mployee \(i\) can make food else 0.
+        *    @param food is 1 if employee \(i\) can make food else 0.
         *    @param drink is 1 if employee \(i\) can make drinks else 0.
         *    @param minHours is the minimum number of hours that employee \(i\) will work
         *    @param maxHours  is the maximum number of hours that employee \(i\) will work.
@@ -225,7 +228,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 			int[] admin, int[] canLift, int[] food, int[] drink, int[] minHours, int[] maxHours,
 			int[] minEmployees, int[] maxEmployees, int[] time, int[] adminOnly,
                         int[] days) {
-        
+
         // assumes the input is rectangular
         final int numberOfEmployees = available.length;
         final int numberOfTimeSlots = available[0].length;
@@ -267,9 +270,10 @@ public class ScheduleServiceImpl implements ScheduleService {
                     new IntVar(store,String.format("max_%d",j),maxEmployees[j],maxEmployees[j])));
         }
         
-        // for each time slot must have 1 admin.
-        for (int j = 0; j < numberOfTimeSlots; j++)
-            store.impose(new LinearInt(store,workT[j],admin,">=", 1));
+        // disable since the first shift of each day is admin only
+//        // for each time slot must have 1 admin.
+//        for (int j = 0; j < numberOfTimeSlots; j++)
+//            store.impose(new LinearInt(store,workT[j],admin,">=", 1));
         
         //for each time slot must have 1 lifter.
         for (int j = 0; j < numberOfTimeSlots; j++)
@@ -297,11 +301,11 @@ public class ScheduleServiceImpl implements ScheduleService {
         }        
         
         // this runs real slow for some reason
-        // Each employee must work between their minimum and maximum hours.
-//        for (int i = 0; i < numberOfEmployees; i++)
-//            store.impose(new LinearInt(store,work[i],time,">=", minHours[i]));
-//        for (int i = 0; i < numberOfEmployees; i++)
-//            store.impose(new LinearInt(store,work[i],time,"<=", maxHours[i]));    
+//         Each employee must work between their minimum and maximum hours.
+        for (int i = 0; i < numberOfEmployees; i++)
+            store.impose(new LinearInt(store,work[i],time,">=", minHours[i]));
+        for (int i = 0; i < numberOfEmployees; i++)
+            store.impose(new LinearInt(store,work[i],time,"<=", maxHours[i]));    
         
         // If the time slot is admin only then if an employee is not an admin 
         // then they are not available for that shift.
@@ -311,12 +315,13 @@ public class ScheduleServiceImpl implements ScheduleService {
                     if (admin[i] == 0)
                         store.impose(new XeqC(work[i][j],0));
         
+        // disabled to see if it makes schedule feasible
         // for every employee they can only work once a day.
-        for (int i = 0; i < numberOfEmployees; i++)
-            for (int k = 0; k < days.length; k++)
-                store.impose(new SumBool(store,
-                        Arrays.copyOfRange(work[i],k==0?0:days[k-1],days[k]),
-                        "<=",ONE));
+//        for (int i = 0; i < numberOfEmployees; i++)
+//            for (int k = 0; k < days.length; k++)
+//                store.impose(new SumBool(store,
+//                        Arrays.copyOfRange(work[i],k==0?0:days[k-1],days[k]),
+//                        "<=",ONE));
         
         // compute oldSchedule
         Search<IntVar> label = new DepthFirstSearch<IntVar>();
@@ -329,7 +334,7 @@ public class ScheduleServiceImpl implements ScheduleService {
         if (!feasible) 
             System.err.print("not feasible");
            int[][] result = new int[numberOfEmployees][numberOfTimeSlots];
-        //System.out.println(store);
+           
         if (feasible)
         {
             for (int i = 0; i < numberOfEmployees; i++)
