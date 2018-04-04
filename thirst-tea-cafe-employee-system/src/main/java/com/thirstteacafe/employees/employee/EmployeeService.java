@@ -29,6 +29,10 @@ public interface EmployeeService {
 	 */
 	List<Employee> getAllEmployees();
 
+	/**
+	 * Creates an employee
+	 * @param employee the employee data to use for creation
+	 */
 	void createEmployee(Employee employee);
 
 	void deleteEmployee(Long employeeId);

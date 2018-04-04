@@ -66,16 +66,6 @@ public class ShiftServiceTest {
     }
         
     /*
-     * Add a shift and delete it.
-     */
-    @Test
-    public void addAndDeleteShift() {
-    	int shiftID = getShiftWithLargestId().getId();
-    	shiftService.deleteShiftByID(shiftID);
-    	assert(true);			
-    }
-
-    /*
      * Create a shift add it to the database, and retrieve it, then delete it.
      */
     @Test 
