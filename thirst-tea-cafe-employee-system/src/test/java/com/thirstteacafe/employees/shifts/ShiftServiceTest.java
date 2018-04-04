@@ -60,14 +60,7 @@ public class ShiftServiceTest {
     private ShiftData getShiftWithLargestId() {
         List<ShiftData> Shifts = jdbcTemplate.query(
 			"SELECT * FROM shifts ORDER BY shift_id DESC LIMIT 1",
-			new Object[] { },
-			new RowMapper<ShiftData>() {
-				@Override
-				public ShiftData mapRow(ResultSet rs, int rowNum) throws SQLException {
-					ShiftData results = JdbcShiftDao.createShiftDataFromResultSet(rs);
-					return results;
-				}
-			}
+			new ShiftMapper()
 		);
 		return Shifts.isEmpty() ? null : Shifts.get(0);
     }

@@ -1,14 +1,13 @@
 package com.thirstteacafe.employees.shifts;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Types;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
+
 import org.springframework.stereotype.Component;
+
 
 @Component
 public class JdbcShiftDao implements ShiftDao {
@@ -37,18 +36,11 @@ public class JdbcShiftDao implements ShiftDao {
 
     @Override
     public ShiftData getShiftByID(int shiftID) {
-        List<ShiftData> Shifts = jdbcTemplate.query(
-			QUERY_SELECT + " FROM shifts M WHERE shift_id = ?",
-			new Object[] { shiftID },
-			new RowMapper<ShiftData>() {
-				@Override
-				public ShiftData mapRow(ResultSet rs, int rowNum) throws SQLException {
-					ShiftData results = createShiftDataFromResultSet(rs);
-					return results;
-				}
-			}
-		);
-		return Shifts.isEmpty() ? null : Shifts.get(0);
+    	List<ShiftData> shifts = jdbcTemplate.query(
+    		QUERY_SELECT + " FROM shifts M WHERE shift_id = ?",
+    		new Object[] { shiftID },
+    		new ShiftMapper());
+		return shifts.isEmpty() ? null : shifts.get(0);
     }
     
     @Override
@@ -57,16 +49,10 @@ public class JdbcShiftDao implements ShiftDao {
             "DELETE FROM shifts WHERE shift_id = " + shiftID
         );
     }
-
-    public static ShiftData createShiftDataFromResultSet(ResultSet rs) throws SQLException {
-        ShiftData results = new ShiftData();
-        results.setId(rs.getInt("shift_id"));
-        results.setDayOfWeek(rs.getInt("shift_dayofweek"));
-        results.setStart(rs.getTime("shift_start").toLocalTime());
-        results.setEnd(rs.getTime("shift_end").toLocalTime());
-        results.setNumPeople(rs.getInt("shift_numpeople"));
-        results.setAdmin(rs.getBoolean("shift_admin"));
-        return results;
+    
+    @Override
+    public void updateShiftByID(int shiftID) {
+    	
     }
 
 }
