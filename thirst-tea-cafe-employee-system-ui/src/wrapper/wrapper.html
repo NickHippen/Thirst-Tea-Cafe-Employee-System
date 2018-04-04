@@ -44,6 +44,6 @@
 </nav>
 <div ng-if="$ctrl.isLoading()" class="loading">Loading&#8230;</div>
 <div class="transclude-container">
-    <div uib-alert ng-repeat="alert in $ctrl.globalAlerts()" ng-class="'alert-' + (alert.type || 'warning')" close="closeAlert($index)" ng-bind="alert.msg"></div>
+    <div uib-alert ng-repeat="alert in $ctrl.globalAlerts()" ng-class="'alert-' + (alert.type || 'warning')" close="$ctrl.closeAlert($index)" ng-bind="alert.msg"></div>
     <ng-transclude></ng-transclude>
 </div>

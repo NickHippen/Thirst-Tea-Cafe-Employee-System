@@ -41,4 +41,6 @@ public interface EmployeeService {
 
 	void deleteAllAvailability(Long employeeId);
 
+	void updateEmployee(Long employeeId, Employee employee);
+
 }

@@ -13,11 +13,11 @@
       </thead>
       <tbody>
         <tr ng-repeat="shift in $ctrl.groupedShifts[dow]">
-          <td><timeslot-picker timeslot="shift.startTimeslot"></timeslot-picker></td>
-          <td><timeslot-picker timeslot="shift.endTimeslot"></timeslot-picker></td>
-          <td><input type="text" class="form-control" ng-model="shift.minEmployees" /></td>
-          <td><input type="text" class="form-control" ng-model="shift.maxEmployees" /></td>
-          <td><input type="checkbox" class="form-control" ng-model="shift.adminOnly" /></td>
+          <td><timeslot-picker timeslot="shift.startTimeslot" view-only="true"></timeslot-picker></td>
+          <td><timeslot-picker timeslot="shift.endTimeslot" view-only="true"></timeslot-picker></td>
+          <td><input disabled type="text" class="form-control" ng-model="shift.minEmployees" /></td>
+          <td><input disabled type="text" class="form-control" ng-model="shift.maxEmployees" /></td>
+          <td><input disabled type="checkbox" class="form-control" ng-model="shift.adminOnly" /></td>
           <td><button class="btn btn-danger" ng-click="$ctrl.deleteShift(dow, $index)">Delete</button></td>
         </tr>
         <tr class="new-shift">

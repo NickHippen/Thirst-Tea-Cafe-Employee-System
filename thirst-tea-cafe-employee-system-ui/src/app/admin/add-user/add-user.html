@@ -6,7 +6,7 @@
 <p>Food Maker: </p><input type="checkbox" ng-model="$ctrl.employee.foodMaker"></input></p>
 <p>Drink Maker: </p><input type="checkbox" ng-model="$ctrl.employee.drinkMaker"></input></p>
 <p>Admin: </p><input type="checkbox" ng-model="$ctrl.employee.admin"></input></p>
-<p>Username: </p><input type="text" ng-model="$ctrl.employee.username"></input>
-<p>Password: </p><input type="password" ng-model="$ctrl.employee.password"></input></p>
-<button ng-click="$ctrl.createEmployee()" class="btn btn-default">Create</button>
-<button ng-click="$ctrl.close()" class="btn btn-default">Close</button>
+<div ng-if="!$ctrl.update"><p>Username: </p><input type="text" ng-model="$ctrl.employee.username"></input></div>
+<div ng-if="!$ctrl.update" ><p>Password: </p><input type="password" ng-model="$ctrl.employee.password"></input></div>
+<button ng-click="$ctrl.modifyEmployee()" class="btn btn-primary">{{$ctrl.update ? 'Update' : 'Create'}}</button>
+<button ng-click="$ctrl.close()" class="btn btn-danger">Close</button>

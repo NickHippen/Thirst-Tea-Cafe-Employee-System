@@ -9,6 +9,7 @@ export default {
   template: timeslotPickerTemplate,
   controller: TimeslotPickerCtrl,
   bindings: {
-    timeslot: '='
+    timeslot: '=',
+    viewOnly: '<'
   }
 };

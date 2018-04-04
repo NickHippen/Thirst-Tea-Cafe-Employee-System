@@ -26,5 +26,13 @@ export default class {
       data: angular.toJson(employee)
     });
   }
+
+  updateEmployee(employee) {
+    return this.$http({
+      method: 'PUT',
+      url: `${this.REST_CONSTANTS.BASE_URL}:${this.REST_CONSTANTS.PORT}/employee/${employee.employeeId}`,
+      data: angular.toJson(employee)
+    });
+  }
     
 }

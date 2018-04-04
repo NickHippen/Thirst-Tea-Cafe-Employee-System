@@ -76,5 +76,10 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public Availability getAvailability(Long employeeId) {
 		return employeeDao.getAvailability(employeeId);
 	}
+
+	@Override
+	public void updateEmployee(Long employeeId, Employee employee) {
+		employeeDao.updateEmployee(employeeId, employee);
+	}
 	
 }

@@ -9,7 +9,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr ng-repeat="employee in $ctrl.employees">
+    <tr ng-repeat="employee in $ctrl.employees" ng-click="$ctrl.openAddUserModal(employee)" class="pointer">
       <td ng-bind="employee.firstName"></td>
       <td ng-bind="employee.lastName"></td>
       <!-- <td><button class="btn btn-default">Set Color</button></td> -->

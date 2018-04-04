@@ -44,15 +44,14 @@ export default class {
       });
   }
 
-  openAddUserModal() {
-    const someVarToPass = 'This message comes from the admin controller.';
+  openAddUserModal(employee) {
     this.$uibModal.open({
       animation: true,
       template: addUserTemplate,
       controller: AddUserCtrl,
       controllerAs: '$ctrl',
       resolve: {
-        test: () => someVarToPass
+        employee: () => employee
       }
     });
   }

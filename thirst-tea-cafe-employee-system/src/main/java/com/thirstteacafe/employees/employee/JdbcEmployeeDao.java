@@ -64,6 +64,19 @@ public class JdbcEmployeeDao implements EmployeeDao {
 	}
 
 	@Override
+	public void updateEmployee(Long employeeId, Employee employee) {
+		jdbcTemplate.update(String.format(
+				"UPDATE %s"
+				+ " SET emp_firstname=?, emp_lastname=?, emp_minhours=?, emp_maxhours=?, emp_canlift=?, emp_food=?, emp_drinks=?, emp_admin=?"
+				+ " WHERE emp_id = ?",
+				TABLE),
+			new Object[] { employee.getFirstName(), employee.getLastName(),
+					employee.getMinHours(), employee.getMaxHours(), employee.isCanLift(),
+					employee.isFoodMaker(), employee.isDrinkMaker(), employee.isAdmin(),
+					employeeId });
+	}
+	
+	@Override
 	public void deleteEmployee(Long employeeId) {
 		jdbcTemplate.update(String.format(
 				"DELETE FROM %s"
@@ -117,5 +130,5 @@ public class JdbcEmployeeDao implements EmployeeDao {
 				AVAILABILITY_TABLE),
 			new Object[] { employeeId });
 	}
-	
+
 }

@@ -16,6 +16,8 @@ public interface EmployeeDao {
 
 	void createEmployee(Employee employee);
 
+	void updateEmployee(Long employeeId, Employee employee);
+	
 	void deleteEmployee(Long employeeId);
 
 	void addAvailability(Long employeeId, Availability availability);
@@ -25,5 +27,5 @@ public interface EmployeeDao {
 	Availability getAvailability(Long employeeId);
 
 	void deleteAllAvailability(Long employeeId);
-	
+
 }
