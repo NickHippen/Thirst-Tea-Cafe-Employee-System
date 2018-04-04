@@ -5,11 +5,25 @@ export default class {
     angular.extend(this, {$http, REST_CONSTANTS});
   }
 
-  removeUser(userId) {
+  deleteEmployee(employeeId) {
+    return this.$http({
+      method: 'DELETE',
+      url: `${this.REST_CONSTANTS.BASE_URL}:${this.REST_CONSTANTS.PORT}/employee/${employeeId}`
+    });
+  }
+
+  getAllEmployees() {
+    return this.$http({
+      method: 'GET',
+      url: `${this.REST_CONSTANTS.BASE_URL}:${this.REST_CONSTANTS.PORT}/employee`
+    });
+  }
+
+  createEmployee(employee) {
     return this.$http({
       method: 'POST',
-      url: `${this.REST_CONSTANTS.BASE_URL}:${this.REST_CONSTANTS.PORT}/admin`,
-      data: angular.toJson(userId)
+      url: `${this.REST_CONSTANTS.BASE_URL}:${this.REST_CONSTANTS.PORT}/employee`,
+      data: angular.toJson(employee)
     });
   }
     

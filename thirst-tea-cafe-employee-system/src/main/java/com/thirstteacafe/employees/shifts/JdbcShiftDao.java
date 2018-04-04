@@ -2,9 +2,7 @@ package com.thirstteacafe.employees.shifts;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Time;
 import java.sql.Types;
-import java.time.LocalTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +35,30 @@ public class JdbcShiftDao implements ShiftDao {
         );
     }
 
-    private ShiftData createShiftDataFromResultSet(ResultSet rs) throws SQLException {
+    @Override
+    public ShiftData getShiftByID(int shiftID) {
+        List<ShiftData> Shifts = jdbcTemplate.query(
+			QUERY_SELECT + " FROM shifts M WHERE shift_id = ?",
+			new Object[] { shiftID },
+			new RowMapper<ShiftData>() {
+				@Override
+				public ShiftData mapRow(ResultSet rs, int rowNum) throws SQLException {
+					ShiftData results = createShiftDataFromResultSet(rs);
+					return results;
+				}
+			}
+		);
+		return Shifts.isEmpty() ? null : Shifts.get(0);
+    }
+    
+    @Override
+    public void deleteShiftByID(int shiftID) {
+    	jdbcTemplate.update(
+            "DELETE FROM shifts WHERE shift_id = " + shiftID
+        );
+    }
+
+    public static ShiftData createShiftDataFromResultSet(ResultSet rs) throws SQLException {
         ShiftData results = new ShiftData();
         results.setId(rs.getInt("shift_id"));
         results.setDayOfWeek(rs.getInt("shift_dayofweek"));

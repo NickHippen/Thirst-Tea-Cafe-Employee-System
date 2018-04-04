@@ -1,9 +1,7 @@
 package com.thirstteacafe.employees.dto;
 
-import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -11,22 +9,27 @@ import org.apache.commons.lang3.tuple.Pair;
 
 public class Employee {
 
-	private String name;
+	private Long employeeId;
+	private String firstName;
+	private String lastName;
 	private boolean canLift;
 	private boolean admin;
 	private boolean foodMaker;
 	private boolean drinkMaker;
 	private Integer maxHours;
 	private Integer minHours;
+	private String username;
+	private String password;
 
-	private Map<DayOfWeek, List<Pair<LocalTime, LocalTime>>> availability;
+	private Availability availability;
 
 	public Employee() {
 	}
 
-	public Employee(String name, boolean canLift, boolean admin, boolean foodMaker, boolean drinkMaker, Integer minHours,
+	public Employee(String firstName, String lastName, boolean canLift, boolean admin, boolean foodMaker, boolean drinkMaker, Integer minHours,
 			Integer maxHours) {
-		this.name = name;
+		this.firstName = firstName;
+		this.lastName = lastName;
 		this.canLift = canLift;
 		this.admin = admin;
 		this.foodMaker = foodMaker;
@@ -34,13 +37,29 @@ public class Employee {
 		this.minHours = minHours;
 		this.maxHours = maxHours;
 	}
-
-	public String getName() {
-		return name;
+	
+	public Long getEmployeeId() {
+		return employeeId;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setEmployeeId(Long employeeId) {
+		this.employeeId = employeeId;
+	}
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
 
 	public boolean isCanLift() {
@@ -95,18 +114,34 @@ public class Employee {
 		return availability;
 	}
 
-	public void setAvailability(Map<DayOfWeek, List<Pair<LocalTime, LocalTime>>> availability) {
+	public void setAvailability(Availability availability) {
 		this.availability = availability;
 	}
 
 	public void addAvailability(DayOfWeek dayOfWeek, Pair<LocalTime, LocalTime> availabilityRange) {
 		if (availability == null) {
-			availability = new HashMap<>();
+			availability = new Availability();
 		}
 		List<Pair<LocalTime, LocalTime>> dayAvailability = availability.getOrDefault(dayOfWeek,
 				new ArrayList<Pair<LocalTime, LocalTime>>());
 		dayAvailability.add(availabilityRange);
 		availability.put(dayOfWeek, dayAvailability);
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 }

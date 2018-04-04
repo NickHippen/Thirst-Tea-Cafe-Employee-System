@@ -2,7 +2,6 @@ package com.thirstteacafe.employees.schedule;
 
 import static org.junit.Assert.assertTrue;
 
-import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.thirstteacafe.employees.dto.DayOfWeek;
 import com.thirstteacafe.employees.dto.Employee;
 import com.thirstteacafe.employees.dto.ScheduleResult;
 import com.thirstteacafe.employees.dto.Shift;
@@ -32,16 +32,16 @@ public class ScheduleServiceTest {
 	
 	@Before
 	public void before() {
-		Employee emp1 = new Employee("Nick", true, true, true, true, 0, 40);
+		Employee emp1 = new Employee("Nick", "Blah", true, true, true, true, 0, 40);
 		Arrays.asList(DayOfWeek.values())
 			.forEach((dow) -> emp1.addAvailability(dow, new ImmutablePair<LocalTime, LocalTime>(LocalTime.of(0, 0), LocalTime.of(12, 0))));
-		Employee emp2 = new Employee("Mitch", true, true, true, true, 0, 40);
+		Employee emp2 = new Employee("Mitch", "Blah", true, true, true, true, 0, 40);
 		Arrays.asList(DayOfWeek.values())
 			.forEach((dow) -> emp2.addAvailability(dow, new ImmutablePair<LocalTime, LocalTime>(LocalTime.of(0, 0), LocalTime.of(12, 0))));
-		Employee emp3 = new Employee("Hayden", true, true, true, true, 0, 40);
+		Employee emp3 = new Employee("Hayden", "Blah", true, true, true, true, 0, 40);
 		Arrays.asList(DayOfWeek.values())
 			.forEach((dow) -> emp3.addAvailability(dow, new ImmutablePair<LocalTime, LocalTime>(LocalTime.of(12, 0), LocalTime.of(23, 59, 59))));
-		Employee emp4 = new Employee("Vincent", true, true, true, true, 0, 40);
+		Employee emp4 = new Employee("Vincent", "Blah", true, true, true, true, 0, 40);
 		Arrays.asList(DayOfWeek.values())
 			.forEach((dow) -> emp4.addAvailability(dow, new ImmutablePair<LocalTime, LocalTime>(LocalTime.of(12, 0), LocalTime.of(23, 59, 59))));
 		employees = Arrays.asList(emp1, emp2, emp3, emp4);

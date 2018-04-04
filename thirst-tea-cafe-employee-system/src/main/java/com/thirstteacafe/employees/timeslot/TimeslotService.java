@@ -1,4 +1,4 @@
-package com.thirstteacafe.employees.schedule;
+package com.thirstteacafe.employees.timeslot;
 
 import java.time.LocalTime;
 
