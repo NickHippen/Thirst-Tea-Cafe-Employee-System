@@ -49,10 +49,5 @@ public class JdbcShiftDao implements ShiftDao {
             "DELETE FROM shifts WHERE shift_id = " + shiftID
         );
     }
-    
-    @Override
-    public void updateShiftByID(int shiftID) {
-    	
-    }
 
 }
