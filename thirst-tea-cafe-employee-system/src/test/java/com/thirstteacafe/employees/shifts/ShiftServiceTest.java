@@ -39,8 +39,8 @@ public class ShiftServiceTest {
     
     Object[][] shiftVals = 
     {
-        {ShiftData.MONDAY, OPEN, MID, 1, false},
-        {ShiftData.MONDAY, MID, CLOSE, 1, false}
+        {ShiftData.MONDAY, OPEN, MID, 1, 0},
+        {ShiftData.MONDAY, MID, CLOSE, 1, 0}
     };
     
     private ShiftData createTestShiftData(Object[] vals) {
@@ -49,7 +49,7 @@ public class ShiftServiceTest {
     	sd.setStart((LocalTime)vals[START]);
     	sd.setEnd((LocalTime)vals[END]);
     	sd.setNumPeople((Integer)vals[NUMPEOPLE]);
-    	sd.setAdmin((Boolean)vals[ADMIN]);
+    	sd.setAdmin((Integer)vals[ADMIN]);
     	return sd;
     }
     

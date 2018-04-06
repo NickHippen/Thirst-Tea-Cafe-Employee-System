@@ -16,7 +16,7 @@ public class ShiftMapper implements RowMapper<ShiftData> {
         results.setStart(rs.getTime("shift_start").toLocalTime());
         results.setEnd(rs.getTime("shift_end").toLocalTime());
         results.setNumPeople(rs.getInt("shift_numpeople"));
-        results.setAdmin(rs.getBoolean("shift_admin"));
+        results.setAdmin(rs.getInt("shift_admin"));
         return results;
 	}
 

@@ -29,8 +29,8 @@ public class JdbcShiftDao implements ShiftDao {
         jdbcTemplate.update
         (
             "INSERT INTO shifts (shift_id, shift_dayofweek, shift_start, shift_end, shift_numpeople, shift_admin) VALUES (?, ?, ?, ?, ?, ?)",
-            new Object[] { shift.getId(), shift.getDayOfWeek(), shift.getStart(), shift.getEnd(), shift.getNumPeople(), shift.isAdmin() },
-            new int[] { Types.INTEGER, Types.INTEGER, Types.TIME, Types.TIME, Types.INTEGER, Types.BOOLEAN}
+            new Object[] { shift.getId(), shift.getDayOfWeek(), shift.getStart(), shift.getEnd(), shift.getNumPeople(), shift.getAdmin() },
+            new int[] { Types.INTEGER, Types.INTEGER, Types.TIME, Types.TIME, Types.INTEGER, Types.INTEGER}
         );
     }
 
