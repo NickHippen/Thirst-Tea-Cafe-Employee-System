@@ -1,8 +1,8 @@
 export default class {
 
-  constructor($uibModalInstance, $state, LoadingService, AdminService, employee) {
+  constructor($uibModalInstance, $state, LoadingService, EmployeeService, employee) {
     'ngInject';
-    angular.extend(this, {$uibModalInstance, $state, LoadingService, AdminService, employee});
+    angular.extend(this, {$uibModalInstance, $state, LoadingService, EmployeeService, employee});
     if (this.employee) {
       this.update = true;
     }
@@ -16,7 +16,7 @@ export default class {
   modifyEmployee() {
     this.LoadingService.loading = true;
     if (this.update) {
-      this.AdminService.updateEmployee(this.employee)
+      this.EmployeeService.updateEmployee(this.employee)
         .then(() => {
           this.LoadingService.loading = false;
           this.$uibModalInstance.close();
@@ -35,7 +35,7 @@ export default class {
           this.$state.reload();
         });
     } else {
-      this.AdminService.createEmployee(this.employee)
+      this.EmployeeService.createEmployee(this.employee)
         .then(() => {
           this.LoadingService.loading = false;
           this.$uibModalInstance.close();

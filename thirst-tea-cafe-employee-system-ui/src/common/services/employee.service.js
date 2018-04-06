@@ -34,5 +34,5 @@ export default class {
       data: angular.toJson(employee)
     });
   }
-    
+
 }

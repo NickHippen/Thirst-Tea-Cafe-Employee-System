@@ -3,12 +3,12 @@ import addUserTemplate from './add-user/add-user.html';
 
 export default class {
 
-  constructor($log, $uibModal, $state, AdminService, LoadingService) {
+  constructor($log, $uibModal, $state, EmployeeService, LoadingService) {
     'ngInject';
-    angular.extend(this, {$log, $uibModal, $state, AdminService, LoadingService});
+    angular.extend(this, {$log, $uibModal, $state, EmployeeService, LoadingService});
     
     this.LoadingService.loading = true;
-    this.AdminService.getAllEmployees()
+    this.EmployeeService.getAllEmployees()
       .then(response => {
         this.LoadingService.loading = false;
         this.employees = response.data;
