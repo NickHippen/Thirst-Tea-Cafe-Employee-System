@@ -18,7 +18,7 @@ public class ShiftData {
     private LocalTime start;
     private LocalTime end;
     private int numPeople;
-    private boolean admin;
+    private int admin;
 
     public int getId() {
 		return id;
@@ -55,10 +55,10 @@ public class ShiftData {
 		this.numPeople = numPeople;
 	}
 	
-	public boolean isAdmin() {
+	public int getAdmin() {
 		return admin;
 	}
-	public void setAdmin(boolean admin) {
+	public void setAdmin(int admin) {
 		this.admin = admin;
 	}
 	
@@ -70,7 +70,7 @@ public class ShiftData {
 		s += String.format("start     : %s\n", start);
 		s += String.format("end       : %s\n", end);
 		s += String.format("numPeople : %d\n", numPeople);
-		s += String.format("admin     : %s\n", admin);
+		s += String.format("admin     : %d\n", admin);
 		return s;
 	}
 	
