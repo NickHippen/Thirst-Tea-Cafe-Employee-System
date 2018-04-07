@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,6 +17,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import com.thirstteacafe.employees.dto.Availability;
 import com.thirstteacafe.employees.dto.DayOfWeek;
+import com.thirstteacafe.employees.dto.DailyAvailability;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -32,19 +32,19 @@ public class AvailabilityUtilTest {
 	public void before() {
 		availabilities = new ArrayList<>();
 		Availability avail = new Availability();
-		avail.put(DayOfWeek.MONDAY, Arrays.asList(new ImmutablePair<LocalTime, LocalTime>(LocalTime.of(0, 0), LocalTime.of(12, 0))));
+		avail.put(DayOfWeek.MONDAY, Arrays.asList(new DailyAvailability(0, 24)));
 		availabilities.add(avail);
 		avail = new Availability();
-		avail.put(DayOfWeek.MONDAY, Arrays.asList(new ImmutablePair<LocalTime, LocalTime>(LocalTime.of(12, 0), LocalTime.of(16, 0))));
+		avail.put(DayOfWeek.MONDAY, Arrays.asList(new DailyAvailability(24, 32)));
 		availabilities.add(avail);
 		avail = new Availability();
-		avail.put(DayOfWeek.WEDNESDAY, Arrays.asList(new ImmutablePair<LocalTime, LocalTime>(LocalTime.of(0, 0), LocalTime.of(12, 0))));
+		avail.put(DayOfWeek.WEDNESDAY, Arrays.asList(new DailyAvailability(0, 24)));
 		availabilities.add(avail);
 		avail = new Availability();
-		avail.put(DayOfWeek.THURSDAY, Arrays.asList(new ImmutablePair<LocalTime, LocalTime>(LocalTime.of(0, 0), LocalTime.of(12, 0))));
+		avail.put(DayOfWeek.THURSDAY, Arrays.asList(new DailyAvailability(0, 24)));
 		availabilities.add(avail);
 		avail = new Availability();
-		avail.put(DayOfWeek.FRIDAY, Arrays.asList(new ImmutablePair<LocalTime, LocalTime>(LocalTime.of(0, 0), LocalTime.of(12, 0))));
+		avail.put(DayOfWeek.FRIDAY, Arrays.asList(new DailyAvailability(0, 24)));
 		availabilities.add(avail);
 	}
 	

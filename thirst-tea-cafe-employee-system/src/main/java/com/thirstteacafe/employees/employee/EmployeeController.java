@@ -46,13 +46,13 @@ public class EmployeeController {
 	}
 	
 	@RequestMapping(value="/employee/{employeeId}/availability", method=RequestMethod.POST)
-	public void addAvailability(@PathVariable Long employeeId, @RequestBody Availability availability) {
-		employeeService.addAvailability(employeeId, availability);
+	public Employee addAvailability(@PathVariable Long employeeId, @RequestBody Availability availability) {
+		return employeeService.addAvailability(employeeId, availability);
 	}
 	
 	@RequestMapping(value="/employee/{employeeId}/availability/{availabilityId}", method=RequestMethod.DELETE)
-	public void deleteAvailability(@PathVariable Long employeeId, @PathVariable Long availabilityId) {
-		employeeService.deleteAvailability(employeeId, availabilityId);
+	public Employee deleteAvailability(@PathVariable Long employeeId, @PathVariable Long availabilityId) {
+		return employeeService.deleteAvailability(employeeId, availabilityId);
 	}
 
 }

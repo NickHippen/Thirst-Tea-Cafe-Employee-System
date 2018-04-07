@@ -1,11 +1,8 @@
 package com.thirstteacafe.employees.dto;
 
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
-import org.apache.commons.lang3.tuple.Pair;
 
 public class Employee {
 
@@ -110,7 +107,7 @@ public class Employee {
 		this.minHours = minHours;
 	}
 
-	public Map<DayOfWeek, List<Pair<LocalTime, LocalTime>>> getAvailability() {
+	public Map<DayOfWeek, List<DailyAvailability>> getAvailability() {
 		return availability;
 	}
 
@@ -118,12 +115,12 @@ public class Employee {
 		this.availability = availability;
 	}
 
-	public void addAvailability(DayOfWeek dayOfWeek, Pair<LocalTime, LocalTime> availabilityRange) {
+	public void addAvailability(DayOfWeek dayOfWeek, DailyAvailability availabilityRange) {
 		if (availability == null) {
 			availability = new Availability();
 		}
-		List<Pair<LocalTime, LocalTime>> dayAvailability = availability.getOrDefault(dayOfWeek,
-				new ArrayList<Pair<LocalTime, LocalTime>>());
+		List<DailyAvailability> dayAvailability = availability.getOrDefault(dayOfWeek,
+				new ArrayList<DailyAvailability>());
 		dayAvailability.add(availabilityRange);
 		availability.put(dayOfWeek, dayAvailability);
 	}

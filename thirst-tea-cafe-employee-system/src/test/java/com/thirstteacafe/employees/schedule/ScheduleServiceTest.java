@@ -2,12 +2,10 @@ package com.thirstteacafe.employees.schedule;
 
 import static org.junit.Assert.assertTrue;
 
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -20,6 +18,7 @@ import com.thirstteacafe.employees.dto.DayOfWeek;
 import com.thirstteacafe.employees.dto.Employee;
 import com.thirstteacafe.employees.dto.ScheduleResult;
 import com.thirstteacafe.employees.dto.Shift;
+import com.thirstteacafe.employees.dto.DailyAvailability;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -35,16 +34,16 @@ public class ScheduleServiceTest {
 	public void before() {
 		Employee emp1 = new Employee("Nick", "Blah", true, true, true, true, 0, 40);
 		Arrays.asList(DayOfWeek.values())
-			.forEach((dow) -> emp1.addAvailability(dow, new ImmutablePair<LocalTime, LocalTime>(LocalTime.of(0, 0), LocalTime.of(12, 0))));
+			.forEach((dow) -> emp1.addAvailability(dow, new DailyAvailability(0, 24)));
 		Employee emp2 = new Employee("Mitch", "Blah", true, true, true, true, 0, 40);
 		Arrays.asList(DayOfWeek.values())
-			.forEach((dow) -> emp2.addAvailability(dow, new ImmutablePair<LocalTime, LocalTime>(LocalTime.of(0, 0), LocalTime.of(12, 0))));
+			.forEach((dow) -> emp2.addAvailability(dow, new DailyAvailability(0, 24)));
 		Employee emp3 = new Employee("Hayden", "Blah", true, true, true, true, 0, 40);
 		Arrays.asList(DayOfWeek.values())
-			.forEach((dow) -> emp3.addAvailability(dow, new ImmutablePair<LocalTime, LocalTime>(LocalTime.of(12, 0), LocalTime.of(23, 59, 59))));
+			.forEach((dow) -> emp3.addAvailability(dow, new DailyAvailability(24, 47)));
 		Employee emp4 = new Employee("Vincent", "Blah", true, true, true, true, 0, 40);
 		Arrays.asList(DayOfWeek.values())
-			.forEach((dow) -> emp4.addAvailability(dow, new ImmutablePair<LocalTime, LocalTime>(LocalTime.of(12, 0), LocalTime.of(23, 59, 59))));
+			.forEach((dow) -> emp4.addAvailability(dow, new DailyAvailability(24, 47)));
 		employees = Arrays.asList(emp1, emp2, emp3, emp4);
 		
 		shifts = new ArrayList<Shift>();

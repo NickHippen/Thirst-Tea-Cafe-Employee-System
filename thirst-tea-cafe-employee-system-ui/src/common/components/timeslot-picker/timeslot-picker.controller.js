@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import moment from 'moment';
 
 /**
  * A controller for the timeslot-picker component
@@ -6,13 +7,13 @@ import _ from 'lodash';
  */
 export default class {
 
-  constructor(TimeslotService) {
+  constructor($scope, TimeslotService) {
     'ngInject';
-    angular.extend(this, {TimeslotService});
-  }
+    angular.extend(this, {$scope, TimeslotService});
 
-  $onChanges() {
-    this.date = this.TimeslotService.convertTimeslotToDate(this.timeslot);
+    $scope.$watch(() => this.timeslot, () => {
+      this.date = this.TimeslotService.convertTimeslotToDate(this.timeslot);
+    });
   }
 
   /**
@@ -25,6 +26,10 @@ export default class {
     }
     this.timeslot = this.TimeslotService.convertDateToTimeslot(this.date);
     this.date = this.TimeslotService.convertTimeslotToDate(this.timeslot); // Make the date get corrected if typed a date that isn't on the hour or half-hour
+  }
+
+  getDisplayTime() {
+    return moment(this.date).format('HH:mm');
   }
 
 }

@@ -1,17 +1,17 @@
 package com.thirstteacafe.employees.employee;
 
 import java.sql.Time;
-import java.time.LocalTime;
 import java.util.List;
 
-import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
 import com.thirstteacafe.employees.dto.Availability;
+import com.thirstteacafe.employees.dto.DailyAvailability;
 import com.thirstteacafe.employees.dto.DayOfWeek;
 import com.thirstteacafe.employees.dto.Employee;
+import com.thirstteacafe.employees.timeslot.TimeslotService;
 import com.thirstteacafe.employees.util.AvailabilityUtil;
 
 @Component
@@ -20,6 +20,8 @@ public class JdbcEmployeeDao implements EmployeeDao {
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 	
+	@Autowired
+	private TimeslotService timeslotService;
 	@Autowired
 	private AvailabilityUtil availabilityUtil;
 
@@ -88,15 +90,16 @@ public class JdbcEmployeeDao implements EmployeeDao {
 	@Override
 	public void addAvailability(Long employeeId, Availability availability) {
 		for (DayOfWeek dow : availability.keySet()) {
-			List<Pair<LocalTime, LocalTime>> dayAvail = availability.get(dow);
-			for (Pair<LocalTime, LocalTime> timeRange : dayAvail) {
+			List<DailyAvailability> dayAvail = availability.get(dow);
+			for (DailyAvailability timeRange : dayAvail) {
 				jdbcTemplate.update(String.format(
 						"INSERT INTO %s"
 						+ " (emp_id, avail_dayofweek, avail_start, avail_end)"
 						+ " VALUES (?, ?, ?, ?)",
 						AVAILABILITY_TABLE),
 					new Object[] { employeeId, dow.getOffset(),
-							Time.valueOf(timeRange.getLeft()), Time.valueOf(timeRange.getRight()) });
+							Time.valueOf(timeslotService.convertTimeslot(timeRange.getFromTimeslot())),
+							Time.valueOf(timeslotService.convertTimeslot(timeRange.getToTimeslot())) });
 			}
 		}
 	}
@@ -118,7 +121,7 @@ public class JdbcEmployeeDao implements EmployeeDao {
 				+ " WHERE A.emp_id = ?",
 				AVAILABILITY_TABLE),
 			new Object[] { employeeId },
-			new AvailabilityMapper());
+			new AvailabilityMapper(timeslotService));
 		return availabilityUtil.consolidate(availabilities);
 	}
 

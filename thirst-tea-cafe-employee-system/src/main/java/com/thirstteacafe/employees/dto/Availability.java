@@ -1,12 +1,9 @@
 package com.thirstteacafe.employees.dto;
 
-import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.List;
 
-import org.apache.commons.lang3.tuple.Pair;
-
-public class Availability extends HashMap<DayOfWeek, List<Pair<LocalTime, LocalTime>>> {
+public class Availability extends HashMap<DayOfWeek, List<DailyAvailability>> {
 
 	/**
 	 * 

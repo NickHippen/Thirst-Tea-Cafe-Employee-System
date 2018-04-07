@@ -5,9 +5,9 @@
       <button
         ng-repeat="employee in $ctrl.employees"
         class="list-group-item"
-        ng-class="{active: $ctrl.selectedEmployeeId === employee.employeeId}"
-        ng-bind="employee.name"
+        ng-class="{active: $ctrl.selectedEmployee.employeeId === employee.employeeId}"
         ng-click="$ctrl.selectEmployee(employee)">
+        {{employee.firstName}} {{employee.lastName}}
       </button>
     </div>
   </div>
@@ -16,9 +16,10 @@
       <h4>Select an employee</h4>
     </div>
     <div ng-show="$ctrl.selectedEmployee">
-      <h4>Availability for <span ng-bind="$ctrl.selectedEmployee.name" class="employee-name"></span></h4>
+      <h4>Availability for <span class="employee-name">{{$ctrl.selectedEmployee.firstName}} {{$ctrl.selectedEmployee.lastName}}</span></h4>
       <uib-accordion close-others="false">
-        <div uib-accordion-group ng-repeat="(dow, dowObj) in $ctrl.DAY_OF_WEEK" class="panel-default" heading="{{dowObj.name}}">
+        <div uib-accordion-group ng-repeat="(dow, dowObj) in $ctrl.DAY_OF_WEEK" class="panel-default">
+          <uib-accordion-heading>{{dowObj.name}} <span class="quick-availability">{{$ctrl.quickAvailabilityString(dow)}}</span></uib-accordion-heading>
           <table class="table table-hover">
             <thead>
               <tr>
@@ -28,16 +29,15 @@
               </tr>
             </thead>
             <tbody>
-              <!-- TODO -->
-              <!-- <tr ng-repeat="availability in $ctrl.groupedShifts[dow]">
-                <td><timeslot-picker timeslot="shift.startTimeslot"></timeslot-picker></td>
-                <td><timeslot-picker timeslot="shift.endTimeslot"></timeslot-picker></td>
-                <td><button class="btn btn-danger" ng-click="$ctrl.deleteShift(dow, $index)">Delete</button></td>
-              </tr> -->
-              <tr class="new-availability">
+              <tr ng-repeat="availability in $ctrl.selectedEmployee.availability[dow]">
+                <td><timeslot-picker timeslot="availability.fromTimeslot" view-only="true"></td>
+                <td><timeslot-picker timeslot="availability.toTimeslot" view-only="true"></td>
+                <td><button class="btn btn-danger" ng-click="$ctrl.deleteAvailability(availability)">Delete</button></td>
+              </tr>
+              <tr>
                 <td><timeslot-picker timeslot="$ctrl.newShift[dow].startTimeslot"></timeslot-picker></td>
                 <td><timeslot-picker timeslot="$ctrl.newShift[dow].endTimeslot"></timeslot-picker></td>
-                <td><button class="btn btn-primary" ng-click="$ctrl.addShift(dow)">Add</button></td>
+                <td><button class="btn btn-primary" ng-click="$ctrl.addAvailabilityToSelected(dow)">Add</button></td>
               </tr>
             </tbody>
           </table>

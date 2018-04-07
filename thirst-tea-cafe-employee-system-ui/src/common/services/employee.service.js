@@ -35,4 +35,19 @@ export default class {
     });
   }
 
+  addAvailability(employeeId, availability) {
+    return this.$http({
+      method: 'POST',
+      url: `${this.REST_CONSTANTS.BASE_URL}:${this.REST_CONSTANTS.PORT}/employee/${employeeId}/availability`,
+      data: angular.toJson(availability)
+    });
+  }
+
+  deleteAvailability(employeeId, availabilityId) {
+    return this.$http({
+      method: 'DELETE',
+      url: `${this.REST_CONSTANTS.BASE_URL}:${this.REST_CONSTANTS.PORT}/employee/${employeeId}/availability/${availabilityId}`
+    });
+  }
+
 }

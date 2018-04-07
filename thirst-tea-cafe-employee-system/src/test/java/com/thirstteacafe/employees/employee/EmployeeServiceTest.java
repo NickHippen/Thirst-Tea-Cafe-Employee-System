@@ -6,11 +6,9 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
-import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.List;
 
-import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,6 +20,7 @@ import com.thirstteacafe.employees.dto.Availability;
 import com.thirstteacafe.employees.dto.DayOfWeek;
 import com.thirstteacafe.employees.dto.Employee;
 import com.thirstteacafe.employees.dto.Shift;
+import com.thirstteacafe.employees.dto.DailyAvailability;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -40,7 +39,7 @@ public class EmployeeServiceTest {
 				continue;
 			}
 			employee.addAvailability(dayOfWeek,
-					new ImmutablePair<LocalTime, LocalTime>(LocalTime.of(8, 0), LocalTime.of(17, 0)));
+					new DailyAvailability(16, 34));
 		}
 	}
 	
@@ -82,7 +81,7 @@ public class EmployeeServiceTest {
 		Employee createdEmployee = this.findTestEmployee();
 		
 		Availability availToCreate = new Availability();
-		availToCreate.put(DayOfWeek.MONDAY, Arrays.asList(new ImmutablePair<LocalTime, LocalTime>(LocalTime.of(0, 0), LocalTime.of(12, 0))));
+		availToCreate.put(DayOfWeek.MONDAY, Arrays.asList(new DailyAvailability(0, 24)));
 		employeeService.addAvailability(createdEmployee.getEmployeeId(), availToCreate);
 		Availability createdAvail = employeeService.getAvailability(createdEmployee.getEmployeeId());
 		assertNotNull(createdAvail);
@@ -90,7 +89,7 @@ public class EmployeeServiceTest {
 		assertEquals(1, createdAvail.get(DayOfWeek.MONDAY).size());
 		
 		availToCreate = new Availability();
-		availToCreate.put(DayOfWeek.MONDAY, Arrays.asList(new ImmutablePair<LocalTime, LocalTime>(LocalTime.of(14, 0), LocalTime.of(18, 0))));
+		availToCreate.put(DayOfWeek.MONDAY, Arrays.asList(new DailyAvailability(28, 36)));
 		employeeService.addAvailability(createdEmployee.getEmployeeId(), availToCreate);
 		createdAvail = employeeService.getAvailability(createdEmployee.getEmployeeId());
 		assertNotNull(createdAvail);
@@ -98,7 +97,7 @@ public class EmployeeServiceTest {
 		assertEquals(2, createdAvail.get(DayOfWeek.MONDAY).size());
 		
 		availToCreate = new Availability();
-		availToCreate.put(DayOfWeek.WEDNESDAY, Arrays.asList(new ImmutablePair<LocalTime, LocalTime>(LocalTime.of(14, 0), LocalTime.of(18, 0))));
+		availToCreate.put(DayOfWeek.WEDNESDAY, Arrays.asList(new DailyAvailability(28, 36)));
 		employeeService.addAvailability(createdEmployee.getEmployeeId(), availToCreate);
 		createdAvail = employeeService.getAvailability(createdEmployee.getEmployeeId());
 		assertNotNull(createdAvail);

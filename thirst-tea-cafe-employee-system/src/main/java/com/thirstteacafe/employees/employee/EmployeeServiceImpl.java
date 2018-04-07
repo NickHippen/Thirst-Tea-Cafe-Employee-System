@@ -1,15 +1,14 @@
 package com.thirstteacafe.employees.employee;
 
-import java.time.LocalTime;
 import java.util.List;
 
-import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.thirstteacafe.employees.dto.Availability;
 import com.thirstteacafe.employees.dto.Employee;
 import com.thirstteacafe.employees.dto.Shift;
+import com.thirstteacafe.employees.dto.DailyAvailability;
 import com.thirstteacafe.employees.timeslot.TimeslotService;
 
 @Service
@@ -18,9 +17,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Autowired
 	private EmployeeDao employeeDao;
 
-	@Autowired
-	private TimeslotService timeslotService;
-	
 	@Override
 	public Employee getEmployee(Long employeeId) {
 		return employeeDao.getEmployee(employeeId);
@@ -28,11 +24,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 	
 	@Override
 	public boolean checkAvailabilityForShift(Employee employee, Shift shift) {
-		 List<Pair<LocalTime, LocalTime>> dayAvailability = employee.getAvailability().get(shift.getDayOfWeek());
+		 List<DailyAvailability> dayAvailability = employee.getAvailability().get(shift.getDayOfWeek());
 		 if (dayAvailability != null) {
-			 for (Pair<LocalTime, LocalTime> availabilityRange : dayAvailability) {
-				 int availableSlotFrom = timeslotService.convertLocalTime(availabilityRange.getLeft());
-				 int availableSlotTo = timeslotService.convertLocalTime(availabilityRange.getRight());
+			 for (DailyAvailability availabilityRange : dayAvailability) {
+				 int availableSlotFrom = availabilityRange.getFromTimeslot();
+				 int availableSlotTo = availabilityRange.getToTimeslot();
 				 if (shift.getStartTimeslot() >= availableSlotFrom && shift.getEndTimeslot() <= availableSlotTo) {
 					 return true;
 				 }
@@ -58,13 +54,15 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 
 	@Override
-	public void addAvailability(Long employeeId, Availability availability) {
+	public Employee addAvailability(Long employeeId, Availability availability) {
 		employeeDao.addAvailability(employeeId, availability);
+		return getEmployee(employeeId);
 	}
 
 	@Override
-	public void deleteAvailability(Long employeeId, Long availabilityId) {
+	public Employee deleteAvailability(Long employeeId, Long availabilityId) {
 		employeeDao.deleteAvailability(employeeId, availabilityId);
+		return getEmployee(employeeId);
 	}
 	
 	@Override

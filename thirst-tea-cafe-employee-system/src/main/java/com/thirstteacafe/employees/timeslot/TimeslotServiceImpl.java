@@ -12,4 +12,9 @@ public class TimeslotServiceImpl implements TimeslotService {
 		return time.getHour() * 2 + time.getMinute() / 30;
 	}
 	
+	@Override
+	public LocalTime convertTimeslot(int timeslot) {
+		return LocalTime.of(timeslot / 2, (timeslot % 2) * 30);
+	}
+	
 }

@@ -37,9 +37,9 @@ public interface EmployeeService {
 
 	void deleteEmployee(Long employeeId);
 
-	void addAvailability(Long employeeId, Availability availability);
+	Employee addAvailability(Long employeeId, Availability availability);
 
-	void deleteAvailability(Long employeeId, Long availabilityId);
+	Employee deleteAvailability(Long employeeId, Long availabilityId);
 
 	Availability getAvailability(Long employeeId);
 
