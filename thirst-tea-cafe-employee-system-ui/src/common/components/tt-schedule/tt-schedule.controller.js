@@ -2,35 +2,51 @@ import moment from 'moment';
 
 export default class {
 
-  constructor(TimeslotService, DAY_OF_WEEK) {
+  constructor(TimeslotService, AlertHandler, ScheduleService, LoadingService, DAY_OF_WEEK) {
     'ngInject';
-    angular.extend(this, {TimeslotService, DAY_OF_WEEK});
+    angular.extend(this, {TimeslotService, AlertHandler, ScheduleService, LoadingService, DAY_OF_WEEK});
 
-    const weeklySchedule = {
-      'days': {
-        'MONDAY': {
-          'scheduledTimeslots': {
-            '24': [{'name': 'Nick H'}],
-            '25': [{'name': 'Nick H'}],
-            '26': [{'name': 'Nick H'}],
-            '21': [{'name': 'Nick H'}],
-            '22': [{'name': 'Nick H'}]
-          }
-        },
-        'TUESDAY': {
-          'scheduledTimeslots': {
-            '10': [{'name': 'Nick H'}]
-          }
+    // const weeklySchedule = {
+    //   'days': {
+    //     'MONDAY': {
+    //       'scheduledTimeslots': {
+    //         '24': [{'name': 'Nick H'}],
+    //         '25': [{'name': 'Nick H'}],
+    //         '26': [{'name': 'Nick H'}],
+    //         '21': [{'name': 'Nick H'}],
+    //         '22': [{'name': 'Nick H'}]
+    //       }
+    //     },
+    //     'TUESDAY': {
+    //       'scheduledTimeslots': {
+    //         '10': [{'name': 'Nick H'}]
+    //       }
+    //     }
+    //   }
+    // };
+    this.LoadingService.loading = true;
+    let weeklySchedule = {};
+    this.ScheduleService.getSchedule()
+      .then(response => {
+        weeklySchedule = response.data;
+        this.LoadingService.loading = false;
+        this.events = this.createEventsFromSchedule(weeklySchedule);
+        this.calendar = {
+          calendarView: 'week',
+          events: this.events,
+          viewDate: moment()
+        };
+      })
+      .catch(error => {
+        let message;
+        if (error.data && error.data.message) {
+          message = error.data.message;
+        } else {
+          message = 'An unknown error occurred';
         }
-      }
-    };
-    this.events = this.createEventsFromSchedule(weeklySchedule);
-  
-    this.calendar = {
-      calendarView: 'week',
-      events: this.events,
-      viewDate: moment()
-    };
+        this.AlertHandler.error(message);
+        this.LoadingService.loading = false;
+      });
   }
 
   createEventsFromSchedule(weeklySchedule) {

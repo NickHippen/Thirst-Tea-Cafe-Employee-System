@@ -5,6 +5,7 @@ import java.util.List;
 import com.thirstteacafe.employees.dto.Employee;
 import com.thirstteacafe.employees.dto.ScheduleResult;
 import com.thirstteacafe.employees.dto.Shift;
+import com.thirstteacafe.employees.dto.WeeklySchedule;
 
 public interface ScheduleService {
 
@@ -12,5 +13,7 @@ public interface ScheduleService {
 	
 	ScheduleResult schedule(String available, String admin, String canLift, String food, String drink, String minHours, String maxHours,
                 String minEmployees, String maxEmployees, String time, String adminOnly, String days);
+
+	WeeklySchedule getSchedule();
 
 }

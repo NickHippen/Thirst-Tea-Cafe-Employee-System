@@ -15,13 +15,21 @@ import org.jacop.search.InputOrderSelect;
 import org.jacop.search.Search;
 import org.jacop.search.SelectChoicePoint;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.thirstteacafe.employees.dto.Employee;
 import com.thirstteacafe.employees.dto.ScheduleResult;
 import com.thirstteacafe.employees.dto.Shift;
+import com.thirstteacafe.employees.dto.WeeklySchedule;
 import com.thirstteacafe.employees.employee.EmployeeService;
 import com.thirstteacafe.employees.util.MatrixUtil;
+
+import java.io.IOException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -44,6 +52,8 @@ public class ScheduleServiceImpl implements ScheduleService {
 	private MatrixUtil matrixUtil;
 	@Autowired
 	private EmployeeService employeeService;
+	@Autowired
+	private JdbcTemplate jdbcTemplate;
 
     /**
      * 
@@ -343,4 +353,28 @@ public class ScheduleServiceImpl implements ScheduleService {
         }
         return new ScheduleResult(result, feasible);
 	}
+
+		@Override
+		public WeeklySchedule getSchedule() {
+			ObjectMapper mapper = new ObjectMapper();
+			
+			List<WeeklySchedule> schedules = jdbcTemplate.query("SELECT S.schedule_object FROM schedules S",
+					new RowMapper<WeeklySchedule>() {
+						@Override
+						public WeeklySchedule mapRow(ResultSet rs, int rowNum) throws SQLException {
+							WeeklySchedule results = new WeeklySchedule();
+							try {
+								results = mapper.readValue(rs.getString("schedule_obj"), WeeklySchedule.class);
+							} catch (IOException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+							return results;
+						}
+					}
+				);
+		return schedules.isEmpty() ? new WeeklySchedule() : schedules.get(0);
+
+
+		}
 }
