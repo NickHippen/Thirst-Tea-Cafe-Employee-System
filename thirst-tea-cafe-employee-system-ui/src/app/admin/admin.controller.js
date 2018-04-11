@@ -27,7 +27,7 @@ export default class {
     
   deleteEmployee(employeeId) {
     this.LoadingService.loading = true;
-    this.AdminService.deleteEmployee(employeeId)
+    this.EmployeeService.deleteEmployee(employeeId)
       .then(() => {
         this.LoadingService.loading = false;
         this.$state.reload();
