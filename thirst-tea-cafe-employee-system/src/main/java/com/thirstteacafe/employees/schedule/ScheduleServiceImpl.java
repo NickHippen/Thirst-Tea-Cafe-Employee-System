@@ -55,12 +55,6 @@ public class ScheduleServiceImpl implements ScheduleService {
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 
-    /**
-     * 
-     * @param employees a list of employees that will be scheduled
-     * @param shifts a list of shifts that need employees
-     * @return an assignment of employees to shifts 
-     */
     @Override
 	public ScheduleResult scheduleEmployees(List<Employee> employees, List<Shift> shifts) {
 		int[][] available = new int[employees.size()][];

@@ -9,6 +9,12 @@ import com.thirstteacafe.employees.dto.WeeklySchedule;
 
 public interface ScheduleService {
 
+	/**
+     * 
+     * @param employees a list of employees that will be scheduled
+     * @param shifts a list of shifts that need employees
+     * @return an assignment of employees to shifts 
+     */
 	ScheduleResult scheduleEmployees(List<Employee> employees, List<Shift> shifts);
 	
 	ScheduleResult schedule(String available, String admin, String canLift, String food, String drink, String minHours, String maxHours,

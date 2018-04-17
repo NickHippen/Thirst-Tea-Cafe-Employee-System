@@ -6,47 +6,68 @@ export default class {
     'ngInject';
     angular.extend(this, {TimeslotService, AlertHandler, ScheduleService, LoadingService, DAY_OF_WEEK});
 
-    // const weeklySchedule = {
-    //   'days': {
-    //     'MONDAY': {
-    //       'scheduledTimeslots': {
-    //         '24': [{'name': 'Nick H'}],
-    //         '25': [{'name': 'Nick H'}],
-    //         '26': [{'name': 'Nick H'}],
-    //         '21': [{'name': 'Nick H'}],
-    //         '22': [{'name': 'Nick H'}]
-    //       }
-    //     },
-    //     'TUESDAY': {
-    //       'scheduledTimeslots': {
-    //         '10': [{'name': 'Nick H'}]
-    //       }
-    //     }
-    //   }
-    // };
-    this.LoadingService.loading = true;
-    let weeklySchedule = {};
-    this.ScheduleService.getSchedule()
-      .then(response => {
-        weeklySchedule = response.data;
-        this.LoadingService.loading = false;
-        this.events = this.createEventsFromSchedule(weeklySchedule);
-        this.calendar = {
-          calendarView: 'week',
-          events: this.events,
-          viewDate: moment()
-        };
-      })
-      .catch(error => {
-        let message;
-        if (error.data && error.data.message) {
-          message = error.data.message;
-        } else {
-          message = 'An unknown error occurred';
+    const weeklySchedule = {
+      'days': {
+        'MONDAY': {
+          'scheduledTimeslots': {
+            '22': [{'name': 'Vincent N'}],
+            '23': [{'name': 'Vincent N'}],
+            '24': [{'name': 'Vincent N'}],
+            '25': [{'name': 'Vincent N'}],
+            '26': [{'name': 'Vincent N'}],
+            '27': [{'name': 'Vincent N'}],
+            '28': [{'name': 'Vincent N'}],
+            '29': [{'name': 'Vincent N'}],
+            '30': [{'name': 'Nick H'}],
+            '31': [{'name': 'Nick H'}],
+            '32': [{'name': 'Nick H'}],
+            '33': [{'name': 'Nick H'}],
+            '34': [{'name': 'Mitch H'}],
+            '35': [{'name': 'Mitch H'}],
+            '36': [{'name': 'Mitch H'}],
+            '37': [{'name': 'Mitch H'}],
+            '38': [{'name': 'Hayden F'}],
+            '39': [{'name': 'Hayden F'}],
+            '40': [{'name': 'Hayden F'}],
+            '41': [{'name': 'Hayden F'}]
+          }
+        },
+        'TUESDAY': {
+          'scheduledTimeslots': {
+            '10': [{'name': 'Nick H'}]
+          }
         }
-        this.AlertHandler.error(message);
-        this.LoadingService.loading = false;
-      });
+      }
+    };
+    this.events = this.createEventsFromSchedule(weeklySchedule);
+    this.calendar = {
+      calendarView: 'week',
+      events: this.events,
+      viewDate: moment()
+    };
+    // this.LoadingService.loading = true;
+    // let weeklySchedule = {};
+    // this.ScheduleService.getSchedule()
+    //   .then(response => {
+    //     weeklySchedule = response.data;
+    //     this.LoadingService.loading = false;
+    //     this.events = this.createEventsFromSchedule(weeklySchedule);
+    //     this.calendar = {
+    //       calendarView: 'week',
+    //       events: this.events,
+    //       viewDate: moment()
+    //     };
+    //   })
+    //   .catch(error => {
+    //     let message;
+    //     if (error.data && error.data.message) {
+    //       message = error.data.message;
+    //     } else {
+    //       message = 'An unknown error occurred';
+    //     }
+    //     this.AlertHandler.error(message);
+    //     this.LoadingService.loading = false;
+    //   });
   }
 
   createEventsFromSchedule(weeklySchedule) {
