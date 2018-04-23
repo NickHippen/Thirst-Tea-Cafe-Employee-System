@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.thirstteacafe.employees.dto.Employee;
 import com.thirstteacafe.employees.exceptions.AuthenticationException;
 import com.thirstteacafe.employees.exceptions.ValidationException;
 
@@ -18,8 +19,8 @@ public class LoginController {
 	private LoginService loginService;
 	
 	@RequestMapping(value="/login", method=RequestMethod.POST)
-	public void login(@RequestBody LoginData login) throws AuthenticationException {
-		loginService.login(login);
+	public Employee login(@RequestBody LoginData login) throws AuthenticationException {
+		return loginService.login(login);
 	}
 	
 	@RequestMapping(value="/login/register", method=RequestMethod.POST)

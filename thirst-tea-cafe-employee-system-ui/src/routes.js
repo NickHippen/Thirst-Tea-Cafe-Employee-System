@@ -7,7 +7,7 @@ function routesConfig($stateProvider, $urlRouterProvider, $locationProvider) {
 
   $stateProvider
     .state('home', {
-      url: '/',
-      component: 'app'
+      url: '/view',
+      component: 'view'
     });
 }

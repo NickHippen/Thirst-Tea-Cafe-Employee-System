@@ -1,12 +1,12 @@
 export default class {
 
-  constructor($cookies) {
+  constructor($state, $cookies, LoginService, LoadingService, AlertHandler) {
     'ngInject';
-    angular.extend(this, {$cookies});
+    angular.extend(this, {$state, $cookies, LoginService, LoadingService, AlertHandler});
   }
 
-  get userName() {
-    return this._userName;
+  get username() {
+    return this._username;
   }
 
   get password() {
@@ -15,35 +15,53 @@ export default class {
 
   get credentials() {
     return {
-      'userName': this.userName,
+      'username': this.username,
       'password': this.password
     };
   }
 
-  newLogin(userName, password) {
-    this._userName = userName;
+  newLogin(username, password, employee) {
+    this._username = username;
     this._password = password;
-    this.$cookies.put('userName', userName);
+    this.employee = employee;
+    this.$cookies.put('username', username);
     this.$cookies.put('password', password);
   }
 
   checkCookiesForCredentials() {
-    const userName = this.$cookies.get('userName');
+    const username = this.$cookies.get('username');
     const password = this.$cookies.get('password');
-    if (userName && password) {
-      this.newLogin(userName, password);
+    if (username && password) {
+      this.LoadingService.loading = true;
+      this.LoginService.login({username, password})
+        .then(response => {
+          this.LoadingService.loading = false;
+          this.newLogin(username, password, response.data);
+          this.$state.go('home');
+        })
+        .catch(error => {
+          this.LoadingService.loading = false;
+          let message;
+          if (error.data && error.data.message) {
+            message = error.data.message;
+          } else {
+            message = 'An unknown error occurred';
+          }
+          this.AlertHandler.error(message);
+        });
     }
   }
 
   isLoggedIn() {
-    return angular.isDefined(this.userName) && angular.isDefined(this.password);
+    return angular.isDefined(this.username) && angular.isDefined(this.password);
   }
 
   logout() {
-    this._userName = undefined;
+    this._username = undefined;
     this._password = undefined;
-    this.$cookies.remove('userName');
+    this.$cookies.remove('username');
     this.$cookies.remove('password');
+    this.$state.go('login');
   }
 
 }

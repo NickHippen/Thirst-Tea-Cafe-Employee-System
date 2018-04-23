@@ -3,6 +3,7 @@ package com.thirstteacafe.employees.login;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.thirstteacafe.employees.dto.Employee;
 import com.thirstteacafe.employees.exceptions.AuthenticationException;
 import com.thirstteacafe.employees.exceptions.ValidationException;
 
@@ -12,8 +13,8 @@ public class LoginService {
 	@Autowired
 	private LoginDao loginDao;
 	
-	public void login(LoginData login) throws AuthenticationException {
-		loginDao.login(login);
+	public Employee login(LoginData login) throws AuthenticationException {
+		return loginDao.login(login);
 	}
 	
 	public void register(RegisterData register) throws ValidationException {

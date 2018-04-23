@@ -23,4 +23,12 @@ export default angular.module('tt-employee', [
   App
 ])
 .config(routesConfig)
+.run($transitions => {
+  $transitions.onStart({}, trans => {
+    const UserService = trans.injector().get('UserService');
+    if (!UserService.isLoggedIn() && trans.targetState().name() !== 'login') {
+      trans.router.stateService.go('login');
+    }
+  });
+})
 .name;

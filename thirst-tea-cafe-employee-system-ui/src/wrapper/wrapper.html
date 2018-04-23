@@ -1,15 +1,3 @@
-<!-- <div class="header">
-  <span class="header-icon">SS</span>
-  <span>
-    <a class="header-tab">Home</a>
-    <a class="header-tab">Songs</a>
-    <a class="header-tab login" ui-sref="login">Login</a>
-  </span>
-</div>
-<div class="container">
-  <ng-transclude></ng-transclude>
-</div>
-<div class="footer"></div> -->
 <nav class="navbar navbar-inverse">
     <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
@@ -32,10 +20,9 @@
                 <li ng-if="$ctrl.isAdmin()"><a ui-sref="create">Create Schedule</a></li>
                 <li ng-if="$ctrl.isAdmin()"><a ui-sref="empMgmt">Manage Employee Availability</a></li>
                 <li ng-if="$ctrl.isAdmin()"><a ui-sref="shiftMgmt">Manage Shifts</a></li>
+                <li ng-if="$ctrl.isAdmin()"><a ui-sref="admin">Admin Tools</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li ng-if="$ctrl.isAdmin"><a ui-sref="admin">Admin Tools</a></li>
-                <li ng-if="$ctrl.isLoggedIn()"><a>Hello, <span ng-bind="$ctrl.getUserName()"></span></a></li>
                 <li ng-if="!$ctrl.isLoggedIn()"><a ui-sref="login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
                 <li ng-if="$ctrl.isLoggedIn()"><a href ng-click="$ctrl.logout()"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
             </ul>

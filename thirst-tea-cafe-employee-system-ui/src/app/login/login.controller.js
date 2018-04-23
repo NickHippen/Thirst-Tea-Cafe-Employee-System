@@ -11,9 +11,9 @@ export default class {
   submitLoginForm() {
     this.LoadingService.loading = true;
     this.LoginService.login(this.loginForm)
-      .then(() => {
+      .then(response => {
         this.LoadingService.loading = false;
-        this.UserService.newLogin(this.loginForm.userName, this.loginForm.password);
+        this.UserService.newLogin(this.loginForm.username, this.loginForm.password, response.data);
         this.$state.go('home');
       })
       .catch(error => {

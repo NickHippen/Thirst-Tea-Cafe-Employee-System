@@ -11,6 +11,8 @@ module.exports = {
     'quote-props': 0,
     'no-trailing-spaces': 0,
     'max-depth': 0,
-    'radix': 0
+    'radix': 0,
+    'angular/on-watch': 0,
+    'no-debugger': 0
   }
 }

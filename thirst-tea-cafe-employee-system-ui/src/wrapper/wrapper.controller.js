@@ -23,8 +23,7 @@ export default class {
   }
     
   isAdmin() {
-    // TO-DO
-    return true;
+    return this.UserService.employee && this.UserService.employee.admin;
   }
 
   logout() {
