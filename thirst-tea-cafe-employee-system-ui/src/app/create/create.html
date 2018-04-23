@@ -1,1 +1,7 @@
-<h3>This is create</h3>
+<div ng-if="!$ctrl.showSchedule">
+    <button ng-click="$ctrl.generateSchedule()">Generate Schedule</button>
+    <button ng-click="$ctrl.editExistingSchedule()">Edit Existing Schedule</button>
+</div>
+<div ng-if="$ctrl.showSchedule">
+    <tt-schedule edit="true" schedule="$ctrl.schedule"></tt-schedule>
+</div>

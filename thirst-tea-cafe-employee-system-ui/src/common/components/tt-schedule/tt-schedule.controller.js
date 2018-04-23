@@ -24,29 +24,42 @@ export default class {
     //     }
     //   }
     // };
-    this.LoadingService.loading = true;
-    let weeklySchedule = {};
-    this.ScheduleService.getSchedule()
-      .then(response => {
-        weeklySchedule = response.data;
-        this.LoadingService.loading = false;
-        this.events = this.createEventsFromSchedule(weeklySchedule);
-        this.calendar = {
-          calendarView: 'week',
-          events: this.events,
-          viewDate: moment()
-        };
-      })
-      .catch(error => {
-        let message;
-        if (error.data && error.data.message) {
-          message = error.data.message;
-        } else {
-          message = 'An unknown error occurred';
-        }
-        this.AlertHandler.error(message);
-        this.LoadingService.loading = false;
-      });
+    // this.LoadingService.loading = true;
+    // let weeklySchedule = {};
+    // this.ScheduleService.getSchedule()
+    //   .then(response => {
+    //     weeklySchedule = response.data;
+    //     this.LoadingService.loading = false;
+    //     this.events = this.createEventsFromSchedule(weeklySchedule);
+    //     this.calendar = {
+    //       calendarView: 'week',
+    //       events: this.events,
+    //       viewDate: moment()
+    //     };
+    //   })
+    //   .catch(error => {
+    //     let message;
+    //     if (error.data && error.data.message) {
+    //       message = error.data.message;
+    //     } else {
+    //       message = 'An unknown error occurred';
+    //     }
+    //     this.AlertHandler.error(message);
+    //     this.LoadingService.loading = false;
+    //   });
+  }
+
+  $onChanges(changes) {
+    console.log('test', changes);
+    if (!this.schedule) {
+      return;
+    }
+    this.events = this.createEventsFromSchedule(this.schedule);
+    this.calendar = {
+      calendarView: 'week',
+      events: this.events,
+      viewDate: moment()
+    };
   }
 
   createEventsFromSchedule(weeklySchedule) {

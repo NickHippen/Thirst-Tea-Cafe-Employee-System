@@ -1,8 +1,25 @@
 export default class {
 
-  constructor($log, ViewService) {
+  constructor($log, ViewService, LoadingService, ScheduleService, AlertHandler) {
     'ngInject';
-    angular.extend(this, {$log, ViewService});
+    angular.extend(this, {$log, ViewService, LoadingService, ScheduleService, AlertHandler});
+
+    this.LoadingService.loading = true;
+    this.ScheduleService.getSchedule()
+      .then(response => {
+        this.schedule = response.data;
+        this.LoadingService.loading = false;
+      })
+      .catch(error => {
+        let message;
+        if (error.data && error.data.message) {
+          message = error.data.message;
+        } else {
+          message = 'An unknown error occurred';
+        }
+        this.AlertHandler.error(message);
+        this.LoadingService.loading = false;
+      });
   }
 
 }

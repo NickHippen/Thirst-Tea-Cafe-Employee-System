@@ -3,5 +3,9 @@ import ttScheduleCtrl from './tt-schedule.controller';
 
 export default {
   template: ttScheduleTemplate,
-  controller: ttScheduleCtrl
+  controller: ttScheduleCtrl,
+  bindings: {
+    edit: '<',
+    schedule: '<'
+  }
 };
