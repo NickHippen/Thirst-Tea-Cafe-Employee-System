@@ -24,7 +24,7 @@ public class ShiftController {
 	}
 
 	/* READ */
-	@RequestMapping(value="/shift/", method=RequestMethod.GET)
+	@RequestMapping(value="/shift", method=RequestMethod.GET)
 	public List<ShiftData> getAllShifts() {
 		return shiftService.getAllShifts();
 	}
