@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @CrossOrigin
 @RestController
 public class ShiftController {
@@ -22,6 +24,11 @@ public class ShiftController {
 	}
 
 	/* READ */
+	@RequestMapping(value="/shift", method=RequestMethod.GET)
+	public List<ShiftData> getAllShifts() {
+		return shiftService.getAllShifts();
+	}
+
 	@RequestMapping(value="/shift/{shiftID}", method=RequestMethod.GET)
 	public ShiftData getShift(@PathVariable Integer shiftID) {
 		return shiftService.getShiftByID(shiftID);

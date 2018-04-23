@@ -42,6 +42,14 @@ public class JdbcShiftDao implements ShiftDao {
     		new ShiftMapper());
 		return shifts.isEmpty() ? null : shifts.get(0);
     }
+
+    @Override
+    public List<ShiftData> getAllShifts() {
+    	List<ShiftData> shifts = jdbcTemplate.query(
+    		QUERY_SELECT + " FROM shifts M",
+    		new ShiftMapper());
+		return shifts;
+    }
     
     @Override
     public void deleteShiftByID(int shiftID) {

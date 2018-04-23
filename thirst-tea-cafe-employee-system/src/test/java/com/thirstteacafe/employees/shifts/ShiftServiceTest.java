@@ -79,4 +79,13 @@ public class ShiftServiceTest {
 
         shiftService.deleteShiftByID(sd.getId());
     }
+    
+    @Test
+    public void getAllShifts() {
+    	List<ShiftData> shifts = shiftService.getAllShifts();
+    	for (ShiftData s : shifts) {
+    		System.out.println(s);
+    	}
+    	assert(true);
+    }
 }

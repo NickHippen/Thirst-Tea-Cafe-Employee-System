@@ -1,7 +1,6 @@
 package com.thirstteacafe.employees.shifts;
 
 import java.time.LocalTime;
-import java.time.DayOfWeek;
 
 public class ShiftData {
 
