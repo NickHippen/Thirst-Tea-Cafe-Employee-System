@@ -1,3 +1,7 @@
+/**
+ * Controller for login component
+ * @module LoginController
+ */
 export default class {
 
   constructor($log, $state, AlertHandler, UserService, LoginService, LoadingService) {
@@ -8,6 +12,9 @@ export default class {
     };
   }
 
+  /**
+   * Submits the login form
+   */
   submitLoginForm() {
     this.LoadingService.loading = true;
     this.LoginService.login(this.loginForm)

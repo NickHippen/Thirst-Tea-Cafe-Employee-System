@@ -1,3 +1,7 @@
+/**
+ * A service for handling employees
+ * @module EmployeeService
+ */
 export default class {
 
   constructor($http, REST_CONSTANTS) {
@@ -5,6 +9,11 @@ export default class {
     angular.extend(this, {$http, REST_CONSTANTS});
   }
 
+  /**
+   * Performs an ajax call to delete an employee
+   * @param {Number} employeeId 
+   * @returns a promise to be resolved with the request response
+   */
   deleteEmployee(employeeId) {
     return this.$http({
       method: 'DELETE',
@@ -12,6 +21,10 @@ export default class {
     });
   }
 
+  /**
+   * Perfroms an ajax call to get all employees
+   * @returns a promise to be resolved with the request response
+   */
   getAllEmployees() {
     return this.$http({
       method: 'GET',
@@ -19,6 +32,11 @@ export default class {
     });
   }
 
+  /**
+   * Performs an ajax call to create an employee
+   * @param {*} employee 
+   * @returns a promise to be resolved with the request response
+   */
   createEmployee(employee) {
     return this.$http({
       method: 'POST',
@@ -27,6 +45,11 @@ export default class {
     });
   }
 
+  /**
+   * Performs an ajax call to update an employee
+   * @param {*} employee 
+   * @returns a promise to be resolved with the request response
+   */
   updateEmployee(employee) {
     return this.$http({
       method: 'PUT',
@@ -35,6 +58,12 @@ export default class {
     });
   }
 
+  /**
+   * Performs an ajax call to add availability to an employee
+   * @param {Number} employeeId 
+   * @param {*} availability 
+   * @returns a promise to be resolved with the request response
+   */
   addAvailability(employeeId, availability) {
     return this.$http({
       method: 'POST',
@@ -43,6 +72,12 @@ export default class {
     });
   }
 
+  /**
+   * Perfroms an ajax call to delete an availability on an employee
+   * @param {Number} employeeId 
+   * @param {*} availabilityId 
+   * @returns a promise to be resolved with the request response
+   */
   deleteAvailability(employeeId, availabilityId) {
     return this.$http({
       method: 'DELETE',

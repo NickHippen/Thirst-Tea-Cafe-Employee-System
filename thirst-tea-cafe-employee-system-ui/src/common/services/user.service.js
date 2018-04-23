@@ -1,3 +1,7 @@
+/**
+ * A service for handling users
+ * @module UserService
+ */
 export default class {
 
   constructor($state, $cookies, LoginService, LoadingService, AlertHandler) {
@@ -20,6 +24,12 @@ export default class {
     };
   }
 
+  /**
+   * Locally stores a new login
+   * @param {string} username 
+   * @param {string} password 
+   * @param {*} employee 
+   */
   newLogin(username, password, employee) {
     this._username = username;
     this._password = password;
@@ -28,6 +38,9 @@ export default class {
     this.$cookies.put('password', password);
   }
 
+  /**
+   * Checks cookies for credentials and validates, redirects to home if successful
+   */
   checkCookiesForCredentials() {
     const username = this.$cookies.get('username');
     const password = this.$cookies.get('password');
@@ -52,10 +65,17 @@ export default class {
     }
   }
 
+  /**
+   * Checks whether or not the client is logged in
+   * @returns whether or not user is logged in
+   */
   isLoggedIn() {
     return angular.isDefined(this.username) && angular.isDefined(this.password);
   }
 
+  /**
+   * Logs the client out
+   */
   logout() {
     this._username = undefined;
     this._password = undefined;
