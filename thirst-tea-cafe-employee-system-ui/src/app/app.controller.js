@@ -4,5 +4,5 @@ export default class {
     'ngInject';
     angular.extend(this, {$log, AppService});
   }
-    
+
 }

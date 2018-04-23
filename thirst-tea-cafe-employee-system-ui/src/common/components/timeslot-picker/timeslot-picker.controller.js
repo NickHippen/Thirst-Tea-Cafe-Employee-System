@@ -28,6 +28,10 @@ export default class {
     this.date = this.TimeslotService.convertTimeslotToDate(this.timeslot); // Make the date get corrected if typed a date that isn't on the hour or half-hour
   }
 
+  /**
+   * Gets the display time
+   * @returns the display time
+   */
   getDisplayTime() {
     return moment(this.date).format('HH:mm');
   }
