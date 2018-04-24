@@ -1,6 +1,5 @@
 package com.thirstteacafe.employees.dto;
 
-import java.time.DayOfWeek;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,6 +13,11 @@ public class WeeklySchedule {
 
 	public void setDays(Map<DayOfWeek, DailySchedule> days) {
 		this.days = days;
+	}
+
+	@Override
+	public String toString() {
+		return "WeeklySchedule [days=" + days + "]";
 	}
 
 }

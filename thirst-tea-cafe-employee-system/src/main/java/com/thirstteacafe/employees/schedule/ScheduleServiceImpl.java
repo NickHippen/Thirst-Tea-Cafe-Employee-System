@@ -22,11 +22,14 @@ import org.jacop.search.SimpleMatrixSelect;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.thirstteacafe.employees.dto.DayOfWeek;
 import com.thirstteacafe.employees.dto.Employee;
 import com.thirstteacafe.employees.dto.ScheduleResult;
 import com.thirstteacafe.employees.dto.Shift;
 import com.thirstteacafe.employees.dto.WeeklySchedule;
 import com.thirstteacafe.employees.employee.EmployeeService;
+import com.thirstteacafe.employees.exceptions.ScheduleException;
+import com.thirstteacafe.employees.shifts.ShiftService;
 import com.thirstteacafe.employees.util.MatrixUtil;
 
 /**
@@ -41,7 +44,11 @@ public class ScheduleServiceImpl implements ScheduleService {
 	@Autowired
 	private EmployeeService employeeService;
 	@Autowired
+	private ShiftService shiftService;
+	@Autowired
 	private ScheduleDao scheduleDao;
+	@Autowired
+	private ScheduleGenerator scheduleGenerator;
 
     @Override
 	public ScheduleResult scheduleEmployees(List<Employee> employees, List<Shift> shifts) {
@@ -70,16 +77,14 @@ public class ScheduleServiceImpl implements ScheduleService {
 			available[employeeNum] = shiftArr;
 		}
 		
-		int[] minEmployees = new int[shifts.size()];
-		int[] maxEmployees = new int[shifts.size()];
+		int[] employeeCount = new int[shifts.size()];
 		int[] time = new int[shifts.size()];
 		int[] adminOnly = new int[shifts.size()];
 		for (int shiftNum = 0; shiftNum < shifts.size(); shiftNum++) {
 			Shift shift = shifts.get(shiftNum);
-			minEmployees[shiftNum] = shift.getNumEmployees();
-			maxEmployees[shiftNum] = shift.getNumEmployees();
+			employeeCount[shiftNum] = shift.getNumEmployees();
 			time[shiftNum] = shift.getTimeLength();
-			time[shiftNum] = shift.getNumAdmins() != 0 ? 1 : 0;
+			adminOnly[shiftNum] = shift.getNumAdmins() != 0 ? 1 : 0;
                         // assumes shifts start on a monday
                         days[shift.getDayOfWeek().ordinal()]++;
 		}
@@ -88,7 +93,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 	
 		return schedule(available,
 				admin, canLift, food, drink, minHours, maxHours,
-				minEmployees, maxEmployees, time, adminOnly,
+				employeeCount, time, adminOnly,
                                 days);
 	}
 	
@@ -192,13 +197,12 @@ public class ScheduleServiceImpl implements ScheduleService {
         @Override
 	public ScheduleResult schedule(String available,
 			String admin, String canLift, String food, String drink, String minHours, String maxHours,
-			String minEmployees, String maxEmployees, String time, String adminOnly, 
+			String employeeCount, String time, String adminOnly, 
                         String days)
-
 	{
 		return schedule(matrixUtil.convertMatrix(available),
 				matrixUtil.convert(admin), matrixUtil.convert(canLift), matrixUtil.convert(food), matrixUtil.convert(drink), matrixUtil.convert(minHours), matrixUtil.convert(maxHours),
-				matrixUtil.convert(minEmployees), matrixUtil.convert(maxEmployees), matrixUtil.convert(time), matrixUtil.convert(adminOnly),
+				matrixUtil.convert(employeeCount), matrixUtil.convert(time), matrixUtil.convert(adminOnly),
                                 matrixUtil.convert(days)
 		);
 	}
@@ -219,7 +223,7 @@ public class ScheduleServiceImpl implements ScheduleService {
         */
 	private ScheduleResult schedule(int[][] available,
 			int[] admin, int[] canLift, int[] food, int[] drink, int[] minHours, int[] maxHours,
-			int[] minEmployees, int[] maxEmployees, int[] time, int[] adminOnly,
+			int[] employeeCount, int[] time, int[] adminOnly,
                         int[] days) {
 
         // assumes the input is rectangular
@@ -250,14 +254,11 @@ public class ScheduleServiceImpl implements ScheduleService {
                 if (available[i][j] == 0)
                     store.impose(new XeqC(work[i][j],0));
         
-        // Must have no less than minimum number of employees and no more than
-        // maximum number of employees for slot.
+        // Must have exactly number of employees for slot.
         for (int j = 0; j < numberOfTimeSlots; j++)
         {
-            store.impose(new SumBool(store,workT[j],">=",
-                    new IntVar(store,String.format("min_%d",j),minEmployees[j],minEmployees[j])));
-            store.impose(new SumBool(store,workT[j],"<=",
-                    new IntVar(store,String.format("max_%d",j),maxEmployees[j],maxEmployees[j])));
+            store.impose(new SumBool(store,workT[j],"==",
+                    new IntVar(store,String.format("count_%d",j),employeeCount[j],employeeCount[j])));
         }
         
         // disable since the first shift of each day is admin only
@@ -338,7 +339,49 @@ public class ScheduleServiceImpl implements ScheduleService {
 
 	@Override
 	public WeeklySchedule getSchedule(Date date) {
-		return scheduleDao.getSchedule(getStartOfWeek(date));
+		try {
+			return generateSchedule(date);
+		} catch (ScheduleException e) {
+			e.printStackTrace();
+		}
+		return null;
+//		return scheduleDao.getSchedule(getStartOfWeek(date));
+	}
+	
+	@Override
+	public WeeklySchedule generateSchedule(Date date) throws ScheduleException {
+		Date startOfWeek = getStartOfWeek(date); // TODO Use me
+		List<Employee> employees = employeeService.getAllEmployees();
+		List<Shift> shifts = shiftService.getAllShifts();
+//		Shift m1 = new Shift(DayOfWeek.MONDAY, 22, 44, 1, 1);
+//		Shift m2 = new Shift(DayOfWeek.MONDAY, 22, 34, 1, 0);
+//		Shift m3 = new Shift(DayOfWeek.MONDAY, 34, 44, 2, 0);
+//		
+//		Shift t1 = new Shift(DayOfWeek.TUESDAY, 22, 44, 1, 1);
+//		Shift t2 = new Shift(DayOfWeek.TUESDAY, 22, 44, 1, 0);
+//		Shift t3 = new Shift(DayOfWeek.TUESDAY, 22, 34, 1, 0);
+//		Shift t4 = new Shift(DayOfWeek.TUESDAY, 34, 44, 1, 0);
+//		
+//		Shift w1 = new Shift(DayOfWeek.WEDNESDAY, 22, 44, 2, 1);
+//		Shift w2 = new Shift(DayOfWeek.WEDNESDAY, 22, 44, 1, 0);
+//		
+//		Shift th1 = new Shift(DayOfWeek.THURSDAY, 22, 44, 1, 1);
+//		Shift th2 = new Shift(DayOfWeek.THURSDAY, 22, 44, 1, 0);
+//		
+//		Shift f1 = new Shift(DayOfWeek.FRIDAY, 22, 46, 1, 1);
+//		Shift f2 = new Shift(DayOfWeek.FRIDAY, 22, 46, 1, 0);
+//		Shift f3 = new Shift(DayOfWeek.FRIDAY, 34, 46, 1, 0);
+//		
+//		Shift sa1 = new Shift(DayOfWeek.SATURDAY, 22, 46, 1, 1);
+//		Shift sa2 = new Shift(DayOfWeek.SATURDAY, 22, 34, 1, 0);
+//		Shift sa3 = new Shift(DayOfWeek.SATURDAY, 34, 46, 2, 0);
+//		
+//		Shift su1 = new Shift(DayOfWeek.SUNDAY, 22, 42, 1, 1);
+//		Shift su2 = new Shift(DayOfWeek.SUNDAY, 22, 42, 1, 0);
+//		Shift su3 = new Shift(DayOfWeek.SUNDAY, 32, 42, 1, 0);
+		
+//		List<Shift> shifts = Arrays.asList(m1, m2, m3, t1, t2, t3, t4, w1, w2, th1, th2, f1, f2, f3, sa1, sa2, sa3, su1, su2, su3);
+		return scheduleGenerator.scheduleEmployees(employees, shifts);
 	}
 	
 	private Date getStartOfWeek(Date date) {

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.thirstteacafe.employees.dto.WeeklySchedule;
+import com.thirstteacafe.employees.exceptions.ScheduleException;
 
 @CrossOrigin
 @RestController
@@ -23,6 +24,11 @@ public class ScheduleController {
 	@RequestMapping(value="/schedule", method=RequestMethod.GET)
 	public WeeklySchedule getSchedule(@RequestParam @DateTimeFormat(pattern="yyyy-MM-dd") Date date) {
 		return scheduleService.getSchedule(date);
+	}
+	
+	@RequestMapping(value="/schedule", method=RequestMethod.POST)
+	public WeeklySchedule generateSchedule(@RequestParam @DateTimeFormat(pattern="yyyy-MM-dd") Date date) throws ScheduleException {
+		return scheduleService.generateSchedule(date);
 	}
 
 }

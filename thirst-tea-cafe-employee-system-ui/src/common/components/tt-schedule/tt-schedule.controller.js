@@ -5,7 +5,9 @@ export default class {
   constructor(TimeslotService, AlertHandler, ScheduleService, LoadingService, DAY_OF_WEEK) {
     'ngInject';
     angular.extend(this, {TimeslotService, AlertHandler, ScheduleService, LoadingService, DAY_OF_WEEK});
+  }
 
+  $onInit() {
     // const weeklySchedule = {
     //   'days': {
     //     'MONDAY': {
@@ -47,16 +49,16 @@ export default class {
     // };
     this.LoadingService.loading = true;
     let weeklySchedule = {};
-    this.ScheduleService.getSchedule(new Date())
+    this.ScheduleService.getSchedule(this.date)
       .then(response => {
         weeklySchedule = response.data;
-        this.LoadingService.loading = false;
         this.events = this.createEventsFromSchedule(weeklySchedule);
         this.calendar = {
           calendarView: 'week',
           events: this.events,
           viewDate: moment()
         };
+        this.LoadingService.loading = false;
       })
       .catch(error => {
         let message;
