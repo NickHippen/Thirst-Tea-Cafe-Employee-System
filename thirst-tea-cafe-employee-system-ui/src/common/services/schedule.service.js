@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 /**
  * A service for handling schedules
  * @module AlertHandler
@@ -10,12 +12,15 @@ export default class {
   }
 
   /**
-   * Gets the newest schedule from backend
+   * Gets the schedule corresponding to the date from backend
    */
-  getSchedule() {
+  getSchedule(date) {
+    if (!date) {
+      date = new Date();
+    }
     return this.$http({
       method: 'GET',
-      url: `${this.REST_CONSTANTS.BASE_URL}:${this.REST_CONSTANTS.PORT}/getSchedule`
+      url: `${this.REST_CONSTANTS.BASE_URL}:${this.REST_CONSTANTS.PORT}/schedule?date=${moment(date).format('YYYY-MM-DD')}`
     });
   }
 }

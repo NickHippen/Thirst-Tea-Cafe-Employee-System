@@ -1,45 +1,33 @@
 package com.thirstteacafe.employees.schedule;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.jacop.constraints.LinearInt;
+import org.jacop.constraints.Or;
+import org.jacop.constraints.PrimitiveConstraint;
 import org.jacop.constraints.SumBool;
 import org.jacop.constraints.XeqC;
-
+import org.jacop.constraints.XplusYgtC;
 import org.jacop.core.IntVar;
 import org.jacop.core.Store;
 import org.jacop.search.DepthFirstSearch;
 import org.jacop.search.IndomainMin;
-import org.jacop.search.InputOrderSelect;
-
 import org.jacop.search.Search;
 import org.jacop.search.SelectChoicePoint;
+import org.jacop.search.SimpleMatrixSelect;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.thirstteacafe.employees.dto.Employee;
 import com.thirstteacafe.employees.dto.ScheduleResult;
 import com.thirstteacafe.employees.dto.Shift;
 import com.thirstteacafe.employees.dto.WeeklySchedule;
 import com.thirstteacafe.employees.employee.EmployeeService;
 import com.thirstteacafe.employees.util.MatrixUtil;
-
-import java.io.IOException;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Arrays;
-
-import org.jacop.constraints.Or;
-import org.jacop.constraints.PrimitiveConstraint;
-import org.jacop.constraints.SumInt;
-import org.jacop.constraints.XplusYgtC;
-import org.jacop.search.SimpleMatrixSelect;
-import org.jacop.search.SimpleSelect;
-import org.jacop.search.SmallestDomain;
 
 /**
  *
@@ -53,7 +41,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 	@Autowired
 	private EmployeeService employeeService;
 	@Autowired
-	private JdbcTemplate jdbcTemplate;
+	private ScheduleDao scheduleDao;
 
     @Override
 	public ScheduleResult scheduleEmployees(List<Employee> employees, List<Shift> shifts) {
@@ -348,27 +336,21 @@ public class ScheduleServiceImpl implements ScheduleService {
         return new ScheduleResult(result, feasible);
 	}
 
-		@Override
-		public WeeklySchedule getSchedule() {
-			ObjectMapper mapper = new ObjectMapper();
-			
-			List<WeeklySchedule> schedules = jdbcTemplate.query("SELECT S.schedule_object FROM schedules S",
-					new RowMapper<WeeklySchedule>() {
-						@Override
-						public WeeklySchedule mapRow(ResultSet rs, int rowNum) throws SQLException {
-							WeeklySchedule results = new WeeklySchedule();
-							try {
-								results = mapper.readValue(rs.getString("schedule_obj"), WeeklySchedule.class);
-							} catch (IOException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
-							return results;
-						}
-					}
-				);
-		return schedules.isEmpty() ? new WeeklySchedule() : schedules.get(0);
+	@Override
+	public WeeklySchedule getSchedule(Date date) {
+		return scheduleDao.getSchedule(getStartOfWeek(date));
+	}
+	
+	private Date getStartOfWeek(Date date) {
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(date);
+		cal.setFirstDayOfWeek(Calendar.MONDAY);
+		cal.set(Calendar.HOUR_OF_DAY, 0);
+		cal.clear(Calendar.MINUTE);
+		cal.clear(Calendar.SECOND);
+		cal.clear(Calendar.MILLISECOND);
+		cal.set(Calendar.DAY_OF_WEEK, cal.getFirstDayOfWeek());
+		return cal.getTime();
+	}
 
-
-		}
 }

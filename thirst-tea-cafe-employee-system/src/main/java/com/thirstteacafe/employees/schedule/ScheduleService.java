@@ -1,5 +1,6 @@
 package com.thirstteacafe.employees.schedule;
 
+import java.util.Date;
 import java.util.List;
 
 import com.thirstteacafe.employees.dto.Employee;
@@ -20,6 +21,6 @@ public interface ScheduleService {
 	ScheduleResult schedule(String available, String admin, String canLift, String food, String drink, String minHours, String maxHours,
                 String minEmployees, String maxEmployees, String time, String adminOnly, String days);
 
-	WeeklySchedule getSchedule();
+	WeeklySchedule getSchedule(Date date);
 
 }

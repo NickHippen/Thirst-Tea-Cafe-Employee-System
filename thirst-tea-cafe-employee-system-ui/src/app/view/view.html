@@ -1,1 +1,13 @@
-<tt-schedule></tt-schedule>
+<div class="row">
+  <div class="col-md-3">
+    <p class="input-group">
+      <input type="text" class="form-control" uib-datepicker-popup ng-model="$ctrl.selectedDate" is-open="$ctrl.calendarOpen" datepicker-options="$ctrl.dateOptions" close-text="Close" ng-change="$ctrl.onCalendarChange()" />
+      <span class="input-group-btn">
+        <button type="button" class="btn btn-default" ng-click="$ctrl.openCalendar()"><i class="glyphicon glyphicon-calendar"></i></button>
+      </span>
+    </p>
+  </div>
+</div>
+<div class="row">
+  <tt-schedule></tt-schedule>
+</div>
