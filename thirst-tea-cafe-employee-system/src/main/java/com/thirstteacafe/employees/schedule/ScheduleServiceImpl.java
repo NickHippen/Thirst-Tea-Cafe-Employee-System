@@ -22,11 +22,14 @@ import org.jacop.search.SimpleMatrixSelect;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.thirstteacafe.employees.dto.DayOfWeek;
 import com.thirstteacafe.employees.dto.Employee;
 import com.thirstteacafe.employees.dto.ScheduleResult;
 import com.thirstteacafe.employees.dto.Shift;
 import com.thirstteacafe.employees.dto.WeeklySchedule;
 import com.thirstteacafe.employees.employee.EmployeeService;
+import com.thirstteacafe.employees.exceptions.ScheduleException;
+import com.thirstteacafe.employees.shifts.ShiftService;
 import com.thirstteacafe.employees.util.MatrixUtil;
 
 /**
@@ -41,7 +44,11 @@ public class ScheduleServiceImpl implements ScheduleService {
 	@Autowired
 	private EmployeeService employeeService;
 	@Autowired
+	private ShiftService shiftService;
+	@Autowired
 	private ScheduleDao scheduleDao;
+	@Autowired
+	private ScheduleGenerator scheduleGenerator;
 
     @Override
 	public ScheduleResult scheduleEmployees(List<Employee> employees, List<Shift> shifts) {
@@ -338,7 +345,49 @@ public class ScheduleServiceImpl implements ScheduleService {
 
 	@Override
 	public WeeklySchedule getSchedule(Date date) {
-		return scheduleDao.getSchedule(getStartOfWeek(date));
+		try {
+			return generateSchedule(date);
+		} catch (ScheduleException e) {
+			e.printStackTrace();
+		}
+		return null;
+//		return scheduleDao.getSchedule(getStartOfWeek(date));
+	}
+	
+	@Override
+	public WeeklySchedule generateSchedule(Date date) throws ScheduleException {
+		Date startOfWeek = getStartOfWeek(date); // TODO Use me
+		List<Employee> employees = employeeService.getAllEmployees();
+//		List<Shift> shifts = shiftService.getAllShifts(); TODO
+		Shift m1 = new Shift(DayOfWeek.MONDAY, 22, 44, 1, 1, true);
+		Shift m2 = new Shift(DayOfWeek.MONDAY, 22, 34, 1, 1, false);
+		Shift m3 = new Shift(DayOfWeek.MONDAY, 34, 44, 2, 2, false);
+		
+		Shift t1 = new Shift(DayOfWeek.TUESDAY, 22, 44, 1, 1, true);
+		Shift t2 = new Shift(DayOfWeek.TUESDAY, 22, 44, 1, 1, false);
+		Shift t3 = new Shift(DayOfWeek.TUESDAY, 22, 34, 1, 1, false);
+		Shift t4 = new Shift(DayOfWeek.TUESDAY, 34, 44, 1, 1, false);
+		
+		Shift w1 = new Shift(DayOfWeek.WEDNESDAY, 22, 44, 2, 2, true);
+		Shift w2 = new Shift(DayOfWeek.WEDNESDAY, 22, 44, 1, 1, false);
+		
+		Shift th1 = new Shift(DayOfWeek.THURSDAY, 22, 44, 1, 1, true);
+		Shift th2 = new Shift(DayOfWeek.THURSDAY, 22, 44, 1, 1, false);
+		
+		Shift f1 = new Shift(DayOfWeek.FRIDAY, 22, 46, 1, 1, true);
+		Shift f2 = new Shift(DayOfWeek.FRIDAY, 22, 46, 1, 1, false);
+		Shift f3 = new Shift(DayOfWeek.FRIDAY, 34, 46, 1, 1, false);
+		
+		Shift sa1 = new Shift(DayOfWeek.SATURDAY, 22, 46, 1, 1, true);
+		Shift sa2 = new Shift(DayOfWeek.SATURDAY, 22, 34, 1, 1, false);
+		Shift sa3 = new Shift(DayOfWeek.SATURDAY, 34, 46, 2, 2, false);
+		
+		Shift su1 = new Shift(DayOfWeek.SUNDAY, 22, 42, 1, 1, true);
+		Shift su2 = new Shift(DayOfWeek.SUNDAY, 22, 42, 1, 1, false);
+		Shift su3 = new Shift(DayOfWeek.SUNDAY, 32, 42, 1, 1, false);
+		
+		List<Shift> shifts = Arrays.asList(m1, m2, m3, t1, t2, t3, t4, w1, w2, th1, th2, f1, f2, f3, sa1, sa2, sa3, su1, su2, su3);
+		return scheduleGenerator.scheduleEmployees(employees, shifts);
 	}
 	
 	private Date getStartOfWeek(Date date) {

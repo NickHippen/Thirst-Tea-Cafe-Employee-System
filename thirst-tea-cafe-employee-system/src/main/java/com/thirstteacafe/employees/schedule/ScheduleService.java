@@ -7,6 +7,7 @@ import com.thirstteacafe.employees.dto.Employee;
 import com.thirstteacafe.employees.dto.ScheduleResult;
 import com.thirstteacafe.employees.dto.Shift;
 import com.thirstteacafe.employees.dto.WeeklySchedule;
+import com.thirstteacafe.employees.exceptions.ScheduleException;
 
 public interface ScheduleService {
 
@@ -22,5 +23,7 @@ public interface ScheduleService {
                 String minEmployees, String maxEmployees, String time, String adminOnly, String days);
 
 	WeeklySchedule getSchedule(Date date);
+
+	WeeklySchedule generateSchedule(Date date) throws ScheduleException;
 
 }

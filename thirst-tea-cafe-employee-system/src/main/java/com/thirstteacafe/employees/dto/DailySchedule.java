@@ -76,4 +76,9 @@ public class DailySchedule {
 		}
 	}
 
+	@Override
+	public String toString() {
+		return "DailySchedule [scheduledTimeslots=" + scheduledTimeslots + "]";
+	}
+
 }

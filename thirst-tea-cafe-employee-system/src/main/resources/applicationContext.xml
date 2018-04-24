@@ -18,6 +18,8 @@
 		<property name="dataSource" ref="ds"></property>  
 	</bean>
 	
+	<bean id="scheduleGenerator" class="com.thirstteacafe.employees.schedule.ASPScheduleGenerator"></bean>
+	
 	<context:property-placeholder location="classpath:application.properties"/>
   
 </beans>  
