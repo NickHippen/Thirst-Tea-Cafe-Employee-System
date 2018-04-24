@@ -6,68 +6,68 @@ export default class {
     'ngInject';
     angular.extend(this, {TimeslotService, AlertHandler, ScheduleService, LoadingService, DAY_OF_WEEK});
 
-    const weeklySchedule = {
-      'days': {
-        'MONDAY': {
-          'scheduledTimeslots': {
-            '22': [{'name': 'Vincent N'}],
-            '23': [{'name': 'Vincent N'}],
-            '24': [{'name': 'Vincent N'}],
-            '25': [{'name': 'Vincent N'}],
-            '26': [{'name': 'Vincent N'}],
-            '27': [{'name': 'Vincent N'}],
-            '28': [{'name': 'Vincent N'}],
-            '29': [{'name': 'Vincent N'}],
-            '30': [{'name': 'Nick H'}],
-            '31': [{'name': 'Nick H'}],
-            '32': [{'name': 'Nick H'}],
-            '33': [{'name': 'Nick H'}],
-            '34': [{'name': 'Mitch H'}],
-            '35': [{'name': 'Mitch H'}],
-            '36': [{'name': 'Mitch H'}],
-            '37': [{'name': 'Mitch H'}],
-            '38': [{'name': 'Hayden F'}],
-            '39': [{'name': 'Hayden F'}],
-            '40': [{'name': 'Hayden F'}],
-            '41': [{'name': 'Hayden F'}]
-          }
-        },
-        'TUESDAY': {
-          'scheduledTimeslots': {
-            '10': [{'name': 'Nick H'}]
-          }
-        }
-      }
-    };
-    this.events = this.createEventsFromSchedule(weeklySchedule);
-    this.calendar = {
-      calendarView: 'week',
-      events: this.events,
-      viewDate: moment()
-    };
-    // this.LoadingService.loading = true;
-    // let weeklySchedule = {};
-    // this.ScheduleService.getSchedule()
-    //   .then(response => {
-    //     weeklySchedule = response.data;
-    //     this.LoadingService.loading = false;
-    //     this.events = this.createEventsFromSchedule(weeklySchedule);
-    //     this.calendar = {
-    //       calendarView: 'week',
-    //       events: this.events,
-    //       viewDate: moment()
-    //     };
-    //   })
-    //   .catch(error => {
-    //     let message;
-    //     if (error.data && error.data.message) {
-    //       message = error.data.message;
-    //     } else {
-    //       message = 'An unknown error occurred';
+    // const weeklySchedule = {
+    //   'days': {
+    //     'MONDAY': {
+    //       'scheduledTimeslots': {
+    //         '22': [{'name': 'Vincent N'}],
+    //         '23': [{'name': 'Vincent N'}],
+    //         '24': [{'name': 'Vincent N'}],
+    //         '25': [{'name': 'Vincent N'}],
+    //         '26': [{'name': 'Vincent N'}],
+    //         '27': [{'name': 'Vincent N'}],
+    //         '28': [{'name': 'Vincent N'}],
+    //         '29': [{'name': 'Vincent N'}],
+    //         '30': [{'name': 'Nick H'}],
+    //         '31': [{'name': 'Nick H'}],
+    //         '32': [{'name': 'Nick H'}],
+    //         '33': [{'name': 'Nick H'}],
+    //         '34': [{'name': 'Mitch H'}],
+    //         '35': [{'name': 'Mitch H'}],
+    //         '36': [{'name': 'Mitch H'}],
+    //         '37': [{'name': 'Mitch H'}],
+    //         '38': [{'name': 'Hayden F'}],
+    //         '39': [{'name': 'Hayden F'}],
+    //         '40': [{'name': 'Hayden F'}],
+    //         '41': [{'name': 'Hayden F'}]
+    //       }
+    //     },
+    //     'TUESDAY': {
+    //       'scheduledTimeslots': {
+    //         '10': [{'name': 'Nick H'}]
+    //       }
     //     }
-    //     this.AlertHandler.error(message);
-    //     this.LoadingService.loading = false;
-    //   });
+    //   }
+    // };
+    // this.events = this.createEventsFromSchedule(weeklySchedule);
+    // this.calendar = {
+    //   calendarView: 'week',
+    //   events: this.events,
+    //   viewDate: moment()
+    // };
+    this.LoadingService.loading = true;
+    let weeklySchedule = {};
+    this.ScheduleService.getSchedule(new Date())
+      .then(response => {
+        weeklySchedule = response.data;
+        this.LoadingService.loading = false;
+        this.events = this.createEventsFromSchedule(weeklySchedule);
+        this.calendar = {
+          calendarView: 'week',
+          events: this.events,
+          viewDate: moment()
+        };
+      })
+      .catch(error => {
+        let message;
+        if (error.data && error.data.message) {
+          message = error.data.message;
+        } else {
+          message = 'An unknown error occurred';
+        }
+        this.AlertHandler.error(message);
+        this.LoadingService.loading = false;
+      });
   }
 
   createEventsFromSchedule(weeklySchedule) {
@@ -85,10 +85,10 @@ export default class {
         // This loop gives us the list of employees scheduled for each timeslot
         for (const employee of employees) {
           let event = null;
-          if (employee.name in tempEvents) {
-            event = tempEvents[employee.name];
+          if (employee.firstName in tempEvents) {
+            event = tempEvents[employee.firstName];
             if (event.lastTimeslot !== timeslot - 1) { // This event isn't continued from last
-              delete tempEvents[employee.name]; // Clear it off of the temp map
+              delete tempEvents[employee.firstName]; // Clear it off of the temp map
               events.push(event);
               event = null;
             }
@@ -115,8 +115,8 @@ export default class {
           const startTime = event.startsAt.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
           const endTime = event.endsAt.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
 
-          event.title = employee.name + ' ' + startTime + '-' + endTime;
-          tempEvents[employee.name] = event;
+          event.title = employee.firstName + ' ' + startTime + '-' + endTime;
+          tempEvents[employee.firstName] = event;
         }
       }
       // Add all remaining temp events
