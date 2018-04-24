@@ -39,7 +39,7 @@ export default class {
   }
 
   /**
-   * Checks cookies for credentials and validates, redirects to home if successful
+   * Checks cookies for credentials and validates
    */
   checkCookiesForCredentials() {
     const username = this.$cookies.get('username');
@@ -50,7 +50,7 @@ export default class {
         .then(response => {
           this.LoadingService.loading = false;
           this.newLogin(username, password, response.data);
-          this.$state.go('home');
+          // this.$state.go('home');
         })
         .catch(error => {
           this.LoadingService.loading = false;
@@ -62,7 +62,9 @@ export default class {
           }
           this.AlertHandler.error(message);
         });
+      return true;
     }
+    return false;
   }
 
   /**
