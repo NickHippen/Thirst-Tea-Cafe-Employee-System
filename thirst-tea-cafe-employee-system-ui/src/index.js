@@ -6,6 +6,7 @@ import angularBootstrapCalendar from 'angular-bootstrap-calendar';
 import '../node_modules/angular-bootstrap-calendar/dist/css/angular-bootstrap-calendar.min.css';
 
 import routesConfig from './routes';
+import calendarConfig from './calendar';
 
 import Common from './common';
 import App from './app';
@@ -23,6 +24,7 @@ export default angular.module('tt-employee', [
   App
 ])
 .config(routesConfig)
+.config(calendarConfig)
 .run($transitions => {
   $transitions.onStart({}, trans => {
     const UserService = trans.injector().get('UserService');
