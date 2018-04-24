@@ -1,5 +1,9 @@
 package com.thirstteacafe.employees.shifts;
 
+import com.thirstteacafe.employees.dto.Shift;
+import com.thirstteacafe.employees.dto.DayOfWeek;
+import com.thirstteacafe.employees.timeslot.TimeslotService;
+
 import java.sql.Types;
 import java.util.List;
 
@@ -8,12 +12,17 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 import org.springframework.stereotype.Component;
 
-
 @Component
 public class JdbcShiftDao implements ShiftDao {
 	
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
+	
+	@Autowired
+    private ShiftMapper shiftMapper;
+    
+    @Autowired
+    private TimeslotService timeslotService;
 
     private String QUERY_SELECT = 
         "SELECT "
@@ -25,29 +34,35 @@ public class JdbcShiftDao implements ShiftDao {
         + "M.shift_admin";
 
     @Override
-    public void createShift(ShiftData shift) {
+    public void createShift(Shift shift) {
         jdbcTemplate.update
         (
-            "INSERT INTO shifts (shift_id, shift_dayofweek, shift_start, shift_end, shift_numpeople, shift_admin) VALUES (?, ?, ?, ?, ?, ?)",
-            new Object[] { shift.getId(), shift.getDayOfWeek(), shift.getStart(), shift.getEnd(), shift.getNumPeople(), shift.getAdmin() },
-            new int[] { Types.INTEGER, Types.INTEGER, Types.TIME, Types.TIME, Types.INTEGER, Types.INTEGER}
+            "INSERT INTO shifts (shift_dayofweek, shift_start, shift_end, shift_numpeople, shift_admin) VALUES (?, ?, ?, ?, ?)",
+            new Object[] {
+                shift.getDayOfWeek().getOffset(),
+                timeslotService.convertTimeslot(shift.getStartTimeslot()), 
+                timeslotService.convertTimeslot(shift.getEndTimeslot()), 
+                shift.getNumEmployees(), 
+                shift.getNumAdmins() 
+            },
+            new int[] { Types.INTEGER, Types.TIME, Types.TIME, Types.INTEGER, Types.INTEGER}
         );
     }
 
     @Override
-    public ShiftData getShiftByID(int shiftID) {
-    	List<ShiftData> shifts = jdbcTemplate.query(
+    public Shift getShiftByID(int shiftID) {
+    	List<Shift> shifts = jdbcTemplate.query(
     		QUERY_SELECT + " FROM shifts M WHERE shift_id = ?",
     		new Object[] { shiftID },
-    		new ShiftMapper());
+    		shiftMapper);
 		return shifts.isEmpty() ? null : shifts.get(0);
     }
 
     @Override
-    public List<ShiftData> getAllShifts() {
-    	List<ShiftData> shifts = jdbcTemplate.query(
+    public List<Shift> getAllShifts() {
+    	List<Shift> shifts = jdbcTemplate.query(
     		QUERY_SELECT + " FROM shifts M",
-    		new ShiftMapper());
+    		shiftMapper);
 		return shifts;
     }
     

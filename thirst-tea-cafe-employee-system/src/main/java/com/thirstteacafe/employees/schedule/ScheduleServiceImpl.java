@@ -76,10 +76,10 @@ public class ScheduleServiceImpl implements ScheduleService {
 		int[] adminOnly = new int[shifts.size()];
 		for (int shiftNum = 0; shiftNum < shifts.size(); shiftNum++) {
 			Shift shift = shifts.get(shiftNum);
-			minEmployees[shiftNum] = shift.getMinEmployees();
-			maxEmployees[shiftNum] = shift.getMaxEmployees();
+			minEmployees[shiftNum] = shift.getNumEmployees();
+			maxEmployees[shiftNum] = shift.getNumEmployees();
 			time[shiftNum] = shift.getTimeLength();
-			time[shiftNum] = shift.isAdminOnly() ? 1 : 0;
+			time[shiftNum] = shift.getNumAdmins() != 0 ? 1 : 0;
                         // assumes shifts start on a monday
                         days[shift.getDayOfWeek().ordinal()]++;
 		}
