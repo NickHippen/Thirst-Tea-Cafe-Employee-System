@@ -3,7 +3,7 @@
 % ***DEFINE***
 
 % Schedule between MinEmp and MaxEmp employees for each shift
-MinEmp{ schedule(D,S,E,TimeFrom,TimeTo,H) : employee(E) }MaxEmp :- shift(D,S,MinEmp,MaxEmp,TimeFrom,TimeTo,H).
+EmpNum{ schedule(D,S,E,TimeFrom,TimeTo,H) : employee(E) }EmpNum :- shift(D,S,EmpNum,TimeFrom,TimeTo,H).
 
 % ***GENERATE***
 
@@ -33,11 +33,11 @@ lift_max_covered(D,MaxTimeTo) :- MaxTimeTo = #max{ TimeTo,D : lift_block_covered
 % making_food(D,TimeFrom,TimeTo,E) :- schedule(D,_,E,TimeFrom,TimeTo,_), makes_food(E).
 
 hours_worked(E,T) :- T = #sum{ H,D,S : schedule(D,S,E,_,_,H) }, employee(E).
-% admin_count(D,S,C) :- C = #count{ D,S,E : schedule(D,S,E,_), is_admin(E) }, shift(D,S,_,_,_).
-% lift_count(D,S,C) :- C = #count{ D,S,E : schedule(D,S,E,_), can_lift(E) }, shift(D,S,_,_,_).
-% food_maker_count(D,S,C) :- C = #count{ D,S,E : schedule(D,S,E,_), making_food(D,S,E) }, shift(D,S,_,_,_).
-% drink_maker_count(D,S,C) :- C = #count{ D,S,E : schedule(D,S,E,_), making_drinks(D,S,E) }, shift(D,S,_,_,_).
-shifts_in_day_count(D,E,C) :- C = #count{ D,S,E : schedule(D,S,E,_,_,_), schedule(D,S2,E2,_,_,_), E = E2 }, shift(D,_,_,_,_,_,_), employee(E).
+% admin_count(D,S,C) :- C = #count{ D,S,E : schedule(D,S,E,_), is_admin(E) }, shift(D,S,_,_).
+% lift_count(D,S,C) :- C = #count{ D,S,E : schedule(D,S,E,_), can_lift(E) }, shift(D,S,_,_).
+% food_maker_count(D,S,C) :- C = #count{ D,S,E : schedule(D,S,E,_), making_food(D,S,E) }, shift(D,S,_,_).
+% drink_maker_count(D,S,C) :- C = #count{ D,S,E : schedule(D,S,E,_), making_drinks(D,S,E) }, shift(D,S,_,_).
+shifts_in_day_count(D,E,C) :- C = #count{ D,S,E : schedule(D,S,E,_,_,_), schedule(D,S2,E2,_,_,_), E = E2 }, shift(D,_,_,_,_,_), employee(E).
 
 % ***TEST***
 
@@ -90,7 +90,7 @@ shifts_in_day_count(D,E,C) :- C = #count{ D,S,E : schedule(D,S,E,_,_,_), schedul
 % #minimize { T,E : hours_worked(E,T), is_admin(E) }.
 
 #show schedule/6.
-#show hours_worked/2.
+% #show hours_worked/2.
 % #show making_drinks/4.
 % #show making_food/4.
 % #show drink_block_covered/3.
@@ -98,5 +98,5 @@ shifts_in_day_count(D,E,C) :- C = #count{ D,S,E : schedule(D,S,E,_,_,_), schedul
 % #show admin_block_covered/3.
 % #show lift_block_covered/3.
 % #show makes_drinks/1.
-%#show shifts_in_day_count/3.
-%#show hours_worked/2.
+% #show shifts_in_day_count/3.
+

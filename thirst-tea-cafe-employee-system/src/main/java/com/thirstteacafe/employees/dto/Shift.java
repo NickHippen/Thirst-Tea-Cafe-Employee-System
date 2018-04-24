@@ -1,28 +1,39 @@
 package com.thirstteacafe.employees.dto;
 
 public class Shift {
+
+	private Integer id;
 	private DayOfWeek dayOfWeek;
 	private Integer startTimeslot;
 	private Integer endTimeslot;
-	private Integer minEmployees;
-	private Integer maxEmployees;
-	private boolean adminOnly;
+	private Integer numEmployees;
+	private Integer numAdmins;
 
 	public Shift() {
 	}
 
 	public Shift(DayOfWeek dayOfWeek, Integer startTimeslot, Integer endTimeslot) {
-		this(dayOfWeek, startTimeslot, endTimeslot, 2, 2, false);
+		this(dayOfWeek, startTimeslot, endTimeslot, 2, 0);
 	}
 
-	public Shift(DayOfWeek dayOfWeek, Integer startTimeslot, Integer endTimeslot, Integer minEmployees,
-			Integer maxEmployees, boolean adminOnly) {
+	public Shift(DayOfWeek dayOfWeek, 
+				 Integer startTimeslot, 
+				 Integer endTimeslot, 
+				 Integer numEmployees, 
+				 Integer numAdmins) {
 		this.dayOfWeek = dayOfWeek;
 		this.startTimeslot = startTimeslot;
 		this.endTimeslot = endTimeslot;
-		this.minEmployees = minEmployees;
-		this.maxEmployees = maxEmployees;
-		this.adminOnly = adminOnly;
+		this.numEmployees = numEmployees;
+		this.numAdmins = numAdmins;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 	public DayOfWeek getDayOfWeek() {
@@ -49,28 +60,20 @@ public class Shift {
 		this.endTimeslot = endTimeslot;
 	}
 
-	public Integer getMinEmployees() {
-		return minEmployees;
+	public Integer getNumEmployees() {
+		return numEmployees;
 	}
 
-	public void setMinEmployees(Integer minEmployees) {
-		this.minEmployees = minEmployees;
+	public void setNumEmployees(Integer numEmployees) {
+		this.numEmployees = numEmployees;
 	}
 
-	public Integer getMaxEmployees() {
-		return maxEmployees;
+	public Integer getNumAdmins() {
+		return numAdmins;
 	}
 
-	public void setMaxEmployees(Integer maxEmployees) {
-		this.maxEmployees = maxEmployees;
-	}
-
-	public boolean isAdminOnly() {
-		return adminOnly;
-	}
-
-	public void setAdminOnly(boolean adminOnly) {
-		this.adminOnly = adminOnly;
+	public void setNumAdmins(Integer numAdmins) {
+		this.numAdmins = numAdmins;
 	}
 
 	public int getTimeLength() {

@@ -44,12 +44,12 @@ public class ASPScheduleGenerator implements ScheduleGenerator {
 				int maxSlot = Integer.MIN_VALUE;
 				for (int i = 0; i < shiftsForDow.size(); i++) {
 					Shift shift = shiftsForDow.get(i);
-					tmpWriter.write(String.format("shift(%s,%d,%d,%d,%d,%d,%d).\n",
-							dow.name().toLowerCase(), i, shift.getMinEmployees(),
-							shift.getMaxEmployees(), shift.getStartTimeslot(), shift.getEndTimeslot(), (shift.getEndTimeslot() - shift.getStartTimeslot()) / 2));
+					tmpWriter.write(String.format("shift(%s,%d,%d,%d,%d,%d).\n",
+							dow.name().toLowerCase(), i, shift.getNumEmployees(),
+							shift.getStartTimeslot(), shift.getEndTimeslot(), (shift.getEndTimeslot() - shift.getStartTimeslot()) / 2));
 					minSlot = Math.min(minSlot, shift.getStartTimeslot());
 					maxSlot = Math.max(maxSlot, shift.getEndTimeslot());
-					if (shift.isAdminOnly()) {
+					if (shift.getNumAdmins() != null && shift.getNumAdmins() > 0) {
 						tmpWriter.write(String.format("admin_only_shift(%s,%d).\n", dow.name().toLowerCase(), i));
 					}
 				}

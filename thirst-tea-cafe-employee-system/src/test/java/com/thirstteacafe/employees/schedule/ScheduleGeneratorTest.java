@@ -130,32 +130,32 @@ public class ScheduleGeneratorTest {
 		
 		List<Employee> employees = Arrays.asList(jp, ef, bl, js, rs, tp, ww, id);
 		
-		Shift m1 = new Shift(DayOfWeek.MONDAY, 22, 44, 1, 1, true);
-		Shift m2 = new Shift(DayOfWeek.MONDAY, 22, 34, 1, 1, false);
-		Shift m3 = new Shift(DayOfWeek.MONDAY, 34, 44, 2, 2, false);
+		Shift m1 = new Shift(DayOfWeek.MONDAY, 22, 44, 1, 1);
+		Shift m2 = new Shift(DayOfWeek.MONDAY, 22, 34, 1, 0);
+		Shift m3 = new Shift(DayOfWeek.MONDAY, 34, 44, 2, 0);
 		
-		Shift t1 = new Shift(DayOfWeek.TUESDAY, 22, 44, 1, 1, true);
-		Shift t2 = new Shift(DayOfWeek.TUESDAY, 22, 44, 1, 1, false);
-		Shift t3 = new Shift(DayOfWeek.TUESDAY, 22, 34, 1, 1, false);
-		Shift t4 = new Shift(DayOfWeek.TUESDAY, 34, 44, 1, 1, false);
+		Shift t1 = new Shift(DayOfWeek.TUESDAY, 22, 44, 1, 1);
+		Shift t2 = new Shift(DayOfWeek.TUESDAY, 22, 44, 1, 0);
+		Shift t3 = new Shift(DayOfWeek.TUESDAY, 22, 34, 1, 0);
+		Shift t4 = new Shift(DayOfWeek.TUESDAY, 34, 44, 1, 0);
 		
-		Shift w1 = new Shift(DayOfWeek.WEDNESDAY, 22, 44, 2, 2, true);
-		Shift w2 = new Shift(DayOfWeek.WEDNESDAY, 22, 44, 1, 1, false);
+		Shift w1 = new Shift(DayOfWeek.WEDNESDAY, 22, 44, 2, 1);
+		Shift w2 = new Shift(DayOfWeek.WEDNESDAY, 22, 44, 1, 0);
 		
-		Shift th1 = new Shift(DayOfWeek.THURSDAY, 22, 44, 1, 1, true);
-		Shift th2 = new Shift(DayOfWeek.THURSDAY, 22, 44, 1, 1, false);
+		Shift th1 = new Shift(DayOfWeek.THURSDAY, 22, 44, 1, 1);
+		Shift th2 = new Shift(DayOfWeek.THURSDAY, 22, 44, 1, 0);
 		
-		Shift f1 = new Shift(DayOfWeek.FRIDAY, 22, 46, 1, 1, true);
-		Shift f2 = new Shift(DayOfWeek.FRIDAY, 22, 46, 1, 1, false);
-		Shift f3 = new Shift(DayOfWeek.FRIDAY, 34, 46, 1, 1, false);
+		Shift f1 = new Shift(DayOfWeek.FRIDAY, 22, 46, 1, 1);
+		Shift f2 = new Shift(DayOfWeek.FRIDAY, 22, 46, 1, 0);
+		Shift f3 = new Shift(DayOfWeek.FRIDAY, 34, 46, 1, 0);
 		
-		Shift sa1 = new Shift(DayOfWeek.SATURDAY, 22, 46, 1, 1, true);
-		Shift sa2 = new Shift(DayOfWeek.SATURDAY, 22, 34, 1, 1, false);
-		Shift sa3 = new Shift(DayOfWeek.SATURDAY, 34, 46, 2, 2, false);
+		Shift sa1 = new Shift(DayOfWeek.SATURDAY, 22, 46, 1, 1);
+		Shift sa2 = new Shift(DayOfWeek.SATURDAY, 22, 34, 1, 0);
+		Shift sa3 = new Shift(DayOfWeek.SATURDAY, 34, 46, 2, 0);
 		
-		Shift su1 = new Shift(DayOfWeek.SUNDAY, 22, 42, 1, 1, true);
-		Shift su2 = new Shift(DayOfWeek.SUNDAY, 22, 42, 1, 1, false);
-		Shift su3 = new Shift(DayOfWeek.SUNDAY, 32, 42, 1, 1, false);
+		Shift su1 = new Shift(DayOfWeek.SUNDAY, 22, 42, 1, 1);
+		Shift su2 = new Shift(DayOfWeek.SUNDAY, 22, 42, 1, 0);
+		Shift su3 = new Shift(DayOfWeek.SUNDAY, 32, 42, 1, 0);
 		
 		List<Shift> shifts = Arrays.asList(m1, m2, m3, t1, t2, t3, t4, w1, w2, th1, th2, f1, f2, f3, sa1, sa2, sa3, su1, su2, su3);
 		scheduleGenerator.scheduleEmployees(employees, shifts);

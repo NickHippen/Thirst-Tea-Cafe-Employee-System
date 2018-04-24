@@ -17,6 +17,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.thirstteacafe.employees.timeslot.TimeslotService;
+import com.thirstteacafe.employees.dto.DayOfWeek;
+import com.thirstteacafe.employees.dto.Shift;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class ShiftServiceTest {
@@ -25,7 +29,13 @@ public class ShiftServiceTest {
 	private ShiftService shiftService;
 	
 	@Autowired
-	private JdbcTemplate jdbcTemplate;
+    private JdbcTemplate jdbcTemplate;
+    
+    @Autowired
+    private TimeslotService timeslotService;
+    
+    @Autowired
+    private ShiftMapper shiftMapper;
 
     private static final int DAYOFWEEK = 0;
     private static final int START     = 1;
@@ -33,34 +43,34 @@ public class ShiftServiceTest {
     private static final int NUMPEOPLE = 3;
     private static final int ADMIN     = 4;
     
-    private static final LocalTime OPEN  = LocalTime.of(11, 00);
-    private static final LocalTime MID   = LocalTime.of(17, 30);
-    private static final LocalTime CLOSE = LocalTime.of(21, 00);
+    private static final LocalTime OPEN  = LocalTime.of(11, 30);
+    private static final LocalTime MID   = LocalTime.of(17, 45);
+    private static final LocalTime CLOSE = LocalTime.of(21, 30);
     
     Object[][] shiftVals = 
     {
-        {ShiftData.MONDAY, OPEN, MID, 1, 0},
-        {ShiftData.MONDAY, MID, CLOSE, 1, 0}
+        {DayOfWeek.MONDAY, OPEN, MID, 1, 0},
+        {DayOfWeek.MONDAY, MID, CLOSE, 1, 0}
     };
     
-    private ShiftData createTestShiftData(Object[] vals) {
-    	ShiftData sd = new ShiftData();
-    	sd.setDayOfWeek((Integer)vals[DAYOFWEEK]);
-    	sd.setStart((LocalTime)vals[START]);
-    	sd.setEnd((LocalTime)vals[END]);
-    	sd.setNumPeople((Integer)vals[NUMPEOPLE]);
-    	sd.setAdmin((Integer)vals[ADMIN]);
+    private Shift createTestShift(Object[] vals) {
+    	Shift sd = new Shift();
+    	sd.setDayOfWeek((DayOfWeek)vals[DAYOFWEEK]);
+    	sd.setStartTimeslot(timeslotService.convertLocalTime((LocalTime)vals[START]));
+    	sd.setEndTimeslot(timeslotService.convertLocalTime((LocalTime)vals[END]));
+    	sd.setNumEmployees((Integer)vals[NUMPEOPLE]);
+    	sd.setNumAdmins((Integer)vals[ADMIN]);
     	return sd;
     }
     
-    private ShiftData createTestShiftData() {
-    	return createTestShiftData(shiftVals[0]);
+    private Shift createTestShift() {
+    	return createTestShift(shiftVals[0]);
     }
     
-    private ShiftData getShiftWithLargestId() {
-        List<ShiftData> Shifts = jdbcTemplate.query(
+    private Shift getShiftWithLargestId() {
+        List<Shift> Shifts = jdbcTemplate.query(
 			"SELECT * FROM shifts ORDER BY shift_id DESC LIMIT 1",
-			new ShiftMapper()
+			shiftMapper
 		);
 		return Shifts.isEmpty() ? null : Shifts.get(0);
     }
@@ -70,11 +80,11 @@ public class ShiftServiceTest {
      */
     @Test 
     public void addGetAndDeleteShift() {
-        ShiftData testShift = createTestShiftData();
+        Shift testShift = createTestShift();
         shiftService.createShift(testShift);
         int shiftID = getShiftWithLargestId().getId();
      
-        ShiftData sd = shiftService.getShiftByID(shiftID);
+        Shift sd = shiftService.getShiftByID(shiftID);
         assertTrue(sd != null);
 
         shiftService.deleteShiftByID(sd.getId());
@@ -82,10 +92,10 @@ public class ShiftServiceTest {
     
     @Test
     public void getAllShifts() {
-    	List<ShiftData> shifts = shiftService.getAllShifts();
-    	for (ShiftData s : shifts) {
-    		System.out.println(s);
-    	}
+    	List<Shift> shifts = shiftService.getAllShifts();
+    	//for (Shift s : shifts) {
+    	//	System.out.println(s);
+    	//}
     	assert(true);
     }
 }

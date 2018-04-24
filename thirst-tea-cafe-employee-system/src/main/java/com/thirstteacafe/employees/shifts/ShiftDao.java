@@ -1,13 +1,15 @@
 package com.thirstteacafe.employees.shifts;
 
 import java.util.List;
+import com.thirstteacafe.employees.dto.Shift;
+
 public interface ShiftDao {
 
-	void createShift(ShiftData shift);
+	void createShift(Shift shift);
 	
-	ShiftData getShiftByID(int shiftID);
+	Shift getShiftByID(int shiftID);
 
-	List<ShiftData> getAllShifts();
+	List<Shift> getAllShifts();
 
 	void deleteShiftByID(int shiftID);
 	

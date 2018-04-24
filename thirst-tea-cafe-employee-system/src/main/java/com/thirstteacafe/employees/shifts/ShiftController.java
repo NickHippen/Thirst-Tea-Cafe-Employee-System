@@ -1,5 +1,7 @@
 package com.thirstteacafe.employees.shifts;
 
+import com.thirstteacafe.employees.dto.Shift;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,18 +21,18 @@ public class ShiftController {
 
 	/* CREATE */
 	@RequestMapping(value="/shift", method=RequestMethod.POST)
-	public void createShift(@RequestBody ShiftData shift){
+	public void createShift(@RequestBody Shift shift){
 		shiftService.createShift(shift);
 	}
 
 	/* READ */
 	@RequestMapping(value="/shift", method=RequestMethod.GET)
-	public List<ShiftData> getAllShifts() {
+	public List<Shift> getAllShifts() {
 		return shiftService.getAllShifts();
 	}
 
 	@RequestMapping(value="/shift/{shiftID}", method=RequestMethod.GET)
-	public ShiftData getShift(@PathVariable Integer shiftID) {
+	public Shift getShift(@PathVariable Integer shiftID) {
 		return shiftService.getShiftByID(shiftID);
 	}
 
