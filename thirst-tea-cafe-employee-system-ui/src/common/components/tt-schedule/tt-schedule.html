@@ -10,3 +10,6 @@
     on-event-times-changed="calendarEvent.startsAt = calendarNewEventStart; calendarEvent.endsAt = calendarNewEventEnd"
     cell-is-open="true">
 </mwl-calendar>
+<div ng-if="$ctrl.edit">
+    <button class="btn btn-primary" ng-click="$ctrl.openEditEventModal()">Add Shift</button>
+</div>

@@ -1,66 +1,56 @@
 import moment from 'moment';
+import EditEventCtrl from './edit-event/edit-event.controller';
+import editEventTemplate from './edit-event/edit-event.html';
 
 export default class {
 
-  constructor(TimeslotService, AlertHandler, ScheduleService, LoadingService, DAY_OF_WEEK) {
+  constructor($uibModal, TimeslotService, AlertHandler, ScheduleService, LoadingService, DAY_OF_WEEK) {
     'ngInject';
-    angular.extend(this, {TimeslotService, AlertHandler, ScheduleService, LoadingService, DAY_OF_WEEK});
-
-    // const weeklySchedule = {
-    //   'days': {
-    //     'MONDAY': {
-    //       'scheduledTimeslots': {
-    //         '24': [{'name': 'Nick H'}],
-    //         '25': [{'name': 'Nick H'}],
-    //         '26': [{'name': 'Nick H'}],
-    //         '21': [{'name': 'Nick H'}],
-    //         '22': [{'name': 'Nick H'}]
-    //       }
-    //     },
-    //     'TUESDAY': {
-    //       'scheduledTimeslots': {
-    //         '10': [{'name': 'Nick H'}]
-    //       }
-    //     }
-    //   }
-    // };
-    // this.LoadingService.loading = true;
-    // let weeklySchedule = {};
-    // this.ScheduleService.getSchedule()
-    //   .then(response => {
-    //     weeklySchedule = response.data;
-    //     this.LoadingService.loading = false;
-    //     this.events = this.createEventsFromSchedule(weeklySchedule);
-    //     this.calendar = {
-    //       calendarView: 'week',
-    //       events: this.events,
-    //       viewDate: moment()
-    //     };
-    //   })
-    //   .catch(error => {
-    //     let message;
-    //     if (error.data && error.data.message) {
-    //       message = error.data.message;
-    //     } else {
-    //       message = 'An unknown error occurred';
-    //     }
-    //     this.AlertHandler.error(message);
-    //     this.LoadingService.loading = false;
-    //   });
+    angular.extend(this, {$uibModal, TimeslotService, AlertHandler, ScheduleService, LoadingService, DAY_OF_WEEK});
   }
 
-  $onChanges(changes) {
-    console.log('test', changes);
-    if (!this.schedule) {
-      return;
-    }
-    this.events = this.createEventsFromSchedule(this.schedule);
+  $onInit() {
+    this.dumbySchedule = {
+      'days': {
+        'MONDAY': {
+          'scheduledTimeslots': {
+            '24': [{'name': 'Nick H'}],
+            '25': [{'name': 'Nick H'}],
+            '26': [{'name': 'Nick H'}],
+            '21': [{'name': 'Nick H'}],
+            '22': [{'name': 'Nick H'}]
+          }
+        },
+        'TUESDAY': {
+          'scheduledTimeslots': {
+            '10': [{'name': 'Nick H'}]
+          }
+        }
+      }
+    };
+    this.events = this.createEventsFromSchedule(this.dumbySchedule);
     this.calendar = {
       calendarView: 'week',
       events: this.events,
       viewDate: moment()
     };
   }
+
+  // $onChanges(changes) {
+  //   console.log('test', changes);
+  //   if (!this.schedule) {
+  //     return;
+  //   }
+  //   this.events = this.createEventsFromSchedule(this.schedule);
+  //   this.calendar = {
+  //     calendarView: 'week',
+  //     events: this.events,
+  //     viewDate: moment()
+  //   };
+  //   if (this.edit) {
+  //     this.calendar.draggable = true;
+  //   }
+  // }
 
   createEventsFromSchedule(weeklySchedule) {
     const events = [];
@@ -97,6 +87,14 @@ export default class {
                 secondary: '#fffff'
               }
             };
+            if (this.edit) {
+              event.actions = [{
+                label: '<i class=\'glyphicon glyphicon-pencil\'></i>',
+                onClick: event => {
+                  this.openEditEventModal(event);
+                }
+              }];
+            }
           }
           
           event.lastTimeslot = timeslot;
@@ -127,5 +125,17 @@ export default class {
 
   translateObject() {
     // weekStart = moment().startOf('isoWeek').toDate();
+  }
+
+  openEditEventModal(event) {
+    this.$uibModal.open({
+      animation: true,
+      template: editEventTemplate,
+      controller: EditEventCtrl,
+      controllerAs: '$ctrl',
+      resolve: {
+        event: () => event
+      }
+    });
   }
 }

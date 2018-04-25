@@ -18,4 +18,14 @@ export default class {
       url: `${this.REST_CONSTANTS.BASE_URL}:${this.REST_CONSTANTS.PORT}/getSchedule`
     });
   }
+
+  /**
+   * Requests backend to generate a new schedule and receives it back
+   */
+  generateSchedule() {
+    return this.$http({
+      method: 'GET',
+      url: `${this.REST_CONSTANTS.BASE_URL}:${this.REST_CONSTANTS.PORT}/generateSchedule`
+    });
+  }
 }
