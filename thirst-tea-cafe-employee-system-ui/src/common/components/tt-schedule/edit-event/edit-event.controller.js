@@ -1,12 +1,27 @@
 export default class {
 
-  constructor($uibModalInstance, $state, LoadingService, ScheduleService, event) {
+  constructor($uibModalInstance, $state, LoadingService, ScheduleService, EmployeeService, DAY_OF_WEEK, event) {
     'ngInject';
-    angular.extend(this, {$uibModalInstance, $state, LoadingService, ScheduleService, event});
+    angular.extend(this, {$uibModalInstance, $state, LoadingService, ScheduleService, EmployeeService, DAY_OF_WEEK, event});
     if (this.event) {
       this.update = true;
     }
     // this.employee = {};
+    this.EmployeeService.getAllEmployees()
+      .then(response => {
+        this.LoadingService.loading = false;
+        this.allEmployees = response.data;
+      })
+      .catch(error => {
+        this.LoadingService.loading = false;
+        let message;
+        if (error.data && error.data.message) {
+          message = error.data.message;
+        } else {
+          message = 'An unknown error occurred';
+        }
+        this.AlertHandler.error(message);
+      });
   }
   
   close() {

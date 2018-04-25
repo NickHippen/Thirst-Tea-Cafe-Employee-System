@@ -1,41 +1,28 @@
-<!-- <p>First Name: </p><input type="text" ng-model="$ctrl.employee.firstName"></input>
-<p>Last Name: </p><input type="text" ng-model="$ctrl.employee.lastName"></input>
-<p>Min. Hours: </p><input type="number" ng-model="$ctrl.employee.minHours"></input></p>
-<p>Max. Hours: </p><input type="number" ng-model="$ctrl.employee.maxHours"></input></p>
-<p>Can Lift: </p><input type="checkbox" ng-model="$ctrl.employee.canLift"></input></p>
-<p>Food Maker: </p><input type="checkbox" ng-model="$ctrl.employee.foodMaker"></input></p>
-<p>Drink Maker: </p><input type="checkbox" ng-model="$ctrl.employee.drinkMaker"></input></p>
-<p>Admin: </p><input type="checkbox" ng-model="$ctrl.employee.admin"></input></p>
-<div ng-if="!$ctrl.update"><p>Username: </p><input type="text" ng-model="$ctrl.employee.username"></input></div>
-<div ng-if="!$ctrl.update" ><p>Password: </p><input type="password" ng-model="$ctrl.employee.password"></input></div>
-<button ng-click="$ctrl.modifyEmployee()" class="btn btn-primary">{{$ctrl.update ? 'Update' : 'Create'}}</button>
-<button ng-click="$ctrl.close()" class="btn btn-danger">Close</button> -->
 <form>
-    <div class="form-group">
-      <label>Employee</label>
-      <input type="text" class="form-control" ng-model="$ctrl.employee" />
-    </div>
-    <div class="form-group">
-      <label>Day</label>
-      <select ng-model="$ctrl.dow">
-        <option value="MONDAY">Monday</option>
-        <option value="TUESDAY">Tuesday</option>
-        <option value="WEDNESDAY">Wednesday</option>
-        <option value="THURSDAY">Thursday</option>
-        <option value="FRIDAY">Friday</option>
-        <option value="SATURDAY">Saturday</option>
-        <option value="SUNDAY">Sunday</option>
-      </select>
-    </div>
-    <div class="form-group">
-      <label>Start Time</label>
-      <timeslot-picker timeslot="$ctrl.newEvent[$ctrl.dow].startTimeslot"></timeslot-picker>
-    </div>
-    <div class="form-group">
-      <label>End Time</label>
-      <timeslot-picker timeslot="$ctrl.newEvent[$ctrl.dow].startTimeslot"></timeslot-picker>
-    </div>
-    <button type="submit" ng-click="$ctrl.modifySchedule()" class="btn btn-primary">{{$ctrl.update ? 'Update' : 'Create'}}</button>
-    <button ng-click="$ctrl.close()" class="btn btn-danger">Close</button>
-  </form>
-  
+  <div class="form-group">
+    <label>Employee</label>
+    <select type="text" class="form-control" ng-model="$ctrl.employee">
+      <option ng-repeat="employee in $ctrl.allEmployees">
+        {{employee.firstName}} {{employee.lastName}}
+      </option>
+    </select>
+  </div>
+  <div class="form-group">
+    <label>Day</label>
+    <select class="form-control" ng-model="$ctrl.dow">
+      <option ng-repeat="(dow, dowObj) in $ctrl.DAY_OF_WEEK" value="{{dow}}">
+        {{dowObj.name}}
+      </option>
+    </select>
+  </div>
+  <div class="form-group">
+    <label>Start Time</label>
+    <timeslot-picker timeslot="$ctrl.newEvent[$ctrl.dow].startTimeslot"></timeslot-picker>
+  </div>
+  <div class="form-group">
+    <label>End Time</label>
+    <timeslot-picker timeslot="$ctrl.newEvent[$ctrl.dow].endTimeslot"></timeslot-picker>
+  </div>
+  <button type="submit" ng-click="$ctrl.modifySchedule()" class="btn btn-primary">{{$ctrl.update ? 'Update' : 'Create'}}</button>
+  <button ng-click="$ctrl.close()" class="btn btn-danger">Close</button>
+</form>
