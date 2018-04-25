@@ -1,11 +1,11 @@
 package com.thirstteacafe.employees.schedule;
 
-import java.util.ArrayList;
+import static org.junit.Assert.assertNotNull;
+
 import java.util.Arrays;
 import java.util.List;
 
-import org.junit.Before;
-import org.junit.Ignore;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,48 +15,24 @@ import com.thirstteacafe.employees.dto.DailyAvailability;
 import com.thirstteacafe.employees.dto.DayOfWeek;
 import com.thirstteacafe.employees.dto.Employee;
 import com.thirstteacafe.employees.dto.Shift;
+import com.thirstteacafe.employees.employee.EmployeeService;
+import com.thirstteacafe.employees.shifts.ShiftService;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@Ignore
-public class ScheduleServiceTest {
+public class ASPScheduleGeneratorTest {
 
 	@Autowired
-	private ScheduleService scheduleService;
+	private ASPScheduleGenerator aspScheduleGenerator;
+	@Autowired
+	private EmployeeService employeeService;
+	@Autowired
+	private ShiftService shiftService;
 
-	private List<Employee> employees;
-	private List<Shift> shifts;
-
-	@Before
-	public void before() {
-		Employee emp1 = new Employee("Nick", "Blah", true, true, true, true, 0, 40);
-		Arrays.asList(DayOfWeek.values()).forEach((dow) -> emp1.addAvailability(dow, new DailyAvailability(0, 24)));
-		Employee emp2 = new Employee("Mitch", "Blah", true, true, true, true, 0, 40);
-		Arrays.asList(DayOfWeek.values()).forEach((dow) -> emp2.addAvailability(dow, new DailyAvailability(0, 24)));
-		Employee emp3 = new Employee("Hayden", "Blah", true, true, true, true, 0, 40);
-		Arrays.asList(DayOfWeek.values()).forEach((dow) -> emp3.addAvailability(dow, new DailyAvailability(24, 47)));
-		Employee emp4 = new Employee("Vincent", "Blah", true, true, true, true, 0, 40);
-		Arrays.asList(DayOfWeek.values()).forEach((dow) -> emp4.addAvailability(dow, new DailyAvailability(24, 47)));
-		employees = Arrays.asList(emp1, emp2, emp3, emp4);
-
-		shifts = new ArrayList<Shift>();
-		Arrays.asList(DayOfWeek.values()).forEach((dow) -> {
-			shifts.add(new Shift(dow, 2, 8));
-			shifts.add(new Shift(dow, 26, 32));
-		});
-	}
-
-//	@Test
-//	@Ignore
-//	public void testSchedule() {
-//		ScheduleResult result = scheduleService.generateSchedule(employees, shifts);
-//		Arrays.asList(result.getSchedule()).forEach(arr -> System.out.println(Arrays.toString(arr)));
-//		assertTrue(result.isFeasible());
-//	}
-
-//	@Test
-//	public void testRealDataSplit() {
+	@Test
+	public void testSchedule() throws Exception {
 //		Employee jp = new Employee();
+//		jp.setFirstName("jp");
 //		jp.addAvailability(DayOfWeek.MONDAY, new DailyAvailability(34, 44));
 //		jp.addAvailability(DayOfWeek.WEDNESDAY, new DailyAvailability(34, 44));
 //		jp.addAvailability(DayOfWeek.SATURDAY, new DailyAvailability(22, 34));
@@ -67,6 +43,7 @@ public class ScheduleServiceTest {
 //		jp.setCanLift(true);
 //		
 //		Employee ef = new Employee();
+//		ef.setFirstName("ef");
 //		ef.addAvailability(DayOfWeek.MONDAY, new DailyAvailability(22, 44));
 //		ef.addAvailability(DayOfWeek.TUESDAY, new DailyAvailability(22, 44));
 //		ef.addAvailability(DayOfWeek.WEDNESDAY, new DailyAvailability(22, 44));
@@ -79,6 +56,7 @@ public class ScheduleServiceTest {
 //		ef.setDrinkMaker(true);
 //		
 //		Employee bl = new Employee();
+//		bl.setFirstName("bl");
 //		bl.addAvailability(DayOfWeek.MONDAY, new DailyAvailability(25, 44));
 //		bl.addAvailability(DayOfWeek.TUESDAY, new DailyAvailability(25, 44));
 //		bl.addAvailability(DayOfWeek.THURSDAY, new DailyAvailability(25, 33));
@@ -91,6 +69,7 @@ public class ScheduleServiceTest {
 //		bl.setCanLift(true);
 //		
 //		Employee js = new Employee();
+//		js.setFirstName("js");
 //		js.addAvailability(DayOfWeek.MONDAY, new DailyAvailability(22, 34));
 //		js.addAvailability(DayOfWeek.TUESDAY, new DailyAvailability(22, 35));
 //		js.addAvailability(DayOfWeek.WEDNESDAY, new DailyAvailability(22, 44));
@@ -102,6 +81,7 @@ public class ScheduleServiceTest {
 //		js.setCanLift(true);
 //		
 //		Employee rs = new Employee();
+//		rs.setFirstName("rs");
 //		rs.addAvailability(DayOfWeek.MONDAY, new DailyAvailability(28, 44));
 //		rs.addAvailability(DayOfWeek.TUESDAY, new DailyAvailability(22, 44));
 //		rs.addAvailability(DayOfWeek.WEDNESDAY, new DailyAvailability(28, 44));
@@ -111,6 +91,7 @@ public class ScheduleServiceTest {
 //		rs.setMaxHours(15);
 //		
 //		Employee tp = new Employee();
+//		tp.setFirstName("tp");
 //		tp.addAvailability(DayOfWeek.MONDAY, new DailyAvailability(22, 44));
 //		tp.addAvailability(DayOfWeek.TUESDAY, new DailyAvailability(22, 44));
 //		tp.addAvailability(DayOfWeek.WEDNESDAY, new DailyAvailability(22, 44));
@@ -123,8 +104,10 @@ public class ScheduleServiceTest {
 //		tp.setFoodMaker(true);
 //		tp.setDrinkMaker(true);
 //		tp.setAdmin(true);
+//		tp.setCanLift(true);
 //		
 //		Employee ww = new Employee();
+//		ww.setFirstName("ww");
 //		ww.addAvailability(DayOfWeek.MONDAY, new DailyAvailability(22, 44));
 //		ww.addAvailability(DayOfWeek.TUESDAY, new DailyAvailability(22, 44));
 //		ww.addAvailability(DayOfWeek.WEDNESDAY, new DailyAvailability(22, 44));
@@ -136,8 +119,10 @@ public class ScheduleServiceTest {
 //		ww.setMaxHours(999);
 //		ww.setFoodMaker(true);
 //		ww.setDrinkMaker(true);
+//		ww.setAdmin(true);
 //		
 //		Employee id = new Employee();
+//		id.setFirstName("id");
 //		id.addAvailability(DayOfWeek.MONDAY, new DailyAvailability(22, 44));
 //		id.addAvailability(DayOfWeek.TUESDAY, new DailyAvailability(22, 44));
 //		id.addAvailability(DayOfWeek.WEDNESDAY, new DailyAvailability(22, 44));
@@ -149,6 +134,7 @@ public class ScheduleServiceTest {
 //		id.setMaxHours(999);
 //		id.setFoodMaker(true);
 //		id.setDrinkMaker(true);
+//		id.setAdmin(true);
 //		
 //		List<Employee> employees = Arrays.asList(jp, ef, bl, js, rs, tp, ww, id);
 //		
@@ -180,8 +166,9 @@ public class ScheduleServiceTest {
 //		Shift su3 = new Shift(DayOfWeek.SUNDAY, 32, 42, 1, 0);
 //		
 //		List<Shift> shifts = Arrays.asList(m1, m2, m3, t1, t2, t3, t4, w1, w2, th1, th2, f1, f2, f3, sa1, sa2, sa3, su1, su2, su3);
-//		
-//		scheduleService.generateSchedule(employees, shifts);
-//	}
+		List<Employee> employees = employeeService.getAllEmployees();
+		List<Shift> shifts = shiftService.getAllShifts();
+		assertNotNull(aspScheduleGenerator.scheduleEmployees(employees, shifts));
+	}
 
 }

@@ -12,18 +12,18 @@ import com.thirstteacafe.employees.exceptions.ScheduleException;
 public interface ScheduleService {
 
 	/**
-     * 
-     * @param employees a list of employees that will be scheduled
-     * @param shifts a list of shifts that need employees
-     * @return an assignment of employees to shifts 
-     */
-	ScheduleResult scheduleEmployees(List<Employee> employees, List<Shift> shifts);
-	
+	 * Gets a schedule for the week of the given date
+	 * @param date
+	 * @return the corresponding schedule stored in the database
+	 */
 	WeeklySchedule getSchedule(Date date);
 
+	/**
+	 * Generates a new schedule for the week of the given date
+	 * @param date
+	 * @return the generated schedule
+	 * @throws ScheduleException if there was an issue generating the schedule
+	 */
 	WeeklySchedule generateSchedule(Date date) throws ScheduleException;
-
-	ScheduleResult schedule(String available, String admin, String canLift, String food, String drink, String minHours,
-			String maxHours, String employeeCount, String time, String adminOnly, String days);
 
 }
