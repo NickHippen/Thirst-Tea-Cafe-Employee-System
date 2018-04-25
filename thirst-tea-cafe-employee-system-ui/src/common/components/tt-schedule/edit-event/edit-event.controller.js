@@ -1,8 +1,8 @@
 export default class {
 
-  constructor($uibModalInstance, $state, LoadingService, ScheduleService, EmployeeService, DAY_OF_WEEK, event) {
+  constructor($uibModalInstance, $state, LoadingService, ScheduleService, TimeslotService, EmployeeService, DAY_OF_WEEK, event) {
     'ngInject';
-    angular.extend(this, {$uibModalInstance, $state, LoadingService, ScheduleService, EmployeeService, DAY_OF_WEEK, event});
+    angular.extend(this, {$uibModalInstance, $state, LoadingService, ScheduleService, TimeslotService, EmployeeService, DAY_OF_WEEK, event});
     if (this.event) {
       this.update = true;
     }
@@ -22,6 +22,11 @@ export default class {
         }
         this.AlertHandler.error(message);
       });
+      
+    this.startTimeslot = this.event ? 
+      this.TimeslotService.convertDateToTimeslot(this.event.calendarEvent.startsAt) : null;
+    this.endTimeslot = this.event ? 
+      this.TimeslotService.convertDateToTimeslot(this.event.calendarEvent.endsAt) : null;
   }
   
   close() {

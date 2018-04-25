@@ -17,11 +17,11 @@
   </div>
   <div class="form-group">
     <label>Start Time</label>
-    <timeslot-picker timeslot="$ctrl.newEvent[$ctrl.dow].startTimeslot"></timeslot-picker>
+    <timeslot-picker timeslot="$ctrl.startTimeslot"></timeslot-picker>
   </div>
   <div class="form-group">
     <label>End Time</label>
-    <timeslot-picker timeslot="$ctrl.newEvent[$ctrl.dow].endTimeslot"></timeslot-picker>
+    <timeslot-picker timeslot="$ctrl.endTimeslot"></timeslot-picker>
   </div>
   <button type="submit" ng-click="$ctrl.modifySchedule()" class="btn btn-primary">{{$ctrl.update ? 'Update' : 'Create'}}</button>
   <button ng-click="$ctrl.close()" class="btn btn-danger">Close</button>

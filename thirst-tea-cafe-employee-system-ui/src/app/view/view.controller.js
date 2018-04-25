@@ -5,7 +5,7 @@ export default class {
     angular.extend(this, {$log, ViewService, LoadingService, ScheduleService, AlertHandler});
 
     this.LoadingService.loading = true;
-    this.ScheduleService.getSchedule()
+    this.ScheduleService.getSchedule(this.date)
       .then(response => {
         this.schedule = response.data;
         this.LoadingService.loading = false;

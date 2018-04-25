@@ -9,48 +9,55 @@ export default class {
     angular.extend(this, {$uibModal, TimeslotService, AlertHandler, ScheduleService, LoadingService, DAY_OF_WEEK});
   }
 
-  $onInit() {
-    this.dumbySchedule = {
-      'days': {
-        'MONDAY': {
-          'scheduledTimeslots': {
-            '24': [{'name': 'Nick H'}],
-            '25': [{'name': 'Nick H'}],
-            '26': [{'name': 'Nick H'}],
-            '21': [{'name': 'Nick H'}],
-            '22': [{'name': 'Nick H'}]
-          }
-        },
-        'TUESDAY': {
-          'scheduledTimeslots': {
-            '10': [{'name': 'Nick H'}]
-          }
-        }
-      }
-    };
-    this.events = this.createEventsFromSchedule(this.dumbySchedule);
-    this.calendar = {
-      calendarView: 'week',
-      events: this.events,
-      viewDate: moment()
-    };
-  }
-
-  // $onChanges(changes) {
-  //   console.log('test', changes);
-  //   if (!this.schedule) {
-  //     return;
-  //   }
-  //   this.events = this.createEventsFromSchedule(this.schedule);
+  // $onInit() {
+  //   this.dumbySchedule = {
+  //     'days': {
+  //       'MONDAY': {
+  //         'scheduledTimeslots': {
+  //           '24': [{'name': 'Nick H'}],
+  //           '25': [{'name': 'Nick H'}],
+  //           '26': [{'name': 'Nick H'}],
+  //           '21': [{'name': 'Nick H'}],
+  //           '22': [{'name': 'Nick H'}]
+  //         }
+  //       },
+  //       'TUESDAY': {
+  //         'scheduledTimeslots': {
+  //           '10': [{'name': 'Nick H'}]
+  //         }
+  //       }
+  //     }
+  //   };
+  //   this.events = this.createEventsFromSchedule(this.dumbySchedule);
   //   this.calendar = {
   //     calendarView: 'week',
   //     events: this.events,
   //     viewDate: moment()
   //   };
-  //   if (this.edit) {
-  //     this.calendar.draggable = true;
-  //   }
+  //   moment.locale('en', {
+  //     week: {
+  //       dow: 1 // Monday is the first day of the week
+  //     }
+  //   });
   // }
+
+  $onChanges(changes) {
+    console.log('test', changes);
+    if (!this.schedule) {
+      return;
+    }
+    this.events = this.createEventsFromSchedule(this.schedule);
+    this.calendar = {
+      calendarView: 'week',
+      events: this.events,
+      viewDate: moment()
+    };
+    moment.locale('en', {
+      week: {
+        dow: 1 // Monday is the first day of the week
+      }
+    });
+  }
 
   createEventsFromSchedule(weeklySchedule) {
     const events = [];
@@ -67,10 +74,10 @@ export default class {
         // This loop gives us the list of employees scheduled for each timeslot
         for (const employee of employees) {
           let event = null;
-          if (employee.name in tempEvents) {
-            event = tempEvents[employee.name];
+          if (employee.firstName in tempEvents) {
+            event = tempEvents[employee.firstName];
             if (event.lastTimeslot !== timeslot - 1) { // This event isn't continued from last
-              delete tempEvents[employee.name]; // Clear it off of the temp map
+              delete tempEvents[employee.firstName]; // Clear it off of the temp map
               events.push(event);
               event = null;
             }
@@ -87,14 +94,6 @@ export default class {
                 secondary: '#fffff'
               }
             };
-            if (this.edit) {
-              event.actions = [{
-                label: '<i class=\'glyphicon glyphicon-pencil\'></i>',
-                onClick: event => {
-                  this.openEditEventModal(event);
-                }
-              }];
-            }
           }
           
           event.lastTimeslot = timeslot;
@@ -105,8 +104,8 @@ export default class {
           const startTime = event.startsAt.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
           const endTime = event.endsAt.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
 
-          event.title = employee.name + ' ' + startTime + '-' + endTime;
-          tempEvents[employee.name] = event;
+          event.title = employee.firstName + ' ' + startTime + '-' + endTime;
+          tempEvents[employee.firstName] = event;
         }
       }
       // Add all remaining temp events
