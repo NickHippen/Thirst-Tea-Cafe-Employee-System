@@ -1,8 +1,8 @@
 export default class {
 
-  constructor($log, AlertHandler, ShiftService, TimeslotService, LoadingService, DAY_OF_WEEK) {
+  constructor($log, $state, AlertHandler, ShiftService, TimeslotService, LoadingService, DAY_OF_WEEK) {
     'ngInject';
-    angular.extend(this, {$log, AlertHandler, ShiftService, TimeslotService, LoadingService, DAY_OF_WEEK});
+    angular.extend(this, {$log, $state, AlertHandler, ShiftService, TimeslotService, LoadingService, DAY_OF_WEEK});
 
     this.LoadingService.loading = true;
     this.ShiftService.getAllShifts()
@@ -27,10 +27,28 @@ export default class {
 
   addShift(dow) {
     console.log('Add:', dow);
+    this.newShift[dow].dayOfWeek = dow;
+    console.log(this.newShift[dow]);
+    
+    this.LoadingService.loading = true;
+    this.ShiftService.createShift(this.newShift[dow])
+      .then(() => {
+        this.LoadingService.loading = false;
+        this.$state.reload();
+      })
+      .catch(error => {
+        this.LoadingService.loading = false;
+        let message;
+        if (error.data && error.data.message) {
+          message = error.data.message;
+        } else {
+          message = 'An unknown error occurred';
+        }
+        this.AlertHandler.error(message);
+      });
   }
 
   deleteShift(dow, index) {
-    console.log('Delete:', dow, index, 'ID: ' + this.groupedShifts[dow][index].id);
     this.LoadingService.loading = true;
     this.ShiftService.deleteShift(this.groupedShifts[dow][index].id)
       .then(() => {
