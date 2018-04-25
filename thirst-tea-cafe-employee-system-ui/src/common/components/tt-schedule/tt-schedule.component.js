@@ -5,6 +5,8 @@ export default {
   template: ttScheduleTemplate,
   controller: ttScheduleCtrl,
   bindings: {
-    date: '='
+    date: '=',
+    edit: '<',
+    schedule: '<'
   }
 };

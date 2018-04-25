@@ -23,4 +23,14 @@ export default class {
       url: `${this.REST_CONSTANTS.BASE_URL}:${this.REST_CONSTANTS.PORT}/schedule?date=${moment(date).format('YYYY-MM-DD')}`
     });
   }
+
+  generateSchedule(date) {
+    if (!date) {
+      date = new Date();
+    }
+    return this.$http({
+      method: 'POST',
+      url: `${this.REST_CONSTANTS.BASE_URL}:${this.REST_CONSTANTS.PORT}/schedule?date=${moment(date).format('YYYY-MM-DD')}`
+    });
+  }
 }
