@@ -7,6 +7,7 @@ export default {
   bindings: {
     date: '=',
     edit: '<',
-    schedule: '<'
+    schedule: '<',
+    update: '<'
   }
 };

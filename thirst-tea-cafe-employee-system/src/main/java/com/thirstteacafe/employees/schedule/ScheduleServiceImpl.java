@@ -27,14 +27,14 @@ public class ScheduleServiceImpl implements ScheduleService {
 	private ScheduleDao scheduleDao;
 
 	@Override
-	public WeeklySchedule getSchedule(Date date) {
-		try {
-			return generateSchedule(date);
-		} catch (ScheduleException e) {
-			e.printStackTrace();
-		}
-		return null;
-//		return scheduleDao.getSchedule(getStartOfWeek(date));
+	public WeeklySchedule getSchedule(Date date) throws ScheduleException {
+//		try {
+//			return generateSchedule(date);
+//		} catch (ScheduleException e) {
+//			e.printStackTrace();
+//		}
+//		return null;
+		return scheduleDao.getSchedule(getStartOfWeek(date));
 	}
 	
 	@Override
@@ -43,6 +43,18 @@ public class ScheduleServiceImpl implements ScheduleService {
 		List<Employee> employees = employeeService.getAllEmployees();
 		List<Shift> shifts = shiftService.getAllShifts();
 		return scheduleGenerator.scheduleEmployees(employees, shifts);
+	}
+
+	@Override
+	public void publishSchedule(Date date, WeeklySchedule schedule) throws ScheduleException {
+		Date startOfWeek = getStartOfWeek(date);
+		scheduleDao.publishSchedule(startOfWeek, schedule);
+	}
+
+	@Override
+	public void deleteSchedule(Date date) throws ScheduleException {
+		Date startOfWeek = getStartOfWeek(date);
+		scheduleDao.deleteSchedule(startOfWeek);
 	}
 	
 	private Date getStartOfWeek(Date date) {
@@ -55,6 +67,13 @@ public class ScheduleServiceImpl implements ScheduleService {
 		cal.clear(Calendar.MILLISECOND);
 		cal.set(Calendar.DAY_OF_WEEK, cal.getFirstDayOfWeek());
 		return cal.getTime();
+	}
+
+	@Override
+	public void updateSchedule(Date date, WeeklySchedule schedule) throws ScheduleException {
+		Date startOfWeek = getStartOfWeek(date);
+		getSchedule(startOfWeek); // Will throw exception if no schedule
+		scheduleDao.updateSchedule(startOfWeek, schedule);
 	}
 
 }

@@ -1,15 +1,16 @@
 <form>
   <div class="form-group">
     <label>Employee</label>
-    <select type="text" class="form-control" ng-model="$ctrl.employee">
+    <!-- <select type="text" class="form-control" ng-model="$ctrl.editShift.employee">
       <option ng-repeat="employee in $ctrl.allEmployees">
         {{employee.firstName}} {{employee.lastName}}
       </option>
-    </select>
+    </select> -->
+    <select class="form-control" ng-options="employee as employee.firstName + ' ' + employee.lastName for employee in $ctrl.allEmployees track by employee.employeeId" ng-model="$ctrl.editShift.employee"></select>
   </div>
   <div class="form-group">
     <label>Day</label>
-    <select class="form-control" ng-model="$ctrl.dow">
+    <select class="form-control" ng-model="$ctrl.editShift.dow">
       <option ng-repeat="(dow, dowObj) in $ctrl.DAY_OF_WEEK" value="{{dow}}">
         {{dowObj.name}}
       </option>
@@ -17,13 +18,13 @@
   </div>
   <div class="form-group">
     <label>Start Time</label>
-    <timeslot-picker timeslot="$ctrl.startTimeslot"></timeslot-picker>
+    <timeslot-picker timeslot="$ctrl.editShift.startTimeslot"></timeslot-picker>
   </div>
   <div class="form-group">
     <label>End Time</label>
-    <timeslot-picker timeslot="$ctrl.endTimeslot"></timeslot-picker>
+    <timeslot-picker timeslot="$ctrl.editShift.endTimeslot"></timeslot-picker>
   </div>
-  <button type="submit" ng-click="$ctrl.modifySchedule()" class="btn btn-primary">{{$ctrl.update ? 'Update' : 'Create'}}</button>
+  <button type="submit" ng-click="$ctrl.submit()" class="btn btn-primary">{{$ctrl.update ? 'Update' : 'Create'}}</button>
   <button ng-show="$ctrl.update" ng-click="$ctrl.delete()" class="btn btn-danger">Delete</button>
   <button ng-click="$ctrl.close()" class="btn btn-default">Close</button>
 </form>

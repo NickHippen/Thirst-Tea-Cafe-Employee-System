@@ -1,4 +1,4 @@
-<button class="btn btn-primary" ng-click="$ctrl.resetView()">View Week</button>
+<button class="btn btn-primary" ng-show="$ctrl.calendar.calendarView !== 'week'" ng-click="$ctrl.resetView()">Back to week</button>
 <mwl-calendar
     view="$ctrl.calendar.calendarView"
     view-date="$ctrl.calendar.viewDate"
@@ -10,6 +10,5 @@
     on-event-times-changed="calendarEvent.startsAt = calendarNewEventStart; calendarEvent.endsAt = calendarNewEventEnd"
     cell-is-open="true">
 </mwl-calendar>
-<div ng-if="$ctrl.edit">
-    <button class="btn btn-primary" ng-click="$ctrl.openEditEventModal()">Add Shift</button>
-</div>
+<button ng-if="$ctrl.edit" class="btn btn-primary" ng-click="$ctrl.openEditEventModal()">Add Shift</button>
+<button ng-if="$ctrl.update" class="btn btn-danger" style="margin-left:3em;" ng-click="$ctrl.deleteSchedule()">Delete Schedule</button>

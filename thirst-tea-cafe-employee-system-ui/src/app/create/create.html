@@ -1,20 +1,28 @@
+<div class="row" ng-hide="$ctrl.update">
+  <div class="col-md-3">
+    <p class="input-group">
+      <input type="text" class="form-control" uib-datepicker-popup ng-model="$ctrl.selectedDate" is-open="$ctrl.calendarOpen" datepicker-options="$ctrl.dateOptions" close-text="Close" ng-change="$ctrl.onCalendarChange()" />
+      <span class="input-group-btn">
+        <button type="button" class="btn btn-default" ng-click="$ctrl.openCalendar()"><i class="glyphicon glyphicon-calendar"></i></button>
+      </span>
+    </p>
+  </div>
+</div>
 <div ng-if="!$ctrl.showSchedule">
+  <div class="row">
     <button class="btn btn-primary" ng-click="$ctrl.generateSchedule()">Generate Schedule</button>
     <button class="btn btn-primary" ng-click="$ctrl.editExistingSchedule()">Edit Existing Schedule</button>
+  </div>
 </div>
-
 <div ng-if="$ctrl.showSchedule">
   <div class="row">
-    <div class="col-md-3">
-      <p class="input-group">
-        <input type="text" class="form-control" uib-datepicker-popup ng-model="$ctrl.selectedDate" is-open="$ctrl.calendarOpen" datepicker-options="$ctrl.dateOptions" close-text="Close" ng-change="$ctrl.onCalendarChange()" />
-        <span class="input-group-btn">
-          <button type="button" class="btn btn-default" ng-click="$ctrl.openCalendar()"><i class="glyphicon glyphicon-calendar"></i></button>
-        </span>
-      </p>
-    </div>
+    <tt-schedule edit="true" update="$ctrl.update" schedule="$ctrl.schedule"></tt-schedule>
   </div>
-  <div class="row">
-    <tt-schedule edit="true" schedule="$ctrl.schedule"></tt-schedule>
+  <br/>
+  <div class="row" ng-if="!$ctrl.update">
+    <button class="btn btn-primary" ng-click="$ctrl.publishSchedule()">Publish</button>
+  </div>
+  <div class="row" ng-if="$ctrl.update">
+    <button class="btn btn-primary" ng-click="$ctrl.updateSchedule()">Update & Publish</button>
   </div>
 </div>

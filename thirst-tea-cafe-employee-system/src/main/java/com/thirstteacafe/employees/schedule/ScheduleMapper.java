@@ -16,7 +16,7 @@ public class ScheduleMapper implements RowMapper<WeeklySchedule> {
 		ObjectMapper mapper = new ObjectMapper();
 		WeeklySchedule results = new WeeklySchedule();
 		try {
-			results = mapper.readValue(rs.getString("schedule_obj"), WeeklySchedule.class);
+			results = mapper.readValue(rs.getString("schedule_object"), WeeklySchedule.class);
 		} catch (IOException e) {
 			throw new SQLException(e);
 		}

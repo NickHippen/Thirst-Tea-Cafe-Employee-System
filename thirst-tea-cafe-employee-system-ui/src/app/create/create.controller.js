@@ -2,14 +2,14 @@ import moment from 'moment';
 
 export default class {
 
-  constructor($log, CreateService, ScheduleService, LoadingService) {
+  constructor($log, $window, $state, CreateService, ScheduleService, LoadingService, AlertHandler) {
     'ngInject';
-    angular.extend(this, {$log, CreateService, ScheduleService, LoadingService});
+    angular.extend(this, {$log, $window, CreateService, ScheduleService, LoadingService, AlertHandler});
     this.selectedDate = moment().toDate();
     this.dateOptions = {
       dateDisabled: false,
       formatYear: 'yy',
-      maxDate: moment().add(1, 'week').endOf('isoWeek'),
+      // maxDate: moment().add(1, 'week').endOf('isoWeek'),
       minDate: moment().startOf('isoWeek'),
       startingDay: 1
     };
@@ -24,6 +24,7 @@ export default class {
       .then(response => {
         this.schedule = response.data;
         this.LoadingService.loading = false;
+        this.showSchedule = true;
       })
       .catch(error => {
         let message;
@@ -35,7 +36,44 @@ export default class {
         this.AlertHandler.error(message);
         this.LoadingService.loading = false;
       });
-    this.showSchedule = true;
+  }
+
+  publishSchedule() {
+    this.LoadingService.loading = true;
+    this.ScheduleService.publishSchedule(this.selectedDate, this.schedule)
+      .then(() => {
+        this.LoadingService.loading = false;
+        this.$window.location.reload(true);
+      })
+      .catch(error => {
+        let message;
+        if (error.data && error.data.message) {
+          message = error.data.message;
+        } else {
+          message = 'An unknown error occurred';
+        }
+        this.AlertHandler.error(message);
+        this.LoadingService.loading = false;
+      });
+  }
+
+  updateSchedule() {
+    this.LoadingService.loading = true;
+    this.ScheduleService.updateSchedule(this.selectedDate, this.schedule)
+      .then(() => {
+        this.LoadingService.loading = false;
+        this.$window.location.reload(true);
+      })
+      .catch(error => {
+        let message;
+        if (error.data && error.data.message) {
+          message = error.data.message;
+        } else {
+          message = 'An unknown error occurred';
+        }
+        this.AlertHandler.error(message);
+        this.LoadingService.loading = false;
+      });
   }
 
   /**
@@ -45,8 +83,10 @@ export default class {
     this.LoadingService.loading = true;
     this.ScheduleService.getSchedule(this.selectedDate)
       .then(response => {
+        this.update = true;
         this.schedule = response.data;
         this.LoadingService.loading = false;
+        this.showSchedule = true;
       })
       .catch(error => {
         let message;
@@ -58,7 +98,6 @@ export default class {
         this.AlertHandler.error(message);
         this.LoadingService.loading = false;
       });
-    this.showSchedule = true;
 
     // this.schedule = {
     //   'days': {
@@ -96,4 +135,12 @@ export default class {
     // this.LoadingService.loading = false;
     // this.showSchedule = true;
   }
+
+  /**
+   * Opens the calendar
+   */
+  openCalendar() {
+    this.calendarOpen = true;
+  }
+
 }
