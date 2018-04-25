@@ -72,13 +72,16 @@ public class JaCoPScheduleGenerator implements ScheduleGenerator {
 			time[shiftNum] = shift.getTimeLength();
 			adminOnly[shiftNum] = shift.getNumAdmins() != 0 ? 1 : 0;
 			// assumes shifts start on a monday
-			days[shift.getDayOfWeek().ordinal()]++;
+			days[shift.getDayOfWeek().getOffset()]++;
 		}
 		for (int shiftNum = 1; shiftNum < shifts.size(); shiftNum++)
 			days[shiftNum] += days[shiftNum - 1];
 
 		ScheduleResult result = schedule(available, admin, canLift, food, drink, minHours, maxHours, employeeCount,
 				time, adminOnly, days);
+		if (!result.isFeasible()) {
+			throw new ScheduleException("Inputs are not valid to make a feasible schedule");
+		}
 		
 		return null; // TODO
 	}

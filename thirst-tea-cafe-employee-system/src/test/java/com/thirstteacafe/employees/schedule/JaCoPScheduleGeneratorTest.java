@@ -3,6 +3,7 @@ package com.thirstteacafe.employees.schedule;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -11,7 +12,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.thirstteacafe.employees.dto.Employee;
 import com.thirstteacafe.employees.dto.ScheduleResult;
+import com.thirstteacafe.employees.dto.Shift;
+import com.thirstteacafe.employees.employee.EmployeeService;
+import com.thirstteacafe.employees.exceptions.ScheduleException;
+import com.thirstteacafe.employees.shifts.ShiftService;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -19,6 +25,10 @@ public class JaCoPScheduleGeneratorTest {
 	
 	@Autowired
 	private JaCoPScheduleGenerator jacopScheduleGenerator;
+	@Autowired
+	private EmployeeService employeeService;
+	@Autowired
+	private ShiftService shiftService;
 	
 	@Before
 	public void before() {
@@ -138,6 +148,13 @@ public class JaCoPScheduleGeneratorTest {
 		);
 		Arrays.asList(s.getSchedule()).forEach(arr -> System.out.println(Arrays.toString(arr)));
 		assertTrue(s.isFeasible());
+	}
+	
+	@Test
+	public void realRealDataSchedule() throws ScheduleException {
+		List<Employee> employees = employeeService.getAllEmployees();
+		List<Shift> shifts = shiftService.getAllShifts();
+		jacopScheduleGenerator.scheduleEmployees(employees, shifts);
 	}
 
 	// // M) Monday (1100-1230-1400-1700-1900-2000) 5
