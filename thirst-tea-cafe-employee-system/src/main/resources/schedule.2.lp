@@ -30,14 +30,10 @@ lift_block_covered(D,TimeFrom,TimeTo) :- schedule(D,_,E,TimeFrom,TimeTo,_), can_
 lift_min_covered(D,MinTimeFrom) :- MinTimeFrom = #min{ TimeFrom,D : lift_block_covered(D,TimeFrom,_) }, day(D).
 lift_max_covered(D,MaxTimeTo) :- MaxTimeTo = #max{ TimeTo,D : lift_block_covered(D,_,TimeTo) }, day(D).
 
-% making_food(D,TimeFrom,TimeTo,E) :- schedule(D,_,E,TimeFrom,TimeTo,_), makes_food(E).
-
 hours_worked(E,T) :- T = #sum{ H,D,S : schedule(D,S,E,_,_,H) }, employee(E).
-% admin_count(D,S,C) :- C = #count{ D,S,E : schedule(D,S,E,_), is_admin(E) }, shift(D,S,_,_).
-% lift_count(D,S,C) :- C = #count{ D,S,E : schedule(D,S,E,_), can_lift(E) }, shift(D,S,_,_).
-% food_maker_count(D,S,C) :- C = #count{ D,S,E : schedule(D,S,E,_), making_food(D,S,E) }, shift(D,S,_,_).
-% drink_maker_count(D,S,C) :- C = #count{ D,S,E : schedule(D,S,E,_), making_drinks(D,S,E) }, shift(D,S,_,_).
 shifts_in_day_count(D,E,C) :- C = #count{ D,S,E : schedule(D,S,E,_,_,_), schedule(D,S2,E2,_,_,_), E = E2 }, shift(D,_,_,_,_,_), employee(E).
+same_shift(D,S,E) :- schedule(D,S,E,TimeFrom,TimeTo,_), old_schedule(D,_,E,TimeFrom,TimeTo,_).
+same_shift_count(C) :- C = #count{ D,S,E : same_shift(D,S,E) }.
 
 % ***TEST***
 
@@ -88,8 +84,11 @@ shifts_in_day_count(D,E,C) :- C = #count{ D,S,E : schedule(D,S,E,_,_,_), schedul
 % #minimize { T,E : hours_worked(E,T) }.
 % #maximize { T,E : hours_worked(E,T) }.
 % #minimize { T,E : hours_worked(E,T), is_admin(E) }.
+#minimize { C : same_shift_count(C) }.
 
 #show schedule/6.
+% #show same_shift/3.
+% #show same_shift_count/1.
 % #show hours_worked/2.
 % #show making_drinks/4.
 % #show making_food/4.

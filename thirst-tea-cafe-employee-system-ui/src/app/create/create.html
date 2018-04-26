@@ -16,7 +16,7 @@
 </div>
 <div ng-if="$ctrl.showSchedule">
   <div class="row">
-    <tt-schedule edit="true" update="$ctrl.update" schedule="$ctrl.schedule"></tt-schedule>
+    <tt-schedule edit="true" date="$ctrl.selectedDate" update="$ctrl.update" schedule="$ctrl.schedule"></tt-schedule>
   </div>
   <br/>
   <div class="row" ng-if="!$ctrl.update">

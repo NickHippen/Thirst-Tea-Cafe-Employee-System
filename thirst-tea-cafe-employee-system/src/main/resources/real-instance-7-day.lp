@@ -2,40 +2,40 @@
 day(monday).
 
 % SHIFTS
-% shift(Day,Shift, MinEmp,MaxEmp, TimeFrom,TimeTo, Hours)
-shift(monday,1, 1,1, 22,44, 11).
-shift(monday,2, 1,1, 22,34, 6).
-shift(monday,3, 2,2, 34,44, 5).
+% shift(Day,Shift, NumEmp, TimeFrom,TimeTo, Hours)
+shift(monday,1, 1, 22,44, 11).
+shift(monday,2, 1, 22,34, 6).
+shift(monday,3, 2, 34,44, 5).
 day_range(monday,22,44).
 
-shift(tuesday,1, 1,1, 22,44, 11).
-shift(tuesday,2, 1,1, 22,44, 11).
-shift(tuesday,3, 1,1, 22,34, 6).
-shift(tuesday,4, 1,1, 34,44, 5).
+shift(tuesday,1, 1, 22,44, 11).
+shift(tuesday,2, 1, 22,44, 11).
+shift(tuesday,3, 1, 22,34, 6).
+shift(tuesday,4, 1, 34,44, 5).
 day_range(tuesday,22,44).
 
-shift(wednesday,1, 2,2, 22,44, 11).
-shift(wednesday,2, 1,1, 22,44, 11).
+shift(wednesday,1, 2, 22,44, 11).
+shift(wednesday,2, 1, 22,44, 11).
 day_range(wednesday,22,44).
 
-shift(thursday,1, 1,1, 22,44, 11).
-shift(thursday,2, 1,1, 22,44, 11).
-shift(thursday,3, 1,1, 34,44, 5).
+shift(thursday,1, 1, 22,44, 11).
+shift(thursday,2, 1, 22,44, 11).
+shift(thursday,3, 1, 34,44, 5).
 day_range(thursday,22,44).
 
-shift(friday,1, 1,1, 22,46, 12).
-shift(friday,2, 1,1, 22,46, 12).
-shift(friday,3, 1,1, 34,46, 6).
+shift(friday,1, 1, 22,46, 12).
+shift(friday,2, 1, 22,46, 12).
+shift(friday,3, 1, 34,46, 6).
 day_range(friday,22,46).
 
-shift(saturday,1, 1,1, 22,46, 12).
-shift(saturday,2, 1,1, 22,34, 6).
-shift(saturday,3, 2,2, 34,46, 6).
+shift(saturday,1, 1, 22,46, 12).
+shift(saturday,2, 1, 22,34, 6).
+shift(saturday,3, 2, 34,46, 6).
 day_range(saturday,22,46).
 
-shift(sunday,1, 1,1, 22,42, 10).
-shift(sunday,2, 1,1, 22,42, 10).
-shift(sunday,3, 1,1, 32,42, 5).
+shift(sunday,1, 1, 22,42, 10).
+shift(sunday,2, 1, 22,42, 10).
+shift(sunday,3, 1, 32,42, 5).
 day_range(sunday,22,42).
 
 % EMPLOYEES

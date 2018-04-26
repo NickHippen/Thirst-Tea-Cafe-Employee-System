@@ -69,12 +69,15 @@ public class JaCoPScheduleGenerator implements ScheduleGenerator {
 		for (int shiftNum = 0; shiftNum < shifts.size(); shiftNum++) {
 			Shift shift = shifts.get(shiftNum);
 			employeeCount[shiftNum] = shift.getNumEmployees();
+			if (shift.getNumEmployees() <= 1) {
+				employeeCount[shiftNum] = 2;
+			}
 			time[shiftNum] = shift.getTimeLength();
 			adminOnly[shiftNum] = shift.getNumAdmins() != 0 ? 1 : 0;
 			// assumes shifts start on a monday
 			days[shift.getDayOfWeek().getOffset()]++;
 		}
-		for (int shiftNum = 1; shiftNum < shifts.size(); shiftNum++)
+		for (int shiftNum = 1; shiftNum < days.length; shiftNum++)
 			days[shiftNum] += days[shiftNum - 1];
 
 		ScheduleResult result = schedule(available, admin, canLift, food, drink, minHours, maxHours, employeeCount,
@@ -349,6 +352,12 @@ public class JaCoPScheduleGenerator implements ScheduleGenerator {
 					result[i][j] = work[i][j].value();
 		}
 		return new ScheduleResult(result, feasible);
+	}
+
+	@Override
+	public WeeklySchedule scheduleEmployees(List<Employee> employees, List<Shift> shifts,
+			WeeklySchedule previousSchedule) throws ScheduleException {
+		return scheduleEmployees(employees, shifts); // Can't use previous schedule for JaCoP
 	}
 
 }

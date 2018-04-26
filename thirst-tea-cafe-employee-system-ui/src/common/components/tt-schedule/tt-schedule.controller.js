@@ -156,7 +156,8 @@ export default class {
 
   deleteSchedule() {
     this.LoadingService.loading = true;
-    this.ScheduleService.deleteSchedule(this.selectedDate)
+    console.log(this.date);
+    this.ScheduleService.deleteSchedule(this.date)
       .then(() => {
         this.LoadingService.loading = false;
         this.$window.location.reload(true);

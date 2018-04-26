@@ -39,10 +39,16 @@ public class ScheduleServiceImpl implements ScheduleService {
 	
 	@Override
 	public WeeklySchedule generateSchedule(Date date) throws ScheduleException {
-		Date startOfWeek = getStartOfWeek(date); // TODO Use me
+		Date startOfLastWeek = getStartOfLastWeek(date);
 		List<Employee> employees = employeeService.getAllEmployees();
 		List<Shift> shifts = shiftService.getAllShifts();
-		return scheduleGenerator.scheduleEmployees(employees, shifts);
+		WeeklySchedule previousSchedule;
+		try {
+			previousSchedule = getSchedule(startOfLastWeek);
+		} catch (ScheduleException e) {
+			previousSchedule = null;
+		}
+		return scheduleGenerator.scheduleEmployees(employees, shifts, previousSchedule);
 	}
 
 	@Override
@@ -66,6 +72,13 @@ public class ScheduleServiceImpl implements ScheduleService {
 		cal.clear(Calendar.SECOND);
 		cal.clear(Calendar.MILLISECOND);
 		cal.set(Calendar.DAY_OF_WEEK, cal.getFirstDayOfWeek());
+		return cal.getTime();
+	}
+	
+	private Date getStartOfLastWeek(Date date) {
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(getStartOfWeek(date));
+		cal.add(Calendar.DAY_OF_WEEK, -1);
 		return cal.getTime();
 	}
 
