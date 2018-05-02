@@ -1,3 +1,7 @@
+/**
+ * A controller for the shiftMgmt component
+ * @module ShiftMgmtController
+ */
 export default class {
 
   constructor($log, $state, AlertHandler, ShiftService, TimeslotService, LoadingService, DAY_OF_WEEK) {
@@ -25,10 +29,12 @@ export default class {
       });
   }
 
+  /**
+   * Sends a request to the back end to add a shift for the day of the week
+   * @param {*} dow the day of the week
+   */
   addShift(dow) {
-    console.log('Add:', dow);
     this.newShift[dow].dayOfWeek = dow;
-    console.log(this.newShift[dow]);
     
     this.LoadingService.loading = true;
     this.ShiftService.createShift(this.newShift[dow])
@@ -48,6 +54,11 @@ export default class {
       });
   }
 
+  /**
+   * Sends a request to the back end to delete a shift for the day of the week
+   * @param {*} dow the day of the week 
+   * @param {*} index the index of the shift to delete
+   */
   deleteShift(dow, index) {
     this.LoadingService.loading = true;
     this.ShiftService.deleteShift(this.groupedShifts[dow][index].id)

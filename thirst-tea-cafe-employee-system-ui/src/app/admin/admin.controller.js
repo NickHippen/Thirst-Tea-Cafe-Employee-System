@@ -1,6 +1,10 @@
 import AddUserCtrl from './add-user/add-user.controller';
 import addUserTemplate from './add-user/add-user.html';
 
+/**
+ * A controller for the admin component
+ * @module AdminController
+ */
 export default class {
 
   constructor($log, $uibModal, $state, EmployeeService, LoadingService) {
@@ -24,7 +28,11 @@ export default class {
         this.AlertHandler.error(message);
       });
   }
-    
+  
+  /**
+   * Deletes an employee
+   * @param {Number} employeeId 
+   */
   deleteEmployee(employeeId) {
     this.LoadingService.loading = true;
     this.EmployeeService.deleteEmployee(employeeId)
@@ -44,6 +52,11 @@ export default class {
       });
   }
 
+  /**
+   * Opens the add-user modal
+   * @param {*} employee
+   * @see AddUserController
+   */
   openAddUserModal(employee) {
     this.$uibModal.open({
       animation: true,

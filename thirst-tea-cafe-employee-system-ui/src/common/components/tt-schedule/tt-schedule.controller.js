@@ -3,6 +3,10 @@ import _ from 'lodash';
 import EditEventCtrl from './edit-event/edit-event.controller';
 import editEventTemplate from './edit-event/edit-event.html';
 
+/**
+ * A controller for the tt-schedule component
+ * @module TTScheduleController
+ */
 export default class {
 
   constructor($window, $uibModal, TimeslotService, AlertHandler, ScheduleService, LoadingService, DAY_OF_WEEK) {
@@ -17,6 +21,11 @@ export default class {
     this.reloadScheduleDisplay();
   }
 
+  /**
+   * Creates an events object for the calendar component to consume
+   * @param {*} weeklySchedule the schedule to use for creation of the events object
+   * @returns the generated events object
+   */
   createEventsFromSchedule(weeklySchedule) {
     const events = [];
     const dow = this.DAY_OF_WEEK;
@@ -86,7 +95,10 @@ export default class {
     console.log(events);
     return events;
   }
-    
+  
+  /**
+   * Resets the calendar view back to week
+   */
   resetView() {
     this.calendar.calendarView = 'week';
   }
@@ -123,6 +135,10 @@ export default class {
     });
   }
 
+  /**
+   * Adds a shift to the schedule. Does not send a request to the back end.
+   * @param {*} shift the shift to add
+   */
   addShift(shift) {
     const dayTimeslotObj = this.schedule.days[shift.dow].scheduledTimeslots;
     for (let i = shift.startTimeslot; i < shift.endTimeslot; i++) {
@@ -134,6 +150,10 @@ export default class {
     this.reloadScheduleDisplay();
   }
 
+  /**
+   * Delets a shift from the schedule. Does not send a request to the back end.
+   * @param {*} shift the shift to delete
+   */
   deleteShift(shift) {
     const dayTimeslotObj = this.schedule.days[shift.dow].scheduledTimeslots;
     for (let i = shift.startTimeslot; i < shift.endTimeslot; i++) {
@@ -145,6 +165,9 @@ export default class {
     this.reloadScheduleDisplay();
   }
 
+  /**
+   * Reloads the schedule calendar component
+   */
   reloadScheduleDisplay() {
     this.events = this.createEventsFromSchedule(this.schedule);
     this.calendar = {
@@ -154,6 +177,9 @@ export default class {
     };
   }
 
+  /**
+   * Sends a request to the back end to delete the current schedule. Will reload the page upon completion
+   */
   deleteSchedule() {
     this.LoadingService.loading = true;
     console.log(this.date);

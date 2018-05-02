@@ -1,5 +1,9 @@
 import moment from 'moment';
 
+/**
+ * A controller for the create component
+ * @module CreateController
+ */
 export default class {
 
   constructor($log, $window, $state, CreateService, ScheduleService, LoadingService, AlertHandler) {
@@ -38,6 +42,9 @@ export default class {
       });
   }
 
+  /**
+   * Sends a request to the back end to publish the schedule
+   */
   publishSchedule() {
     this.LoadingService.loading = true;
     this.ScheduleService.publishSchedule(this.selectedDate, this.schedule)
@@ -57,6 +64,9 @@ export default class {
       });
   }
 
+  /**
+   * Sends a request to the back end to update the schedule
+   */
   updateSchedule() {
     this.LoadingService.loading = true;
     this.ScheduleService.updateSchedule(this.selectedDate, this.schedule)

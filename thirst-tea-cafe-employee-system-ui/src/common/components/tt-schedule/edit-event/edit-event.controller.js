@@ -1,3 +1,7 @@
+/**
+ * A controller for the edit-event modal
+ * @module EditEventModal
+ */
 export default class {
 
   constructor($uibModalInstance, $state, LoadingService, ScheduleService, TimeslotService, EmployeeService, DAY_OF_WEEK, event) {
@@ -31,10 +35,16 @@ export default class {
       });
   }
   
+  /**
+   * Closes the modal
+   */
   close() {
     this.$uibModalInstance.close();
   }
 
+  /**
+   * Submits the specified changes & closes the modal
+   */
   submit() {
     this.submitList = [];
     if (this.originalShift && !angular.equals(this.originalShift, this.editShift)) {
@@ -85,6 +95,9 @@ export default class {
     // }
   }
 
+  /**
+   * Closes the modal with information specifying the deletion of the shift
+   */
   delete() {
     this.editShift.delete = true;
     this.$uibModalInstance.close([this.editShift]);

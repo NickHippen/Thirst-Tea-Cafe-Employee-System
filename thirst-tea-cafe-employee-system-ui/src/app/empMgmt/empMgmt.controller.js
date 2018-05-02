@@ -1,5 +1,9 @@
 import moment from 'moment';
 
+/**
+ * A controller for the empMgmt component
+ * @module EmpMgmtController
+ */
 export default class {
 
   constructor($state, $log, AlertHandler, TimeslotService, EmployeeService, LoadingService, DAY_OF_WEEK) {
@@ -24,6 +28,10 @@ export default class {
       });
   }
 
+  /**
+   * Gets a display string for the currently selected employee for the day of the week specified
+   * @param {*} dow the day of the week
+   */
   quickAvailabilityString(dow) {
     if (!this.selectedEmployee || !this.selectedEmployee.availability[dow]) {
       return;
@@ -34,15 +42,26 @@ export default class {
     }).join(', ');
   }
 
+  /**
+   * Selects an employee
+   * @param {*} employee 
+   */
   selectEmployee(employee) {
     this.selectedEmployee = employee;
     this.clearFields();
   }
 
+  /**
+   * Clears all new shift fields
+   */
   clearFields() {
     this.newShift = {};
   }
 
+  /**
+   * Sends a request to the back end to add an availability for the currently selected employee for the day of the week
+   * @param {*} dow the day of the week
+   */
   addAvailabilityToSelected(dow) {
     const availability = {};
     availability[dow] = [
@@ -69,6 +88,10 @@ export default class {
       });
   }
 
+  /**
+   * Sends a request to the back end to delete an availability from the currently selected employee
+   * @param {*} availability 
+   */
   deleteAvailability(availability) {
     this.LoadingService.loading = true;
     this.EmployeeService.deleteAvailability(this.selectedEmployee.employeeId, availability.availabilityId)

@@ -1,3 +1,7 @@
+/**
+ * A controller for the add-user modal
+ * @module AddUserController
+ */
 export default class {
 
   constructor($uibModalInstance, $state, LoadingService, EmployeeService, employee) {
@@ -9,10 +13,16 @@ export default class {
     // this.employee = {};
   }
   
+  /**
+   * Closes the modal
+   */
   close() {
     this.$uibModalInstance.close();
   }
 
+  /**
+   * Applies the employee modifications & sends to back end. Will reload upon completion.
+   */
   modifyEmployee() {
     this.LoadingService.loading = true;
     if (this.update) {
