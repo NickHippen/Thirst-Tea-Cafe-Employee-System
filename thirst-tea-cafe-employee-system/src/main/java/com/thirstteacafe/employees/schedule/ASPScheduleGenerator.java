@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.SystemUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -137,9 +138,15 @@ public class ASPScheduleGenerator implements ScheduleGenerator {
 			}
 		}
 		
+		String[] command;
+		if (SystemUtils.IS_OS_WINDOWS) {
+			command = new String[] {"cmd.exe", "/c", "clingo", "src/main/resources/schedule.lp", tmpInstanceFile.getAbsolutePath(), "--warn=none", "--outf=2"};
+		} else {
+			command = new String[] {"clingo", "src/main/resources/schedule.lp", tmpInstanceFile.getAbsolutePath(), "--warn=none", "--outf=2"};
+		}
 		Process process;
 		try {
-			process = Runtime.getRuntime().exec(new String[] {"cmd.exe", "/c", "clingo", "src/main/resources/schedule.2.lp", tmpInstanceFile.getAbsolutePath(), "--warn=none", "--outf=2"});
+			process = Runtime.getRuntime().exec(command);
 		} catch (IOException e) {
 			e.printStackTrace();
 			throw new ScheduleException("Unable to start clingo process");

@@ -6,7 +6,6 @@
 	<groupId>com.thirstteacafe.employees</groupId>
 	<artifactId>thirst-tea-cafe-employee-system</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
 
 	<name>thirst-tea-cafe-employee-system-rest</name>
 	<description>Thirst-Tea Cafe employee system</description>
