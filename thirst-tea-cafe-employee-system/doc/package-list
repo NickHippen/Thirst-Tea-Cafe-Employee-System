@@ -1,0 +1,9 @@
+com.thirstteacafe.employees
+com.thirstteacafe.employees.dto
+com.thirstteacafe.employees.employee
+com.thirstteacafe.employees.exceptions
+com.thirstteacafe.employees.login
+com.thirstteacafe.employees.schedule
+com.thirstteacafe.employees.shifts
+com.thirstteacafe.employees.timeslot
+com.thirstteacafe.employees.util
