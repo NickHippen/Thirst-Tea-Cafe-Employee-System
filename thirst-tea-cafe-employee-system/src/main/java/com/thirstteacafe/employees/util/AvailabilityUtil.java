@@ -12,6 +12,11 @@ import com.thirstteacafe.employees.dto.DailyAvailability;
 @Component
 public class AvailabilityUtil {
 	
+	/**
+	 * Merges all availabilities into one availability object
+	 * @param availabilities the availabilities to merge
+	 * @return a new availability object composed of all availabilities merged
+	 */
 	public Availability consolidate(List<Availability> availabilities) {
 		Availability consolidatedAvail = new Availability();
 		for (Availability availability : availabilities) {

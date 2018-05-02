@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * DTO object describing an employee
+ */
 public class Employee {
 
 	private Long employeeId;

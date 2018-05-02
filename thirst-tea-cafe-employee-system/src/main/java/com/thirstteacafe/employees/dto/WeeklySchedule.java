@@ -3,6 +3,9 @@ package com.thirstteacafe.employees.dto;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * DTO object describing a schedule for a week
+ */
 public class WeeklySchedule {
 
 	private Map<DayOfWeek, DailySchedule> days = new HashMap<>();

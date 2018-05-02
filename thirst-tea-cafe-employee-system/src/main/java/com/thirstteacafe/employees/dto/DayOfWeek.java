@@ -1,5 +1,8 @@
 package com.thirstteacafe.employees.dto;
 
+/**
+ * An enum representing the 7 days in a week
+ */
 public enum DayOfWeek {
 
 	MONDAY(0),

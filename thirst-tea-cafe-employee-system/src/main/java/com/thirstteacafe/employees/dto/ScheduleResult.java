@@ -1,8 +1,11 @@
 package com.thirstteacafe.employees.dto;
 
+/**
+ * DTO object describing the result of a schedule in a matrix
+ */
 public class ScheduleResult {
 
-	private int[][] schedule; // TODO Change to proper schedule object
+	private int[][] schedule;
 	private boolean feasible;
 
 	public ScheduleResult() {

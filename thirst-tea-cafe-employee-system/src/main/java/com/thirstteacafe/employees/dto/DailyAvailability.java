@@ -1,5 +1,8 @@
 package com.thirstteacafe.employees.dto;
 
+/**
+ * DTO object to describe availability for a single day
+ */
 public class DailyAvailability {
 
 	private Long availabilityId;

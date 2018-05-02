@@ -1,5 +1,8 @@
 package com.thirstteacafe.employees.dto;
 
+/**
+ * DTO object describing a shift
+ */
 public class Shift {
 
 	private Integer id;
