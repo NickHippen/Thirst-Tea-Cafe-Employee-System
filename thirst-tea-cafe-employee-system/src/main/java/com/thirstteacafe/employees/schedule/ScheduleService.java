@@ -43,10 +43,10 @@ public interface ScheduleService {
 	void deleteSchedule(Date date) throws ScheduleException;
 
 	/**
-	 * Updates & publishes a schedule for the week of the given date
+	 * Updates &amp; publishes a schedule for the week of the given date
 	 * @param date
 	 * @param schedule
-	 * @throws if there was no schedule for the week
+	 * @throws ScheduleException if there was no schedule for the week
 	 */
 	void updateSchedule(Date date, WeeklySchedule schedule) throws ScheduleException;
 

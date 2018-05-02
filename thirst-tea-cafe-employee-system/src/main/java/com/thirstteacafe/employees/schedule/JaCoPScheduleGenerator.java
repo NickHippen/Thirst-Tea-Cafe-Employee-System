@@ -90,8 +90,7 @@ public class JaCoPScheduleGenerator implements ScheduleGenerator {
 	}
 
 	/**
-	 * <script type="text/javascript" src=
-	 * "http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+	 * <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 	 * <br>
 	 * <b>Definitions:</b><br>
 	 * \(numberOfEmployees\) employees with iterating variable \(i\)<br>
@@ -208,14 +207,14 @@ public class JaCoPScheduleGenerator implements ScheduleGenerator {
 	 *            is the minimum number of hours that employee \(i\) will work
 	 * @param maxHours
 	 *            is the maximum number of hours that employee \(i\) will work.
-	 * @param minEmployees
-	 *            is minimum number of employees that can work slot \(j\).
-	 * @param maxEmployees
-	 *            is minimum number of employees that can work slot \(j\).
+	 * @param employeeCount
+	 *            is number of employees that can work slot \(j\).
 	 * @param time
 	 *            time_j is the time worked if scheduled on time slot \(j\)
 	 * @param adminOnly
 	 *            is the time worked if scheduled on time slot \(j\).
+	 * @param days
+	 * 	          is the grouping of days for each shift
 	 * @return the schedule
 	 */
 	public ScheduleResult schedule(String available, String admin, String canLift, String food, String drink,

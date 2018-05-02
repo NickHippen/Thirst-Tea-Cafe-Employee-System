@@ -22,7 +22,6 @@ public class DailySchedule {
 	
 	/**
 	 * Schedules an employee for the specified timeslot
-	 * @param schedule
 	 * @param timeslot
 	 * @param employee
 	 */
@@ -35,7 +34,6 @@ public class DailySchedule {
 	
 	/**
 	 * Schedules into all slots from timeslotMin to timeslotMax <b>inclusive</b>.
-	 * @param schedule
 	 * @param timeslotMin
 	 * @param timeslotMax
 	 * @param employee
@@ -50,7 +48,6 @@ public class DailySchedule {
 	
 	/**
 	 * Gets all scheduled employees for the timeslot
-	 * @param schedule
 	 * @param timeslot
 	 * @return
 	 */
@@ -60,7 +57,6 @@ public class DailySchedule {
 	
 	/**
 	 * Unschedules all employees from a timeslot
-	 * @param schedule
 	 * @param timeslot
 	 */
 	public void unscheduleAll(int timeslot) {
